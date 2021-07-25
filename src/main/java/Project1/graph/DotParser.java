@@ -5,14 +5,14 @@ import java.util.List;
 import java.io.*;
 
 public class DotParser {
-    public static void main(String[] args) throws IOException {
+    public static Graph parse(String filename) throws IOException {
         Graph graph = new Graph();
         //presumably user inputs path to DOT file then number of threads to use
         //start by getting the strings
         List<String> nodeLines = new ArrayList<>();
         List<String> edgeLines = new ArrayList<>();
 
-        File file = new File(args[0]);
+        File file = new File(filename);
 
         BufferedReader br = new BufferedReader(new FileReader(file));
 
@@ -48,5 +48,7 @@ public class DotParser {
             graph.addEdge(Integer.valueOf(value), start, end);
             System.out.println("Edge from: " + start + " to: " + end + " weight: " + value);
         }
+
+        return graph;
     }
 }
