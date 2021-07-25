@@ -1,4 +1,4 @@
-package Project1.graph;
+package project1.graph;
 
 public class Edge {
     private int weight;

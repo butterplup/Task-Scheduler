@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>softeng306-2021.team-2</groupId>
-    <artifactId>Project1</artifactId>
+    <artifactId>project1</artifactId>
     <version>1.0-Milestone1</version>
 
     <properties>
@@ -30,7 +30,7 @@
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Main-Class>Project1.Run</Main-Class>
+                                        <Main-Class>project1.Run</Main-Class>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>

@@ -1,6 +1,6 @@
-package Project1;
-import Project1.graph.DotParser;
-import Project1.graph.Graph;
+package project1;
+import project1.graph.DotParser;
+import project1.graph.Graph;
 
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ public class Run {
             Graph g = DotParser.parse(filename);
             g.print();
         } else {
-            System.out.printf("Usage: java -jar Project1.jar DOT_FILE%n");
+            System.out.printf("Usage: java -jar project1.jar DOT_FILE%n");
         }
     }
 }
