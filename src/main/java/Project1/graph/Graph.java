@@ -43,4 +43,16 @@ public class Graph {
     public List<Edge> getEdges() {
         return edges;
     }
+
+    public void print() {
+        // Display the nodes in the graph
+        for (Node n : nodes) {
+            System.out.printf("Node: %s value: %d%n", n.getName(), n.getWeight());
+        }
+
+        // Display the edges in the graph
+        for (Edge e : edges) {
+            System.out.printf("Edge from: %s to: %s weight: %d%n", e.getStart().getName(), e.getEnd().getName(), e.getEdgeWeight());
+        }
+    }
 }

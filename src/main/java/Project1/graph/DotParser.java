@@ -35,7 +35,6 @@ public class DotParser {
             String name = myLine.substring(0,myLine.indexOf('['));
             String value = myLine.substring(myLine.indexOf('=') + 1,myLine.indexOf(']'));
             graph.addNode(name, Integer.valueOf(value));
-            System.out.println("Node: " + name + " value: " + value);
         }
 
         //Make edges
@@ -46,7 +45,6 @@ public class DotParser {
             String end = myLine.substring(myLine.indexOf('>') + 1,myLine.indexOf('['));
             String value = myLine.substring(myLine.indexOf('=') + 1,myLine.indexOf(']'));
             graph.addEdge(Integer.valueOf(value), start, end);
-            System.out.println("Edge from: " + start + " to: " + end + " weight: " + value);
         }
 
         return graph;
