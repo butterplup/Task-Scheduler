@@ -30,6 +30,10 @@ public class Graph {
         Edge edge = new Edge(weight, from, to);
         edges.add(edge);
         from.addEdge(edge);
+        //add incoming edge to node
+        to.getIncomingEdges().put(from,weight);
+        //add outgoing edge to node
+        from.getOutgoingEdges().put(to,weight);
     }
 
     public Node getNode(int value) {
