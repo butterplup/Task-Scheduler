@@ -2,7 +2,6 @@ package project1.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Node {
@@ -32,10 +31,11 @@ public class Node {
 
     public String getName() { return name; }
 
+    public HashMap<Node,Integer> getIncomingEdges(){ return this.incomingEdges; }
 
-    public HashMap<Node,Integer> getIncomingEdges(){ return incomingEdges; }
+    public HashMap<Node,Integer> getOutgoingEdges(){ return this.outgoingEdges; }
 
-    public HashMap<Node,Integer> getOutgoingEdges(){ return outgoingEdges; }
+
 
 
 }

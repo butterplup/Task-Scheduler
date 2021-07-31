@@ -59,4 +59,6 @@ public class Graph {
             System.out.printf("Edge from: %s to: %s weight: %d%n", e.getStart().getName(), e.getEnd().getName(), e.getEdgeWeight());
         }
     }
+
+    public int getTotalTasksCount(){return this.nodeMap.size();}
 }
