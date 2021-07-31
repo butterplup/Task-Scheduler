@@ -15,6 +15,32 @@ public class Graph {
         nodeMap = new HashMap<>();
     }
 
+    public void sort(){
+        int i= 0,j;
+        Node cNode, nNode;
+        while(i < nodes.size()){
+            cNode = nodes.get(i);
+            nNode = nodes.get(i+1);
+            for(j = i; j < nodes.size(); j++) {
+                if (cNode.checkNode(nNode)) {
+                    swap(i, i + 1);
+                    i = -1;
+                    break;
+                }
+            }
+            i++;
+        }
+    }
+
+    public void swap(int indexA, int indexB){
+        Node nodeA = nodes.get(indexA);
+        Node nodeB = nodes.get(indexB);
+        nodes.remove(indexA);
+        nodes.remove(indexB);
+        nodes.add(indexA,nodeB);
+        nodes.add(indexB,nodeA);
+    }
+
     public void addNode(String name, int value) {
         //no duplicate nodes
         if (!nodeMap.containsKey(name)) {

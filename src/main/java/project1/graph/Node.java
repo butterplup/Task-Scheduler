@@ -17,6 +17,15 @@ public class Node {
         edges = new ArrayList<>();
     }
 
+    public boolean checkNode(Node node){
+        for(Edge cEdge: edges){
+            if(cEdge.getEnd().equals(node)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addEdge(Edge edge) {
         edges.add(edge);
     }
