@@ -59,4 +59,22 @@ public class DotParser {
 
         return graph;
     }
+
+    public static void saveToFile(Graph g, String filename) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
+        bw.write(String.format("digraph \"%s\" {%n", g.getName()));
+
+        // Write nodes and weights
+        for (Node n : g.getNodes()) {
+            bw.write(String.format("\t%s\t [Weight=%d];%n", n.getName(), n.getWeight()));
+        }
+
+        for (Edge e : g.getEdges()) {
+            bw.write(String.format("\t%s-> %s\t [Weight=%d];%n",
+                    e.getStart().getName(), e.getEnd().getName(), e.getEdgeWeight()));
+        }
+
+        bw.write(String.format("}%n%n"));
+        bw.close();
+    }
 }

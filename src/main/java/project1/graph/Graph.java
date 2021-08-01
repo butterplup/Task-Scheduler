@@ -34,6 +34,10 @@ public class Graph {
         from.addEdge(edge);
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Node getNode(int value) {
         return nodeMap.get(value);
     }
