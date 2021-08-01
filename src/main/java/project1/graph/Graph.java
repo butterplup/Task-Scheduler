@@ -17,6 +17,32 @@ public class Graph {
         this.name = name;
     }
 
+    public void sort(){
+        int i= 0,j;
+        Node cNode, nNode;
+        while(i < nodes.size()){
+            cNode = nodes.get(i);
+            nNode = nodes.get(i+1);
+            for(j = i; j < nodes.size(); j++) {
+                if (cNode.checkNode(nNode)) {
+                    swap(i, i + 1);
+                    i = -1;
+                    break;
+                }
+            }
+            i++;
+        }
+    }
+
+    public void swap(int indexA, int indexB){
+        Node nodeA = nodes.get(indexA);
+        Node nodeB = nodes.get(indexB);
+        nodes.remove(indexA);
+        nodes.remove(indexB);
+        nodes.add(indexA,nodeB);
+        nodes.add(indexB,nodeA);
+    }
+
     public void addNode(String name, int value) {
         //no duplicate nodes
         if (!nodeMap.containsKey(name)) {
@@ -32,6 +58,10 @@ public class Graph {
         Edge edge = new Edge(weight, from, to);
         edges.add(edge);
         from.addEdge(edge);
+        //add incoming edge to node
+        to.getIncomingEdges().put(from,weight);
+        //add outgoing edge to node
+        from.getOutgoingEdges().put(to,weight);
     }
 
     public String getName() {
@@ -63,4 +93,6 @@ public class Graph {
             System.out.printf("Edge from: %s to: %s weight: %d%n", e.getStart().getName(), e.getEnd().getName(), e.getEdgeWeight());
         }
     }
+
+    public int getTotalTasksCount(){return this.nodeMap.size();}
 }
