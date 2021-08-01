@@ -6,7 +6,6 @@ import java.io.*;
 
 public class DotParser {
     public static Graph parse(String filename) throws IOException {
-        Graph graph = new Graph();
         //presumably user inputs path to DOT file then number of threads to use
         //start by getting the strings
         List<String> nodeLines = new ArrayList<>();
@@ -16,10 +15,19 @@ public class DotParser {
 
         BufferedReader br = new BufferedReader(new FileReader(file));
 
+        // Name of the graph
+        String graphName = "digraph";
+
         String st;
         while ((st = br.readLine()) != null) {
-            //skip first and last line?
-            if (!st.contains("{") && !st.contains("}")) {
+            if (st.contains("{")) {
+                // Pull name of graph from the String between double quotes
+                int start = st.indexOf("\"");
+                int end = st.lastIndexOf("\"");
+                graphName = st.substring(start+1, end);
+            } else if (st.contains("}")) {
+                break;
+            } else {
                 if (st.contains("−>")) {
                     edgeLines.add(st);
                 } else {
@@ -27,6 +35,8 @@ public class DotParser {
                 }
             }
         }
+
+        Graph graph = new Graph(graphName);
 
         //Make nodes
         for (String line : nodeLines) {

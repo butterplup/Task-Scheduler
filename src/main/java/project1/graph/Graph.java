@@ -5,14 +5,16 @@ import java.util.List;
 import java.util.HashMap;
 
 public class Graph {
+    private String name;
     private List<Edge> edges;
     private List<Node> nodes;
     private HashMap<String,Node> nodeMap;
 
-    public Graph() {
+    public Graph(String name) {
         edges = new ArrayList<>();
         nodes = new ArrayList<>();
         nodeMap = new HashMap<>();
+        this.name = name;
     }
 
     public void addNode(String name, int value) {
@@ -45,6 +47,8 @@ public class Graph {
     }
 
     public void print() {
+        System.out.printf("Graph \"%s\":%n", name);
+
         // Display the nodes in the graph
         for (Node n : nodes) {
             System.out.printf("Node: %s value: %d%n", n.getName(), n.getWeight());
