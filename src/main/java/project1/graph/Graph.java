@@ -18,7 +18,7 @@ public class Graph {
     public void sort(){
         int i= 0,j;
         Node cNode, nNode;
-        while(i < nodes.size()){
+        while(i < nodes.size() - 1){
             cNode = nodes.get(i);
             nNode = nodes.get(i+1);
             for(j = i; j < nodes.size(); j++) {
