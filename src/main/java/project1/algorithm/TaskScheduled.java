@@ -1,6 +1,5 @@
 package project1.algorithm;
 
-import javafx.concurrent.Task;
 import project1.graph.Node;
 
 public class TaskScheduled {
