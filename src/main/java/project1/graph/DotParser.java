@@ -28,7 +28,7 @@ public class DotParser {
             } else if (st.contains("}")) {
                 break;
             } else {
-                if (st.contains("−>")) {
+                if (st.contains("->")) {
                     edgeLines.add(st);
                 } else {
                     nodeLines.add(st);
@@ -51,7 +51,7 @@ public class DotParser {
         for (String line : edgeLines) {
             String myLine = line.replaceAll(" ", "");
             myLine = myLine.replaceAll("\t", "");
-            String start = myLine.substring(0,myLine.indexOf('−'));
+            String start = myLine.substring(0,myLine.indexOf('-'));
             String end = myLine.substring(myLine.indexOf('>') + 1,myLine.indexOf('['));
             String value = myLine.substring(myLine.indexOf('=') + 1,myLine.indexOf(']'));
             graph.addEdge(Integer.valueOf(value), start, end);
@@ -71,7 +71,7 @@ public class DotParser {
 
         for (Edge e : g.getEdges()) {
             bw.write(String.format("\t%s-> %s\t [Weight=%d];%n",
-                    e.getStart().getName(), e.getEnd().getName(), e.getEdgeWeight()));
+                    e.getStart().getName(), e.getEnd().getName(), e.getWeight()));
         }
 
         bw.write(String.format("}%n%n"));
