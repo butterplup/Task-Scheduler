@@ -1,5 +1,8 @@
 package project1.graph;
 
+import lombok.Getter;
+
+@Getter
 public class Edge {
     private int weight;
     private Node start;
@@ -9,17 +12,5 @@ public class Edge {
         weight = value;
         start = startNode;
         end = endNode;
-    }
-
-    public int getEdgeWeight() {
-        return weight;
-    }
-
-    public Node getStart() {
-        return start;
-    }
-
-    public Node getEnd() {
-        return end;
     }
 }

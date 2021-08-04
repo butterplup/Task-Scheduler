@@ -1,9 +1,12 @@
 package project1.graph;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Getter
 public class Node {
     private int weight;
     private String name;
@@ -29,22 +32,5 @@ public class Node {
     public void addEdge(Edge edge) {
         edges.add(edge);
     }
-
-    public List<Edge> getEdges() {
-        return edges;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public String getName() { return name; }
-
-    public HashMap<Node,Integer> getIncomingEdges(){ return this.incomingEdges; }
-
-    public HashMap<Node,Integer> getOutgoingEdges(){ return this.outgoingEdges; }
-
-
-
 
 }

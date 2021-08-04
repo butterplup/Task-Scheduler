@@ -1,7 +1,9 @@
 package project1.algorithm;
 
+import lombok.Getter;
 import project1.graph.Node;
 
+@Getter
 public class TaskScheduled {
     Node taskNode;
     int startingTime;
@@ -13,17 +15,8 @@ public class TaskScheduled {
         this.processor=processor;
     }
 
-    public Node getTaskNode(){
-        return this.taskNode;
-    }
-
-    public int getProcessor(){
-        return this.processor;
-    }
-
     public int getFinishTime(){
         return this.startingTime+ taskNode.getWeight();
     }
 
-    public int getStartingTime() { return this.startingTime; }
 }

@@ -2,8 +2,6 @@ package project1.algorithm;
 
 import project1.graph.Node;
 import project1.processor.Processor;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,7 +43,7 @@ public class Scheduler {
             //find the earliest starting time on this processor p
             for (HashMap.Entry<Node, Integer> i : in.entrySet()) {
                 Node pre = i.getKey(); //get parent node
-                HashMap<String, TaskScheduled> scheduled = this.current.getSchedule(); //get current schedule
+                HashMap<String, TaskScheduled> scheduled = this.current.getCurrentSchedule(); //get current schedule
                 TaskScheduled predecessor = scheduled.get(pre.getName()); //lookup O(1)
                 if (predecessor.getProcessor() != p.getProcessorId()) { //communication cost
                     communicationCost = Math.max(communicationCost, predecessor.getFinishTime() + i.getValue());
@@ -88,6 +86,6 @@ public class Scheduler {
     }
 
     private boolean checkTaskIsScheduled(Node t){
-        return current.getSchedule().get(t.getName()) != null;
+        return current.getCurrentSchedule().get(t.getName()) != null;
     }
 }

@@ -1,9 +1,12 @@
 package project1.graph;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 
+@Getter
 public class Graph {
     private String name;
     private List<Edge> edges;
@@ -64,20 +67,8 @@ public class Graph {
         from.getOutgoingEdges().put(to,weight);
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Node getNode(int value) {
         return nodeMap.get(value);
-    }
-
-    public List<Node> getNodes() {
-        return nodes;
-    }
-
-    public List<Edge> getEdges() {
-        return edges;
     }
 
     public void print() {
@@ -90,7 +81,7 @@ public class Graph {
 
         // Display the edges in the graph
         for (Edge e : edges) {
-            System.out.printf("Edge from: %s to: %s weight: %d%n", e.getStart().getName(), e.getEnd().getName(), e.getEdgeWeight());
+            System.out.printf("Edge from: %s to: %s weight: %d%n", e.getStart().getName(), e.getEnd().getName(), e.getWeight());
         }
     }
 
