@@ -2,9 +2,8 @@ package project1.algorithm;
 
 import project1.graph.Graph;
 import project1.graph.Node;
-import project1.processor.Processor;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * sequentialDFS Algorithm
@@ -23,7 +22,7 @@ public class SequentialDFS {
         int bestFinishTime = Integer.MAX_VALUE;
 
         // Stack of schedules to be evaluated
-        LinkedList<Schedule> scheduleStack = new LinkedList<>();
+        Stack<Schedule> scheduleStack = new Stack<>();
         scheduleStack.add(best);
 
         while (!scheduleStack.isEmpty()) {

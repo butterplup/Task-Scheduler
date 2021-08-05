@@ -25,7 +25,7 @@ public class Scheduler {
      * @param best current best finish time of a complete schedule
      * @param scheduleStack All generated schedules will be added to the current schedule stack
      */
-    public void scheduleTaskToProcessor(Node t,int best,LinkedList<Schedule> scheduleStack) { //current schedule+node t
+    public void scheduleTaskToProcessor(Node t,int best, List<Schedule> scheduleStack) { //current schedule+node t
         int index = 0;
         int emptyProcessorCount=0;
         //Loop through all processors to find all possible schedules, every schedule is a potential solution
