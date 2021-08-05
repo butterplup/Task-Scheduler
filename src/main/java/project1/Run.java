@@ -16,6 +16,7 @@ public class Run {
             String filename = args[0];
             Graph g = DotParser.parse(filename);
 
+            g.sort();
             Schedule s = SequentialDFS.generateOptimalSchedule(g, 4);
             s.printSchedule();
 
