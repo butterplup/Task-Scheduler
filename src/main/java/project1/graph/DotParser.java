@@ -24,7 +24,12 @@ public class DotParser {
                 // Pull name of graph from the String between double quotes
                 int start = st.indexOf("\"");
                 int end = st.lastIndexOf("\"");
-                graphName = st.substring(start+1, end);
+                String subString = st.substring(start+1, end);
+
+                // Ensure the graph name is non-empty before overriding the default
+                if (subString.trim().length() > 0) {
+                    graphName = subString;
+                }
             } else if (st.contains("}")) {
                 break;
             } else {
