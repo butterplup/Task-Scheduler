@@ -14,6 +14,9 @@ public class Run {
             String filename = args[0];
             Graph g = DotParser.parse(filename);
             g.print();
+
+            String inputName = filename.substring(0, filename.lastIndexOf("."));
+            DotParser.saveToFile(g, String.format("%s-output.dot", inputName));
         } else {
             System.out.printf("Usage: java -jar project1.jar DOT_FILE%n");
         }

@@ -1,5 +1,6 @@
 
 package project1.algorithm;
+import lombok.Getter;
 import project1.graph.Node;
 import project1.processor.Processor;
 
@@ -7,9 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Contains scheduled tasks
- */
+@Getter
 public class Schedule {
         private int finishTime;
         private HashMap<String,TaskScheduled> currentSchedule=new HashMap<>();
@@ -26,7 +25,7 @@ public class Schedule {
 
         public Schedule(Schedule s){ //deep copy
             this.finishTime=s.getFinishTime();
-            for (HashMap.Entry<String,TaskScheduled> i : s.getSchedule().entrySet()){
+            for (HashMap.Entry<String,TaskScheduled> i : s.getCurrentSchedule().entrySet()){
                 this.currentSchedule.put(i.getKey(),i.getValue());
             }
             for (Processor p:s.getProcessors()){
@@ -34,11 +33,6 @@ public class Schedule {
             }
             this.nodesVisited=s.getNodesVisited();
 
-        }
-
-
-        public int getFinishTime() {
-            return finishTime;
         }
 
         public void addTask(Node t, TaskScheduled s){
@@ -49,16 +43,6 @@ public class Schedule {
                 this.finishTime=s.getFinishTime(); //schedule's finish time
             }
             this.nodesVisited++;
-        }
-
-        public HashMap<String,TaskScheduled> getSchedule(){
-            return this.currentSchedule;
-        }
-
-        public int getNodesVisited(){return this.nodesVisited; }
-
-        public List<Processor> getProcessors(){
-            return this.processors;
         }
 
         public void printSchedule(){
