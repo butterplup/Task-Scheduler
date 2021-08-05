@@ -2,6 +2,8 @@ package project1.algorithm;
 
 import project1.graph.Node;
 import project1.processor.Processor;
+
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +27,7 @@ public class Scheduler {
      * @param best current best finish time of a complete schedule
      * @param scheduleStack All generated schedules will be added to the current schedule stack
      */
-    public void scheduleTaskToProcessor(Node t,int best,LinkedList<Schedule> scheduleStack) { //current schedule+node t
+    public void scheduleTaskToProcessor(Node t,int best, Deque<Schedule> scheduleStack) { //current schedule+node t
         int index = 0;
         int emptyProcessorCount=0;
         //Loop through all processors to find all possible schedules, every schedule is a potential solution
@@ -54,7 +56,7 @@ public class Scheduler {
             possibility.addTask(t,scheduled);
             //Only add to Schedule to stack if its finish time<current best "complete" schedule
             if (possibility.getFinishTime()<best) {
-                scheduleStack.add(possibility);
+                scheduleStack.push(possibility);
             }
             index++;
         }

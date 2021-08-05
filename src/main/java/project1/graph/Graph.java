@@ -20,30 +20,28 @@ public class Graph {
         this.name = name;
     }
 
-    public void sort(){
-        int i= 0,j;
-        Node cNode, nNode;
-        while(i < nodes.size()){
-            cNode = nodes.get(i);
-            nNode = nodes.get(i+1);
-            for(j = i; j < nodes.size(); j++) {
+    public void sort() {
+        for (int i = 0; i < nodes.size() - 1; i++){
+            Node cNode = nodes.get(i);
+            Node nNode = nodes.get(i+1);
+
+            for (int j = i; j < nodes.size(); j++) {
                 if (cNode.checkNode(nNode)) {
                     swap(i, i + 1);
+
+                    // Reset outer loop
                     i = -1;
                     break;
                 }
             }
-            i++;
         }
     }
 
     public void swap(int indexA, int indexB){
         Node nodeA = nodes.get(indexA);
         Node nodeB = nodes.get(indexB);
-        nodes.remove(indexA);
-        nodes.remove(indexB);
-        nodes.add(indexA,nodeB);
-        nodes.add(indexB,nodeA);
+        nodes.set(indexA, nodeB);
+        nodes.set(indexB, nodeA);
     }
 
     public void addNode(String name, int value) {
