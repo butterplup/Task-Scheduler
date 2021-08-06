@@ -1,0 +1,15 @@
+digraph "" {
+	a	 [Weight=5];
+	b	 [Weight=6];
+	a -> b	 [Weight=15];
+	c	 [Weight=5];
+	a -> c	 [Weight=11];
+	d	 [Weight=6];
+	a -> d	 [Weight=11];
+	e	 [Weight=4];
+	b -> e	 [Weight=19];
+	f	 [Weight=7];
+	b -> f	 [Weight=4];
+	g	 [Weight=7];
+	b -> g	 [Weight=21];
+}

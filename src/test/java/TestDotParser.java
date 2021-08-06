@@ -78,4 +78,16 @@ public class TestDotParser {
         // Delete test file
         file.delete();
     }
+
+    @Test
+    public void testGraphWithNodesThatAreLetters() throws IOException {
+        // Pull a graph that contains nodes that are letters from src/test/resources
+        URL graph = getClass().getResource("graph_with_letter_nodes.dot");
+        Graph g = DotParser.parse(graph.getPath());
+
+        // Check that the graph name is set to default and there are the correct amount of nodes and edges
+        Assert.assertEquals(g.getName(), "digraph");
+        Assert.assertEquals(g.getEdges().size(), 6);
+        Assert.assertEquals(g.getNodes().size(), 7);
+    }
 }
