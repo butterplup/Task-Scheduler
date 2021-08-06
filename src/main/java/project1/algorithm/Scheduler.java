@@ -7,6 +7,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Scheduler {
     private List<Processor> processors;
@@ -62,14 +63,8 @@ public class Scheduler {
         }
     }
 
-    public List<Node> getTasksCanBeScheduled(List<Node> taskList){
-        List<Node> candidates=new LinkedList<>();
-        for (Node s:taskList) {
-            if (checkTaskCanBeScheduled(s)) {
-                candidates.add(s);
-            }
-        }
-        return candidates;
+    public Stream<Node> getTasksCanBeScheduled(List<Node> taskList){
+        return taskList.stream().filter(this::checkTaskCanBeScheduled);
     }
 
     private boolean checkTaskCanBeScheduled(Node t){
