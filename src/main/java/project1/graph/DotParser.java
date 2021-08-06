@@ -33,9 +33,7 @@ public class DotParser {
             } else if (st.contains("}")) {
                 break;
             } else {
-                // Check if first character of line is a number
-                char c = st.replaceAll(" ", "").replaceAll("\t", "").charAt(0);
-                if (c >= '0' && c <= '9') {
+                if (st.toLowerCase().contains("Weight".toLowerCase())) {
                     if (st.contains("->")) {
                         edgeLines.add(st);
                     } else {
