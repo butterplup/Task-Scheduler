@@ -3,6 +3,7 @@ import org.junit.Test;
 import project1.graph.DotParser;
 import project1.graph.Graph;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -53,5 +54,28 @@ public class TestDotParser {
         Assert.assertEquals(g.getName(), "digraph");
         Assert.assertEquals(g.getEdges().size(), 6);
         Assert.assertEquals(g.getNodes().size(), 7);
+    }
+
+    @Test
+    public void testOutputFile() throws IOException {
+        // Pull a graph with nodes from src/test/resources
+        URL graph = getClass().getResource("graph.dot");
+        Graph g = DotParser.parse(graph.getPath());
+
+        DotParser.saveToFile(g, "test_name.dot");
+
+        // Test file exists
+        File file = new File("test_name.dot");
+        Assert.assertTrue(file.exists());
+
+        // Test file can be read in correctly
+        URL testGraph = getClass().getResource("test_name.dot");
+        Graph testG = DotParser.parse(graph.getPath());
+        Assert.assertEquals(testG.getName(), "graph");
+        Assert.assertEquals(testG.getEdges().size(), 6);
+        Assert.assertEquals(testG.getNodes().size(), 7);
+
+        // Delete test file
+        file.delete();
     }
 }
