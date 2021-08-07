@@ -36,15 +36,26 @@ public class ArgsParser {
      * @throws IOException - when cmd line args do not meet expected format
      */
     ArgsParser(String[] args) throws IOException {
-        try {
+
+        if (args.length < 2) {
+            throw new IOException("Mandatory arguments missing, see usage");
+        } try {
             // Perhaps add something to check whether it is valid string
             String filename = args[0];
             this.filename = filename;
             //TODO Default output name set (could change to boolean "defaultOutputName = true")
-            String filenameNoExtension = filename.substring(0,filename.lastIndexOf("."));
+            String filenameNoExtension = filename.substring(0, filename.lastIndexOf("."));
             this.outputFilename = filenameNoExtension + "-output.dot";
             // The number of processors to schedule the input graph on
             this.processorCount = Integer.parseInt(args[1]);
+
+        } catch (IndexOutOfBoundsException e) {
+            // Occurs when String#lastIndexOf finds no matches and returns -1 causing String#substring to access out of bounds
+            throw new IOException("DOT_FILE missing .dot extension in cmd line argument");
+        } catch (NumberFormatException e) {
+            // Occurs when the second arg is not a valid integer used for the processor count
+            throw new IOException("Processor count P not given as an integer");
+        } try {
             // Loop through remaining optional arguments and assign if different from default
             for (int i=2; i < args.length; i++) {
                 String arg = args[i];
@@ -64,13 +75,15 @@ public class ArgsParser {
                         break;
                     default:
                         // Current arg does not match any known case
-                        throw new IOException("Invalid argument given");
+                        throw new IOException("Supplied argument does not match any known optional args");
                 }
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            // Something in terms of how the cmd line args are presented is incorrect
-            throw new IOException("Invalid argument(s) given");
+        } catch (NumberFormatException e) {
+            // Occurs when the arg after "-p" is not a valid integer used for the count of parallel cores to be used
+            throw new IOException("Parallel core count after -p not given as an integer");
+        } catch (IndexOutOfBoundsException e) {
+            // Occurs when there is no arg after "-p" or "-o" despite one being needed
+            throw new IOException("No arg given following at least one optional arg -p or -o");
         }
     }
 }

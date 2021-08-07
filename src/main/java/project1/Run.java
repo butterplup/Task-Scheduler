@@ -25,7 +25,7 @@ public class Run {
             DotParser.saveToFile(g, outputFilename);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             //TODO Make more explicit usage message?
             System.out.printf("Usage: java -jar project1.jar DOT_FILE P [OPTIONAL args]%n ");
             throw new IOException(e);
