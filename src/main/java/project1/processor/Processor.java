@@ -1,5 +1,14 @@
 package project1.processor;
 
+import lombok.Getter;
+
+/**
+ * This class represents the processors for a schedule, each processor has
+ * its id as the processor number, an earliest starting time for the next task
+ * to be assigned on this processor, and a boolean variable to indicate if the
+ * processor is empty(has no tasks assigned to it).
+ */
+@Getter
 public class Processor {
     private int processorId;
     private int earliestStartTime;
@@ -18,21 +27,11 @@ public class Processor {
     public Processor(Processor p){
         this.processorId=p.getProcessorId();
         this.earliestStartTime=p.getEarliestStartTime();
-        this.empty=p.getEmptyValue();
+        this.empty=p.isEmpty();
     }
 
     public void setEarliestStartTime(int newStart){
         this.earliestStartTime=newStart;
         this.empty=false;
     }
-
-    public int getEarliestStartTime(){
-        return this.earliestStartTime;
-    }
-
-    public int getProcessorId(){
-        return this.processorId;
-    }
-
-    public boolean getEmptyValue(){ return this.empty; }
 }

@@ -8,13 +8,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * A scheduler for each sub-schedule is responsible for scheduling more
+ * task nodes to the current sub-schedule.
+ */
 public class Scheduler {
     private List<Processor> processors;
     private Schedule current;
 
     /**
      * Constructor method for Scheduler
-     *
      */
     public Scheduler(Schedule c) {
         this.processors=c.getProcessors();
@@ -35,7 +38,7 @@ public class Scheduler {
             if (emptyProcessorCount>0){ //This is another empty processor-> WILL produce duplicate as previous schedule
                 continue;
             }
-            if (p.getEmptyValue()){
+            if (p.isEmpty()){
                 emptyProcessorCount++;
             }
             Schedule possibility=new Schedule(this.current); //deep copy
@@ -53,7 +56,7 @@ public class Scheduler {
             }
             startTime = Math.max(p.getEarliestStartTime(), communicationCost);
             TaskScheduled scheduled = new TaskScheduled(t, startTime, this.processors.get(index).getProcessorId());
-            possibility.addTask(t,scheduled);
+            possibility.addTask(scheduled);
             //Only add to Schedule to stack if its finish time<current best "complete" schedule
             if (possibility.getFinishTime()<best) {
                 scheduleStack.push(possibility);
@@ -62,6 +65,12 @@ public class Scheduler {
         }
     }
 
+    /**
+     * This method finds the tasks which satisfies the scheduling constraints and is ready
+     * to be scheduled to a processor.
+     * @param taskList A list of tasks to be checked if they are ready to be scheduled.
+     * @return A list of tasks which satisfies the scheduling constraints and can be scheduled.
+     */
     public List<Node> getTasksCanBeScheduled(List<Node> taskList){
         List<Node> candidates=new LinkedList<>();
         for (Node s:taskList) {
@@ -72,6 +81,11 @@ public class Scheduler {
         return candidates;
     }
 
+    /**
+     * Checks if a task satisfies the scheduling constraints and is ready to be scheduled.
+     * @param t The task node to check if constraints are satisfied.
+     * @return Returns true if the constraints are satisfied, false otherwise
+     */
     private boolean checkTaskCanBeScheduled(Node t){
         //A node that has no yet been scheduled
         if (checkTaskIsScheduled(t)){
@@ -87,6 +101,11 @@ public class Scheduler {
         return true;
     }
 
+    /**
+     * Checks if a task has already been scheduled to the current schedule.
+     * @param t The task node to check
+     * @return Returns true if this task hasn't been scheduled yet, false otherwise.
+     */
     private boolean checkTaskIsScheduled(Node t){
         return current.getCurrentSchedule().get(t.getName()) != null;
     }
