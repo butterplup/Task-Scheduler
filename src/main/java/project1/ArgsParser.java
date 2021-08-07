@@ -1,6 +1,7 @@
 package project1;
 
 import java.io.IOException;
+import lombok.Getter;
 
 /**
  * Class ArgsParser takes the command line arguments and stores them for use by other classes
@@ -8,11 +9,26 @@ import java.io.IOException;
 public class ArgsParser {
 
     // Default settings for the algorithm
-    private final String filename; //TODO should set a default?
-    private String outputFilename; //TODO should set a default?
-    private final int processorCount; //TODO should set a default?
-    private int parallelCoreCount = 1;
-    private boolean visualise = false;
+    /**
+     * The filename of the input dot file including extension
+     */
+    @Getter private final String filename; //TODO should set a default?
+    /**
+     * The filename of the output dot file including extension
+     */
+    @Getter private String outputFilename; //TODO should set a default?
+    /**
+     * The number of processors that the tasks can be scheduled on
+     */
+    @Getter private final int processorCount; //TODO should set a default?
+    /**
+     * The number of cores/threads for the program to be run on
+     */
+    @Getter private int parallelCoreCount = 1;
+    /**
+     * Whether visualisation should be enabled
+     */
+    @Getter private boolean visualise = false;
 
     /**
      * Goes through the command line arguments and assigns them to attributes to be stored
@@ -56,27 +72,5 @@ public class ArgsParser {
             // Something in terms of how the cmd line args are presented is incorrect
             throw new IOException("Invalid argument(s) given");
         }
-    }
-
-    // GETTER METHODS
-
-    public boolean isVisualise() {
-        return this.visualise;
-    }
-
-    public int getParallelCoreCount() {
-        return this.parallelCoreCount;
-    }
-
-    public int getProcessorCount() {
-        return this.processorCount;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public String getOutputFilename() {
-        return outputFilename;
     }
 }
