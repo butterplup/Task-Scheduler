@@ -2,8 +2,6 @@
 package project1.algorithm;
 
 import lombok.Getter;
-import project1.graph.Node;
-import project1.processor.Processor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +14,7 @@ import java.util.List;
 public class Schedule {
     private int finishTime;
     private HashMap<String, TaskScheduled> currentSchedule = new HashMap<>();
-    private List<Processor> processors = new ArrayList<>();
+    private List<Integer> freeTime = new ArrayList<>();
     private int nodesVisited;
 
     public Schedule(int n) {
@@ -24,12 +22,12 @@ public class Schedule {
             if (n < 1) {
                 throw new IllegalArgumentException("Can not generate a schedule when the number of processors is less than 1.");
             }
-        }catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
         this.finishTime = 0;
         for (int i = 0; i < n; i++) {
-            this.processors.add(new Processor(i + 1));
+            this.freeTime.add(0);
         }
         this.nodesVisited = 0;
     }
@@ -39,11 +37,9 @@ public class Schedule {
         for (HashMap.Entry<String, TaskScheduled> i : s.getCurrentSchedule().entrySet()) {
             this.currentSchedule.put(i.getKey(), i.getValue());
         }
-        for (Processor p : s.getProcessors()) {
-            this.processors.add(new Processor(p));
-        }
-        this.nodesVisited = s.getNodesVisited();
 
+        this.freeTime.addAll(s.getFreeTime());
+        this.nodesVisited = s.getNodesVisited();
     }
 
     /**
@@ -53,7 +49,7 @@ public class Schedule {
     public void addTask(TaskScheduled s) {
         this.currentSchedule.put(s.getTaskNode().getName(), s);
         //Change the assigned processor's earliest start time
-        this.processors.get(s.getProcessor() - 1).setEarliestStartTime(s.getFinishTime());
+        this.freeTime.set(s.getProcessor(), s.getFinishTime());
         if (s.getFinishTime() > this.finishTime) {
             this.finishTime = s.getFinishTime(); //schedule's finish time
         }
@@ -67,5 +63,3 @@ public class Schedule {
         }
     }
 }
-
-

@@ -1,7 +1,6 @@
 package project1.algorithm;
 
 import project1.graph.Node;
-import project1.processor.Processor;
 
 import java.util.Deque;
 import java.util.HashMap;
@@ -13,7 +12,6 @@ import java.util.stream.Stream;
  * task nodes to the current sub-schedule.
  */
 public class Scheduler {
-    private List<Processor> processors;
     private Schedule current;
 
     /**
@@ -21,7 +19,6 @@ public class Scheduler {
      *
      */
     public Scheduler(Schedule c) {
-        this.processors=c.getProcessors();
         this.current=c;
     }
 
@@ -32,37 +29,42 @@ public class Scheduler {
      * @param scheduleStack All generated schedules will be added to the current schedule stack
      */
     public void scheduleTaskToProcessor(Node t,int best, Deque<Schedule> scheduleStack) { //current schedule+node t
-        int index = 0;
-        int emptyProcessorCount=0;
-        //Loop through all processors to find all possible schedules, every schedule is a potential solution
-        for (Processor p : this.processors) {
-            if (emptyProcessorCount>0){ //This is another empty processor-> WILL produce duplicate as previous schedule
-                continue;
+        boolean foundEmpty = false;
+
+        // Loop through all processors to find all possible schedules, every schedule is a potential solution
+        int index = -1;
+        for (int free : this.current.getFreeTime()) {
+            index++;
+
+            // Break if we encounter two empty processors
+            boolean empty = free == 0;
+            if (foundEmpty && empty){
+                break;
             }
-            if (p.isEmpty()){
-                emptyProcessorCount++;
-            }
+
+            foundEmpty = empty || foundEmpty;
+
             Schedule possibility=new Schedule(this.current); //deep copy
             int startTime;
             int communicationCost = 0;
             HashMap<Node, Integer> in = t.getIncomingEdges();
-            //find the earliest starting time on this processor p
+
+            // Find the earliest starting time on this processor p
             for (HashMap.Entry<Node, Integer> i : in.entrySet()) {
                 Node pre = i.getKey(); //get parent node
                 HashMap<String, TaskScheduled> scheduled = this.current.getCurrentSchedule(); //get current schedule
                 TaskScheduled predecessor = scheduled.get(pre.getName()); //lookup O(1)
-                if (predecessor.getProcessor() != p.getProcessorId()) { //communication cost
+                if (predecessor.getProcessor() != index) { //communication cost
                     communicationCost = Math.max(communicationCost, predecessor.getFinishTime() + i.getValue());
                 }
             }
-            startTime = Math.max(p.getEarliestStartTime(), communicationCost);
-            TaskScheduled scheduled = new TaskScheduled(t, startTime, this.processors.get(index).getProcessorId());
+            startTime = Math.max(free, communicationCost);
+            TaskScheduled scheduled = new TaskScheduled(t, startTime, index);
             possibility.addTask(scheduled);
             //Only add to Schedule to stack if its finish time<current best "complete" schedule
-            if (possibility.getFinishTime()<best) {
+            if (possibility.getFinishTime() < best) {
                 scheduleStack.push(possibility);
             }
-            index++;
         }
     }
 

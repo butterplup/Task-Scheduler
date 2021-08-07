@@ -6,6 +6,7 @@ import project1.graph.Node;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -48,6 +49,13 @@ public class SequentialDFS {
                         scheduler.scheduleTaskToProcessor(branch, finalBestFinishTime, scheduleStack)
                 );
             }
+        }
+
+        // Annotate nodes in the task graph with the processor its scheduled on
+        for (Map.Entry<String, TaskScheduled> i : best.getCurrentSchedule().entrySet()) {
+            String taskName = i.getKey();
+            int processor = i.getValue().getProcessor();
+            taskGraph.getNodeMap().get(taskName).setProcessor(processor);
         }
 
         return best;
