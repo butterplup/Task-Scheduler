@@ -20,6 +20,13 @@ public class Schedule {
     private int nodesVisited;
 
     public Schedule(int n) {
+        try {
+            if (n < 1) {
+                throw new IllegalArgumentException("Can not generate a schedule when the number of processors is less than 1.");
+            }
+        }catch(IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
         this.finishTime = 0;
         for (int i = 0; i < n; i++) {
             this.processors.add(new Processor(i + 1));

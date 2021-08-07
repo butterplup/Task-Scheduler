@@ -73,7 +73,8 @@ public class DotParser {
 
         // Write nodes and weights
         for (Node n : g.getNodes()) {
-            bw.write(String.format("\t%s\t [Weight=%d];%n", n.getName(), n.getWeight()));
+            bw.write(String.format("\t%s\t [Weight=%d, Processor=%d];%n",
+                    n.getName(), n.getWeight(), n.getProcessor()));
         }
 
         for (Edge e : g.getEdges()) {
