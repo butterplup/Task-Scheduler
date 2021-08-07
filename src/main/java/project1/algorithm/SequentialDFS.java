@@ -6,6 +6,8 @@ import project1.graph.Node;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * sequentialDFS Algorithm
@@ -39,13 +41,21 @@ public class SequentialDFS {
                 Scheduler scheduler = new Scheduler(current);
 
                 // Get a list of tasks that can be scheduled next
-                List<Node> branches = scheduler.getTasksCanBeScheduled(taskGraph.getNodes());
+                Stream<Node> branches = scheduler.getTasksCanBeScheduled(taskGraph.getNodes());
 
-                for (Node branch : branches) {
-                    // Add possible schedules to the schedule stack
-                    scheduler.scheduleTaskToProcessor(branch, bestFinishTime, scheduleStack);
-                }
+                // For each branch, add possible schedules to the stack
+                int finalBestFinishTime = bestFinishTime;
+                branches.forEach(branch ->
+                        scheduler.scheduleTaskToProcessor(branch, finalBestFinishTime, scheduleStack)
+                );
             }
+        }
+
+        // Annotate nodes in the task graph with the processor its scheduled on
+        for (Map.Entry<String, TaskScheduled> i : best.getCurrentSchedule().entrySet()) {
+            String taskName = i.getKey();
+            int processor = i.getValue().getProcessor();
+            taskGraph.getNodeMap().get(taskName).setProcessor(processor);
         }
 
         return best;
