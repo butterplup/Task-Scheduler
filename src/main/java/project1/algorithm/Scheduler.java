@@ -5,8 +5,8 @@ import project1.processor.Processor;
 
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * A scheduler for each sub-schedule is responsible for scheduling more
@@ -18,6 +18,7 @@ public class Scheduler {
 
     /**
      * Constructor method for Scheduler
+     *
      */
     public Scheduler(Schedule c) {
         this.processors=c.getProcessors();
@@ -65,20 +66,8 @@ public class Scheduler {
         }
     }
 
-    /**
-     * This method finds the tasks which satisfies the scheduling constraints and is ready
-     * to be scheduled to a processor.
-     * @param taskList A list of tasks to be checked if they are ready to be scheduled.
-     * @return A list of tasks which satisfies the scheduling constraints and can be scheduled.
-     */
-    public List<Node> getTasksCanBeScheduled(List<Node> taskList){
-        List<Node> candidates=new LinkedList<>();
-        for (Node s:taskList) {
-            if (checkTaskCanBeScheduled(s)) {
-                candidates.add(s);
-            }
-        }
-        return candidates;
+    public Stream<Node> getTasksCanBeScheduled(List<Node> taskList){
+        return taskList.stream().filter(this::checkTaskCanBeScheduled);
     }
 
     /**
