@@ -15,8 +15,8 @@ public class Scheduler {
     private Schedule current;
 
     /**
-     * Constructor method for Scheduler
-     *
+     * Constructor method for scheduler, creates a scheduler for the Schedule object passed in.
+     * @param c A Schedule object to be added with more tasks.
      */
     public Scheduler(Schedule c) {
         this.current=c;
@@ -68,6 +68,12 @@ public class Scheduler {
         }
     }
 
+    /**
+     * This method finds the tasks which satisfies the scheduling constraints and is ready
+     * to be scheduled to a processor.
+     * @param taskList A list of tasks to be checked if they are ready to be scheduled.
+     * @return A Stream of tasks which satisfies the scheduling constraints and can be scheduled.
+     */
     public Stream<Node> getTasksCanBeScheduled(List<Node> taskList){
         return taskList.stream().filter(this::checkTaskCanBeScheduled);
     }

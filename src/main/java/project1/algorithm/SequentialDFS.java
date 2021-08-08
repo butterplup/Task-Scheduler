@@ -5,12 +5,16 @@ import project1.graph.Node;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * sequentialDFS Algorithm
+ * A sequential depth-first branch and bound search algorithm that finds an
+ * optimal schedule for assigning tasks from a DAG task graph onto a set number
+ * of processors.
+ *
+ * An optimal schedule allocates all tasks to processors in a way that gives a
+ * minimum required time to complete all tasks.
  */
 public class SequentialDFS {
     /**
