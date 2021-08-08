@@ -78,35 +78,36 @@ public class DotParser {
         while ((st = br.readLine()) != null) {
             Line l = tokenize(st);
 
+            // Skip if we don't recognise the line
+            if (l.getType() == Line.LineType.OTHER) {
+                continue;
+            }
+
             // Name of the node/digraph
-            String name;
+            String nodeName = l.getM().group(1);
             // Option string as a hashmap
             HashMap<String, String> options;
 
             switch (l.getType()) {
                 case DIGRAPH:
-                    name = l.getM().group(1);
-
-                    if (name.trim().length() > 0) {
-                        graph.setName(name);
+                    if (nodeName.trim().length() > 0) {
+                        graph.setName(nodeName);
                     }
 
                     break;
                 case NODE:
-                    name = l.getM().group(1);
                     options = optionsToHashmap(l.getM().group(2));
 
                     int value = Integer.parseInt(options.get("Weight"));
-                    graph.addNode(name, value);
+                    graph.addNode(nodeName, value);
+
                     break;
                 case EDGE:
-                    String from = l.getM().group(1);
                     String to = l.getM().group(2);
-
                     options = optionsToHashmap(l.getM().group(3));
 
                     int weight = Integer.parseInt(options.get("Weight"));
-                    graph.addEdge(weight, from, to);
+                    graph.addEdge(weight, nodeName, to);
             }
         }
 
