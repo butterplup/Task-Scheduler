@@ -43,7 +43,7 @@ public class Node {
     }
 
     /**
-     * Add an edge 
+     * Add an edge
      * @param edge the edge that this node is part of
      */
     public void addEdge(Edge edge) {
