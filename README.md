@@ -9,7 +9,7 @@ $ git clone https://github.com/SoftEng306-2021/project-1-project-1-team-2.git
 ## Building
 ### Dependencies
 - Maven
-- Java >8
+- Java Development Kit >= 8
 ### Instructions
 From the directory:
 ```shell
