@@ -22,10 +22,7 @@ public class DotParser {
         private final Matcher m;
 
         public enum LineType {
-            DIGRAPH,
-            NODE,
-            EDGE,
-            OTHER
+            DIGRAPH, NODE, EDGE, OTHER
         }
     }
 
@@ -36,25 +33,19 @@ public class DotParser {
      * @return Line object
      */
     private static Line tokenize(String line) {
-        Matcher dMatcher = digraphPattern.matcher(line);
-        Matcher nMatcher = nodePattern.matcher(line);
-        Matcher eMatcher = edgePattern.matcher(line);
+        // Patterns corresponding to LineType enum values
+        Pattern[] patterns = {digraphPattern, nodePattern, edgePattern};
 
-        Line.LineType type = Line.LineType.OTHER;
-        Matcher matcher = null;
+        for (int i = 0; i < patterns.length; i++) {
+            Matcher m = patterns[i].matcher(line);
 
-        if (dMatcher.find()) {
-           type = Line.LineType.DIGRAPH;
-           matcher = dMatcher;
-        } else if (nMatcher.find()) {
-           type = Line.LineType.NODE;
-           matcher = nMatcher;
-        } else if (eMatcher.find()) {
-            type = Line.LineType.EDGE;
-            matcher = eMatcher;
+            // If a matcher matches, return a Line object
+            if (m.find()) {
+                return new Line(Line.LineType.values()[i], m);
+            }
         }
 
-        return new Line(type, matcher);
+        return new Line(Line.LineType.OTHER, null);
     }
 
     /**
