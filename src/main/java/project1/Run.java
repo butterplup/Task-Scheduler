@@ -12,6 +12,7 @@ import java.io.IOException;
 public class Run {
     public static void main(String[] args) throws IOException {
         try {
+            // Parses and stores arguments in an object
             ArgsParser argsParser = new ArgsParser(args);
 
             String filename = argsParser.getFilename();
@@ -25,8 +26,9 @@ public class Run {
             DotParser.saveToFile(g, outputFilename);
 
         } catch (IOException e) {
+            // Relays message of specific error as identified in the ArgsParser class
             System.out.println(e.getMessage());
-            //TODO Make more explicit usage message?
+            // General usage message to inform user when they have not followed it
             System.out.printf("Usage: java -jar project1.jar DOT_FILE P [OPTIONAL args]%n ");
             throw new IOException(e);
         }

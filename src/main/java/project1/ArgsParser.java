@@ -8,19 +8,19 @@ import lombok.Getter;
  */
 public class ArgsParser {
 
-    // Default settings for the algorithm
+    // Stored settings for the algorithm
     /**
      * The filename of the input dot file including extension
      */
-    @Getter private final String filename; //TODO should set a default?
+    @Getter private final String filename;
     /**
      * The filename of the output dot file including extension
      */
-    @Getter private String outputFilename; //TODO should set a default?
+    @Getter private String outputFilename;
     /**
      * The number of processors that the tasks can be scheduled on
      */
-    @Getter private final int processorCount; //TODO should set a default?
+    @Getter private final int processorCount;
     /**
      * The number of cores/threads for the program to be run on
      */
@@ -40,12 +40,11 @@ public class ArgsParser {
         if (args.length < 2) {
             throw new IOException("Mandatory arguments missing, see usage");
         } try {
-            // Perhaps add something to check whether it is valid string
+            // Mandatory to set filename of dot file with input graph
             String filename = args[0];
             this.filename = filename;
-            //TODO Default output name set (could change to boolean "defaultOutputName = true")
             String filenameNoExtension = filename.substring(0, filename.lastIndexOf("."));
-            this.outputFilename = filenameNoExtension + "-output.dot";
+            this.outputFilename = filenameNoExtension + "-output.dot"; // Default output filename
             // The number of processors to schedule the input graph on
             this.processorCount = Integer.parseInt(args[1]);
 
