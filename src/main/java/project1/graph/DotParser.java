@@ -10,13 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DotParser {
-    public enum LineType {
-        DIGRAPH,
-        NODE,
-        EDGE,
-        OTHER
-    }
-
     // Regex patterns to match GraphViz content
     private static final Pattern digraphPattern = Pattern.compile("digraph\\s*\"(.*)\" \\{");
     private static final Pattern nodePattern = Pattern.compile("^\\s*([a-zA-Z0-9]*)\\s*\\[([a-zA-Z0-9=]*)]\\s*;");
@@ -27,6 +20,13 @@ public class DotParser {
     private static class Line {
         private final LineType type;
         private final Matcher m;
+
+        public enum LineType {
+            DIGRAPH,
+            NODE,
+            EDGE,
+            OTHER
+        }
     }
 
     /**
@@ -40,17 +40,17 @@ public class DotParser {
         Matcher nMatcher = nodePattern.matcher(line);
         Matcher eMatcher = edgePattern.matcher(line);
 
-        LineType type = LineType.OTHER;
+        Line.LineType type = Line.LineType.OTHER;
         Matcher matcher = null;
 
         if (dMatcher.find()) {
-           type = LineType.DIGRAPH;
+           type = Line.LineType.DIGRAPH;
            matcher = dMatcher;
         } else if (nMatcher.find()) {
-           type = LineType.NODE;
+           type = Line.LineType.NODE;
            matcher = nMatcher;
         } else if (eMatcher.find()) {
-            type = LineType.EDGE;
+            type = Line.LineType.EDGE;
             matcher = eMatcher;
         }
 
