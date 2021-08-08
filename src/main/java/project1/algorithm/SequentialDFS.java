@@ -55,7 +55,11 @@ public class SequentialDFS {
         for (Map.Entry<String, TaskScheduled> i : best.getCurrentSchedule().entrySet()) {
             String taskName = i.getKey();
             int processor = i.getValue().getProcessor();
-            taskGraph.getNodeMap().get(taskName).setProcessor(processor);
+            int startTime = i.getValue().getStartingTime();
+
+            Node n = taskGraph.getNodeMap().get(taskName);
+            n.setProcessor(processor);
+            n.setStart(startTime);
         }
 
         return best;
