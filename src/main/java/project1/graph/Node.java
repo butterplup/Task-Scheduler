@@ -13,6 +13,7 @@ public class Node {
     private String name;
     private List<Edge> edges;
     @Setter private int processor;
+    @Setter private int start;
     private HashMap<Node, Integer> incomingEdges=new HashMap<>();
     private HashMap<Node,Integer> outgoingEdges=new HashMap<>();
 
