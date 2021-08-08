@@ -14,9 +14,14 @@ public class Node {
     private List<Edge> edges;
     @Setter private int processor;
     @Setter private int start;
-    private HashMap<Node, Integer> incomingEdges=new HashMap<>();
-    private HashMap<Node,Integer> outgoingEdges=new HashMap<>();
+    private HashMap<Node, Integer> incomingEdges = new HashMap<>();
+    private HashMap<Node,Integer> outgoingEdges = new HashMap<>();
 
+    /**
+     * Constructor for a Node object
+     * @param value the value (weight) of the specified node
+     * @param nodeName the name of the node
+     */
     public Node(int value, String nodeName) {
         weight = value;
         name = nodeName;
