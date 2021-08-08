@@ -36,7 +36,13 @@ public class Parser {
 
         String st;
         while ((st = br.readLine()) != null) {
-            Line l = new Line(st);
+            Line l;
+
+            try {
+                l = new Line(st);
+            } catch (Line.UnknownSyntaxException e) {
+                break;
+            }
 
             // Skip if we don't recognise the line
             if (l.getType() == null) {

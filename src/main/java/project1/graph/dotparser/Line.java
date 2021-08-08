@@ -2,6 +2,7 @@ package project1.graph.dotparser;
 
 import lombok.Getter;
 
+import java.util.InputMismatchException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,7 +27,13 @@ public class Line {
         }
     }
 
-    public Line(String line){
+    public static class UnknownSyntaxException extends Exception {
+        public UnknownSyntaxException(String errorMessage) {
+            super(errorMessage);
+        }
+    }
+
+    public Line(String line) throws UnknownSyntaxException {
         // Patterns corresponding to LineType enum values
         for (LineType t : LineType.values()) {
             Matcher m = t.getPattern().matcher(line);
@@ -39,7 +46,6 @@ public class Line {
             }
         }
 
-        this.type = null;
-        this.matcher = null;
+        throw new UnknownSyntaxException(String.format("The line '%s' does not match any known syntax!", line));
     }
 }
