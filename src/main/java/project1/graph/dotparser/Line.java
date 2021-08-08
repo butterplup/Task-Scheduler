@@ -16,6 +16,9 @@ public class Line {
     private final LineType type;
     private final Matcher matcher;
 
+    /**
+     * LineTypes and their associated Regex patterns
+     */
     public enum LineType {
         DIGRAPH (digraphPattern),
         NODE (nodePattern),
@@ -27,12 +30,21 @@ public class Line {
         }
     }
 
+    /**
+     * An exception thrown by Line when the syntax of a line is unknown to the parser
+     */
     public static class UnknownSyntaxException extends Exception {
         public UnknownSyntaxException(String errorMessage) {
             super(errorMessage);
         }
     }
 
+    /**
+     * Build a Line object from a line in the .dot file
+     *
+     * @param line The line
+     * @throws UnknownSyntaxException When we don't know how to parse this line
+     */
     public Line(String line) throws UnknownSyntaxException {
         // Patterns corresponding to LineType enum values
         for (LineType t : LineType.values()) {
