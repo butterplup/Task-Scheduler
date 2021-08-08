@@ -1,53 +1,13 @@
-package project1.graph;
+package project1.graph.dotparser;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import project1.graph.Edge;
+import project1.graph.Graph;
+import project1.graph.Node;
 
 import java.util.HashMap;
 import java.io.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class DotParser {
-    // Regex patterns to match GraphViz content
-    private static final Pattern digraphPattern = Pattern.compile("digraph\\s*\"(.*)\" \\{");
-    private static final Pattern nodePattern = Pattern.compile("^\\s*([a-zA-Z0-9]*)\\s*\\[([a-zA-Z0-9=]*)]\\s*;");
-    private static final Pattern edgePattern = Pattern.compile("^\\s*([a-zA-Z0-9]*)\\s*->\\s*([a-zA-Z0-9]*)\\s*\\[([a-zA-Z0-9=]*)]\\s*;");
-
-    @Getter
-    @AllArgsConstructor
-    private static class Line {
-        private final LineType type;
-        private final Matcher m;
-
-        public enum LineType {
-            DIGRAPH, NODE, EDGE, OTHER
-        }
-    }
-
-    /**
-     * Takes a line and determines its type in addition to its Regex matcher object
-     * @param line Line to tokenize
-     *
-     * @return Line object
-     */
-    private static Line tokenize(String line) {
-        // Patterns corresponding to LineType enum values
-        Pattern[] patterns = {digraphPattern, nodePattern, edgePattern};
-
-        for (int i = 0; i < patterns.length; i++) {
-            Matcher m = patterns[i].matcher(line);
-
-            // If a matcher matches, return a Line object
-            if (m.find()) {
-                return new Line(Line.LineType.values()[i], m);
-            }
-        }
-
-        return new Line(Line.LineType.OTHER, null);
-    }
-
+public class Parser {
     /**
      * Convert an option string to a HashMap
      * @param optionString Option string from GraphViz file
@@ -76,15 +36,15 @@ public class DotParser {
 
         String st;
         while ((st = br.readLine()) != null) {
-            Line l = tokenize(st);
+            Line l = new Line(st);
 
             // Skip if we don't recognise the line
-            if (l.getType() == Line.LineType.OTHER) {
+            if (l.getType() == null) {
                 continue;
             }
 
             // Name of the node/digraph
-            String nodeName = l.getM().group(1);
+            String nodeName = l.getMatcher().group(1);
             // Option string as a hashmap
             HashMap<String, String> options;
 
@@ -96,15 +56,15 @@ public class DotParser {
 
                     break;
                 case NODE:
-                    options = optionsToHashmap(l.getM().group(2));
+                    options = optionsToHashmap(l.getMatcher().group(2));
 
                     int value = Integer.parseInt(options.get("Weight"));
                     graph.addNode(nodeName, value);
 
                     break;
                 case EDGE:
-                    String to = l.getM().group(2);
-                    options = optionsToHashmap(l.getM().group(3));
+                    String to = l.getMatcher().group(2);
+                    options = optionsToHashmap(l.getMatcher().group(3));
 
                     int weight = Integer.parseInt(options.get("Weight"));
                     graph.addEdge(weight, nodeName, to);

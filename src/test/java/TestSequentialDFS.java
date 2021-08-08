@@ -2,7 +2,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import project1.algorithm.Schedule;
 import project1.algorithm.SequentialDFS;
-import project1.graph.DotParser;
+import project1.graph.dotparser.Parser;
 import project1.graph.Graph;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.net.URL;
 public class TestSequentialDFS {
     private Schedule run(String resource, int processors) throws IOException {
         URL url = getClass().getResource(resource);
-        Graph g = DotParser.parse(url.getPath());
+        Graph g = Parser.parse(url.getPath());
         return SequentialDFS.generateOptimalSchedule(g, processors);
     }
 
