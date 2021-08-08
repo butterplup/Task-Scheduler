@@ -41,7 +41,7 @@ public class Parser {
             try {
                 l = new Line(st);
             } catch (Line.UnknownSyntaxException e) {
-                break;
+                continue;
             }
 
             // Skip if we don't recognise the line
