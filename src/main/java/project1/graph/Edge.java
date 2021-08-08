@@ -1,16 +1,15 @@
 package project1.graph;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * An Edge in the Graph with a weight + start and end Nodes
+ */
 @Getter
+@AllArgsConstructor
 public class Edge {
-    private int weight;
-    private Node start;
-    private Node end;
-
-    public Edge(int value, Node startNode, Node endNode) {
-        weight = value;
-        start = startNode;
-        end = endNode;
-    }
+    private final int weight;
+    private final Node start;
+    private final Node end;
 }
