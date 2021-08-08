@@ -17,6 +17,10 @@ public class Schedule {
     private List<Integer> freeTime = new ArrayList<>();
     private int nodesVisited;
 
+    /**
+     * A constructor method which initialises an empty schedule.
+     * @param n Number of processors available to the schedule
+     */
     public Schedule(int n) {
         try {
             if (n < 1) {
@@ -32,6 +36,10 @@ public class Schedule {
         this.nodesVisited = 0;
     }
 
+    /**
+     * Creates a deep copy of a sub-schedule
+     * @param s A sub-schedule to be copied
+     */
     public Schedule(Schedule s) { //deep copy
         this.finishTime = s.getFinishTime();
         for (HashMap.Entry<String, TaskScheduled> i : s.getCurrentSchedule().entrySet()) {
@@ -56,6 +64,9 @@ public class Schedule {
         this.nodesVisited++;
     }
 
+    /**
+     * Prints a schedule to console.
+     */
     public void printSchedule() {
         for (HashMap.Entry<String, TaskScheduled> i : this.currentSchedule.entrySet()) {
             System.out.println(i.getKey() + " is scheduled to Processor " + i.getValue().getProcessor() + "," +
