@@ -44,11 +44,6 @@ public class Parser {
                 continue;
             }
 
-            // Skip if we don't recognise the line
-            if (l.getType() == null) {
-                continue;
-            }
-
             // Name of the node/digraph
             String nodeName = l.getMatcher().group(1);
             // Option string as a hashmap
