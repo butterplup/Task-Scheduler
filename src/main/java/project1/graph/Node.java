@@ -28,24 +28,6 @@ public class Node {
         edges = new ArrayList<>();
     }
 
-    /**
-     * Checks if a given node is pointed to by this node
-     * @param node the node to be checked
-     * @return whether the node is pointed to by this node
-     */
-    public boolean checkNode(Node node){
-        for(Edge cEdge: edges){
-            if(cEdge.getEnd().equals(node)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Add an edge
-     * @param edge the edge that this node is part of
-     */
     public void addEdge(Edge edge) {
         edges.add(edge);
     }

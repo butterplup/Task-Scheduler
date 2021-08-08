@@ -24,39 +24,6 @@ public class Graph {
     }
 
     /**
-     * Topologically sort the task graph in-place, producing a DAG
-     */
-    public void sort() {
-        // For every node excluding the last
-        for (int i = 0; i < nodes.size() - 1; i++){
-            Node cNode = nodes.get(i);
-            Node nNode = nodes.get(i+1);
-
-            for (int j = i; j < nodes.size(); j++) {
-                if (cNode.checkNode(nNode)) {
-                    swap(i, i + 1);
-
-                    // Reset outer loop
-                    i = -1;
-                    break;
-                }
-            }
-        }
-    }
-
-    /**
-     * Swap two nodes, given their indices in the nodes List
-     * @param indexA The index of the first node
-     * @param indexB The index of the second node
-     */
-    public void swap(int indexA, int indexB){
-        Node nodeA = nodes.get(indexA);
-        Node nodeB = nodes.get(indexB);
-        nodes.set(indexA, nodeB);
-        nodes.set(indexB, nodeA);
-    }
-
-    /**
      * Add a node to the graph
      * @param name Name of the node
      * @param value Weight of the node

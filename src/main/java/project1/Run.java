@@ -18,7 +18,6 @@ public class Run {
             String filename = argsParser.getFilename();
             Graph g = DotParser.parse(filename);
 
-            g.sort();
             Schedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount());
             s.printSchedule();
 
