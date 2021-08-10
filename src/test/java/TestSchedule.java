@@ -1,13 +1,4 @@
-import org.junit.Assert;
-import org.junit.Test;
 import project1.algorithm.Schedule;
-import project1.algorithm.TaskScheduled;
-import project1.graph.DotParser;
-import project1.graph.Graph;
-import project1.graph.Node;
-
-import java.io.IOException;
-import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
 

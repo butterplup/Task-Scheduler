@@ -1,6 +1,7 @@
 package project1.graph;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.HashMap;
  */
 @Getter
 public class Graph {
-    private String name;
+    @Setter private String name;
     private List<Edge> edges;
     private List<Node> nodes;
     private HashMap<String,Node> nodeMap;

@@ -1,7 +1,7 @@
 package project1;
 import project1.algorithm.Schedule;
 import project1.algorithm.SequentialDFS;
-import project1.graph.DotParser;
+import project1.graph.dotparser.Parser;
 import project1.graph.Graph;
 
 import java.io.IOException;
@@ -16,13 +16,13 @@ public class Run {
             ArgsParser argsParser = new ArgsParser(args);
 
             String filename = argsParser.getFilename();
-            Graph g = DotParser.parse(filename);
+            Graph g = Parser.parse(filename);
 
             Schedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount());
             s.printSchedule();
 
             String outputFilename = argsParser.getOutputFilename();
-            DotParser.saveToFile(g, outputFilename);
+            Parser.saveToFile(g, outputFilename);
 
         } catch (IOException e) {
             // Relays message of specific error as identified in the ArgsParser class
