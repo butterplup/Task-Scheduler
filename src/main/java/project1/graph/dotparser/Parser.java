@@ -2,31 +2,13 @@ package project1.graph.dotparser;
 
 import project1.graph.Edge;
 import project1.graph.Graph;
+import project1.graph.GraphObject;
 import project1.graph.Node;
 
 import java.util.HashMap;
 import java.io.*;
 
 public class Parser {
-    /**
-     * Convert an option string to a HashMap
-     * @param optionString Option string from GraphViz file
-     * @return HashMap representing options and their values
-     */
-    private static HashMap<String, String> optionsToHashmap(String optionString) {
-        HashMap<String, String> map = new HashMap<>();
-
-        for (String i: optionString.split(",")) {
-            String[] keyVal = i.split("=");
-            String key = keyVal[0].trim();
-            String value = keyVal[1].trim();
-
-            map.put(key, value);
-        }
-
-        return map;
-    }
-
     /**
      * Read a given file into a Graph object
      *
@@ -45,46 +27,12 @@ public class Parser {
         // Read line-by-line
         String st;
         while ((st = br.readLine()) != null) {
-            Line l;
-
             // Try to parse the line
             try {
-                l = new Line(st);
-            } catch (Line.UnknownSyntaxException e) {
+                GraphObject o = GraphObjectFactory.getGraphObject(st, graph.getNodeMap());
+                o.addTo(graph);
+            } catch (GraphObjectFactory.UnknownSyntaxException e) {
                 // Failing that, ignore the line
-                continue;
-            }
-
-            // Name of the node / digraph
-            String nodeName = l.getMatcher().group(1);
-            // Option string as a hashmap
-            HashMap<String, String> options;
-
-            switch (l.getType()) {
-                case DIGRAPH:
-                    // Override the graph name if a non-empty one is specified
-                    if (nodeName.trim().length() > 0) {
-                        graph.setName(nodeName);
-                    }
-
-                    break;
-                case NODE:
-                    // Extract node options
-                    options = optionsToHashmap(l.getMatcher().group(2));
-
-                    // Add the node to the graph
-                    int value = Integer.parseInt(options.get("Weight"));
-                    graph.addNode(nodeName, value);
-
-                    break;
-                case EDGE:
-                    // Extract the other party to this edge and edge options
-                    String to = l.getMatcher().group(2);
-                    options = optionsToHashmap(l.getMatcher().group(3));
-
-                    // Add the edge to the graph
-                    int weight = Integer.parseInt(options.get("Weight"));
-                    graph.addEdge(weight, nodeName, to);
             }
         }
 
