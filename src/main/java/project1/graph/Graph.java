@@ -13,9 +13,9 @@ import java.util.HashMap;
 @Getter
 public class Graph {
     @Setter private String name;
-    private List<Edge> edges;
-    private List<Node> nodes;
-    private HashMap<String,Node> nodeMap;
+    private final List<Edge> edges;
+    private final List<Node> nodes;
+    private final HashMap<String, Node> nodeMap;
 
     public Graph(String name) {
         edges = new ArrayList<>();
@@ -26,43 +26,28 @@ public class Graph {
 
     /**
      * Add a node to the graph
-     * @param name Name of the node
-     * @param value Weight of the node
+     * @param n Node to add
      */
-    public void addNode(String name, int value) {
-        //no duplicate nodes
-        if (!nodeMap.containsKey(name)) {
-            Node node = new Node(value, name);
-            nodes.add(node);
-            nodeMap.put(name, node);
+    public void addNode(Node n) {
+        // No duplicate nodes
+        if (!nodeMap.containsKey(n.getName())) {
+            nodes.add(n);
+            nodeMap.put(n.getName(), n);
         }
     }
 
     /**
      * Add an edge to the graph
-     * @param weight Weight of the edge
-     * @param start "From" Node
-     * @param end "To" Node
+     * @param e Edge to add
      */
-    public void addEdge(int weight, String start, String end) {
-        Node from = nodeMap.get(start);
-        Node to = nodeMap.get(end);
-        Edge edge = new Edge(weight, from, to);
-        edges.add(edge);
-        from.addEdge(edge);
-        //add incoming edge to node
-        to.getIncomingEdges().put(from,weight);
-        //add outgoing edge to node
-        from.getOutgoingEdges().put(to,weight);
-    }
+    public void addEdge(Edge e) {
+        // Add to edges in graph
+        edges.add(e);
 
-    /**
-     * Get a node, given its name
-     * @param value Name of the node as a String
-     * @return The Node
-     */
-    public Node getNode(String value) {
-        return nodeMap.get(value);
+        // Start to end
+        e.getStart().getOutgoingEdges().add(e);
+        // End from start
+        e.getEnd().getIncomingEdges().add(e);
     }
 
     /**

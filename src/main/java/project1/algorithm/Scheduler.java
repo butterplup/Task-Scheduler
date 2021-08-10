@@ -1,5 +1,6 @@
 package project1.algorithm;
 
+import project1.graph.Edge;
 import project1.graph.Node;
 
 import java.util.Deque;
@@ -47,15 +48,16 @@ public class Scheduler {
             Schedule possibility=new Schedule(this.current); //deep copy
             int startTime;
             int communicationCost = 0;
-            HashMap<Node, Integer> in = t.getIncomingEdges();
+            List<Edge> in = t.getIncomingEdges();
 
             // Find the earliest starting time on this processor p
-            for (HashMap.Entry<Node, Integer> i : in.entrySet()) {
-                Node pre = i.getKey(); //get parent node
+            for (Edge e : in) {
+                Node pre = e.getStart(); //get parent node
                 HashMap<String, TaskScheduled> scheduled = this.current.getCurrentSchedule(); //get current schedule
                 TaskScheduled predecessor = scheduled.get(pre.getName()); //lookup O(1)
+
                 if (predecessor.getProcessor() != index) { //communication cost
-                    communicationCost = Math.max(communicationCost, predecessor.getFinishTime() + i.getValue());
+                    communicationCost = Math.max(communicationCost, predecessor.getFinishTime() + e.getWeight());
                 }
             }
             startTime = Math.max(free, communicationCost);
@@ -84,18 +86,14 @@ public class Scheduler {
      * @return Returns true if the constraints are satisfied, false otherwise
      */
     private boolean checkTaskCanBeScheduled(Node t){
-        //A node that has no yet been scheduled
+        // Cannot reschedule
         if (checkTaskIsScheduled(t)){
             return false;
         }
+
         // THIS NODE'S PREDECESSORS MUST HAVE ALREADY BEEN SCHEDULED !!
-        HashMap<Node,Integer> incomingEdges=t.getIncomingEdges();
-        for (HashMap.Entry<Node, Integer> parent : incomingEdges.entrySet()) {
-            if (!checkTaskIsScheduled(parent.getKey())){
-                return false;
-            }
-        }
-        return true;
+        List<Edge> incomingEdges = t.getIncomingEdges();
+        return incomingEdges.stream().allMatch(e -> checkTaskIsScheduled(e.getStart()));
     }
 
     /**

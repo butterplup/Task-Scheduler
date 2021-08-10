@@ -8,8 +8,13 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public class Edge {
+public class Edge implements GraphObject {
     private final int weight;
     private final Node start;
     private final Node end;
+
+    @Override
+    public void addTo(Graph g) {
+        g.addEdge(this);
+    }
 }
