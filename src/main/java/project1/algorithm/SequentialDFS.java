@@ -32,22 +32,20 @@ public class SequentialDFS {
         // Empty schedule
         Scheduler s = new Scheduler(new Schedule(processorCount), taskGraph);
 
+        ThreadAnalytics ta = ThreadAnalytics.getInstance(processorCount);
+
         s.getTasksCanBeScheduled(taskGraph.getNodes())
                 .forEach(
                     n -> {
                         Schedule schedule = new Schedule(processorCount);
                         schedule.addTask(new TaskScheduled(n, 0, 0));
-                        new Scheduler(schedule, taskGraph).start();
+                        ta.addThread(new Scheduler(schedule, taskGraph));
                     }
         );
 
-        ThreadAnalytics ta = ThreadAnalytics.getInstance(processorCount);
-
         try {
             System.out.println("Waiting for notify()...");
-            synchronized (ta) {
-                ta.wait();
-            }
+            ta.waitTillDone();
             System.out.println("Done!");
         } catch (InterruptedException e) {
             throw new RuntimeException("Threads interrupted!");
