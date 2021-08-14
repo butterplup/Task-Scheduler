@@ -4,6 +4,7 @@ package project1.algorithm;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class Schedule {
     private int finishTime;
     private HashMap<String, TaskScheduled> currentSchedule = new HashMap<>();
-    private List<Integer> freeTime = new ArrayList<>();
+    private final List<Integer> freeTime;
     private int nodesVisited;
 
     /**
@@ -30,9 +31,7 @@ public class Schedule {
             System.out.println(e.getMessage());
         }
         this.finishTime = 0;
-        for (int i = 0; i < n; i++) {
-            this.freeTime.add(0);
-        }
+        this.freeTime = new ArrayList<>(Collections.nCopies(n, 0));
         this.nodesVisited = 0;
     }
 
@@ -42,12 +41,9 @@ public class Schedule {
      */
     public Schedule(Schedule s) { //deep copy
         this.finishTime = s.getFinishTime();
-        for (HashMap.Entry<String, TaskScheduled> i : s.getCurrentSchedule().entrySet()) {
-            this.currentSchedule.put(i.getKey(), i.getValue());
-        }
-
-        this.freeTime.addAll(s.getFreeTime());
         this.nodesVisited = s.getNodesVisited();
+        this.currentSchedule = new HashMap<>(s.getCurrentSchedule());
+        this.freeTime = new ArrayList<>(s.getFreeTime());
     }
 
     /**

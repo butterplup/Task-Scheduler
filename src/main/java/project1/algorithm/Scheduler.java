@@ -153,6 +153,6 @@ public class Scheduler extends Thread {
      * @return Returns true if this task hasn't been scheduled yet, false otherwise.
      */
     private boolean checkTaskIsScheduled(Node t){
-        return current.getCurrentSchedule().get(t.getName()) != null;
+        return current.getCurrentSchedule().containsKey(t.getName());
     }
 }
