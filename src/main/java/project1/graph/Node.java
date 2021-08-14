@@ -15,6 +15,7 @@ public class Node implements GraphObject {
     private final String name;
     @Setter private int processor;
     @Setter private int start;
+    @Setter private int id = 0;
 
     // Incoming and outgoing edges, set when an edge is added to the graph
     private final List<Edge> incomingEdges = new ArrayList<>();

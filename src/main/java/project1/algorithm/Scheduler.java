@@ -104,8 +104,8 @@ public class Scheduler extends Thread {
             // Find the earliest starting time on this processor p
             for (Edge e : in) {
                 Node pre = e.getStart(); //get parent node
-                HashMap<String, TaskScheduled> scheduled = this.current.getCurrentSchedule(); //get current schedule
-                TaskScheduled predecessor = scheduled.get(pre.getName()); //lookup O(1)
+                List<TaskScheduled> scheduled = this.current.getCurrentSchedule(); //get current schedule
+                TaskScheduled predecessor = scheduled.get(pre.getId()); //lookup O(1)
 
                 if (predecessor.getProcessor() != index) { //communication cost
                     communicationCost = Math.max(communicationCost, predecessor.getFinishTime() + e.getWeight());
@@ -153,6 +153,6 @@ public class Scheduler extends Thread {
      * @return Returns true if this task hasn't been scheduled yet, false otherwise.
      */
     private boolean checkTaskIsScheduled(Node t){
-        return current.getCurrentSchedule().containsKey(t.getName());
+        return current.getCurrentSchedule().get(t.getId()) != null;
     }
 }

@@ -31,6 +31,7 @@ public class Graph {
     public void addNode(Node n) {
         // No duplicate nodes
         if (!nodeMap.containsKey(n.getName())) {
+            n.setId(nodes.size());
             nodes.add(n);
             nodeMap.put(n.getName(), n);
         }

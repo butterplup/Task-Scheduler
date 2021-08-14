@@ -30,14 +30,14 @@ public class SequentialDFS {
         // Stack of schedules to be evaluated
         System.out.println("Start");
         // Empty schedule
-        Scheduler s = new Scheduler(new Schedule(processorCount), taskGraph);
+        Scheduler s = new Scheduler(new Schedule(processorCount, taskGraph.getTotalTasksCount()), taskGraph);
 
         ThreadAnalytics ta = ThreadAnalytics.getInstance(threads);
 
         s.getTasksCanBeScheduled(taskGraph.getNodes())
                 .forEach(
                     n -> {
-                        Schedule schedule = new Schedule(processorCount);
+                        Schedule schedule = new Schedule(processorCount, taskGraph.getTotalTasksCount());
                         schedule.addTask(new TaskScheduled(n, 0, 0));
                         ta.addThread(new Scheduler(schedule, taskGraph));
                     }
@@ -58,10 +58,10 @@ public class SequentialDFS {
         }
 
         // Annotate nodes in the task graph with the processor its scheduled on
-        for (Map.Entry<String, TaskScheduled> i : best.getCurrentSchedule().entrySet()) {
-            String taskName = i.getKey();
-            int processor = i.getValue().getProcessor();
-            int startTime = i.getValue().getStartingTime();
+        for (TaskScheduled i : best.getCurrentSchedule()) {
+            String taskName = i.getTaskNode().getName();
+            int processor = i.getProcessor();
+            int startTime = i.getStartingTime();
 
             Node n = taskGraph.getNodeMap().get(taskName);
             n.setProcessor(processor);
