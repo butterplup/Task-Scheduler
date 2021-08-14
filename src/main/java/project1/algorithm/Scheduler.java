@@ -35,12 +35,11 @@ public class Scheduler extends Thread {
     public void run() {
         ThreadAnalytics ta = ThreadAnalytics.getInstance(current.getFreeTime().size());
 
-        // Current best schedule and its finish time
-        Schedule best = this.current;
-        int bestFinishTime = Integer.MAX_VALUE;
+        // Current best schedule
+        Schedule best = null;
 
         Deque<Schedule> scheduleStack = new LinkedList<>();
-        scheduleStack.push(best);
+        scheduleStack.push(this.current);
 
         while (!scheduleStack.isEmpty()) {
             Schedule current = scheduleStack.pop();
@@ -48,7 +47,9 @@ public class Scheduler extends Thread {
             // If this schedule includes all nodes in the taskGraph
             if (current.getNodesVisited() == taskGraph.getTotalTasksCount()) {
                 best = current;
-                bestFinishTime = current.getFinishTime();
+
+                // Send this to ThreadAnalytics
+                ta.newScheduleTime(current.getFinishTime());
             } else {
                 // Otherwise, explore branches
                 Scheduler scheduler = new Scheduler(current, taskGraph);
@@ -56,8 +57,15 @@ public class Scheduler extends Thread {
                 // Get a list of tasks that can be scheduled next
                 Stream<Node> branches = scheduler.getTasksCanBeScheduled(taskGraph.getNodes());
 
+                int finalBestFinishTime;
+                // Enable pruning when we get a complete schedule from a thread
+                if (ta.hasGlobalBestTime()) {
+                    finalBestFinishTime = ta.getGlobalBestTime();
+                } else {
+                    finalBestFinishTime = Integer.MAX_VALUE;
+                }
+
                 // For each branch, add possible schedules to the stack
-                int finalBestFinishTime = bestFinishTime;
                 branches.forEach(branch ->
                         scheduler.scheduleTaskToProcessor(branch, finalBestFinishTime, scheduleStack)
                 );
@@ -65,7 +73,7 @@ public class Scheduler extends Thread {
 
             synchronized (ta) {
                 if (ta.numThreadsAlive() < ta.getThreadsNeeded() && scheduleStack.size() > 1) {
-                    // TODO: Increment thread counter here so multiple threads don't do this simultaneously
+                    // TODO: Move into ThreadAnalytics?
                     System.out.printf("Thread Split (%d/%d)%n", ta.numThreadsAlive(), ta.getThreadsNeeded());
 
                     // Take the element from the end

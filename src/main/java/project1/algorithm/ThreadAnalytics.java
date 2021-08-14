@@ -12,6 +12,8 @@ public class ThreadAnalytics {
     private final AtomicInteger threadsAlive = new AtomicInteger();
     @Getter private final int threadsNeeded;
     private final Queue<Scheduler> threadPool = new ConcurrentLinkedQueue<>();
+    // The best complete schedule length thus far
+    private AtomicInteger bestFinishTime;
 
     private ThreadAnalytics(int threadsNeeded) {
         this.threadsNeeded = threadsNeeded;
@@ -23,6 +25,26 @@ public class ThreadAnalytics {
         }
 
         return instance;
+    }
+
+    /* Threads call this when they have produced what
+        they believe to be a good schedule
+     */
+    public synchronized void newScheduleTime(int time) {
+        if (bestFinishTime == null || time < bestFinishTime.get()) {
+            if (bestFinishTime == null) {
+                bestFinishTime = new AtomicInteger();
+            }
+            bestFinishTime.set(time);
+        }
+    }
+
+    public boolean hasGlobalBestTime() {
+        return bestFinishTime != null;
+    }
+
+    public int getGlobalBestTime() {
+        return bestFinishTime.get();
     }
 
     public void addThread(Scheduler t) {
@@ -55,8 +77,10 @@ public class ThreadAnalytics {
         for (Scheduler t : threadPool) {
             // Get the schedule
             Schedule threadBest = t.getOutput();
-            if (best == null || best.getFinishTime() > threadBest.getFinishTime()) {
-                best = threadBest;
+            if (threadBest != null) {
+                if (best == null || best.getFinishTime() > threadBest.getFinishTime()) {
+                    best = threadBest;
+                }
             }
         }
 
