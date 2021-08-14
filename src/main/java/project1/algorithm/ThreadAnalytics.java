@@ -13,34 +13,33 @@ public class ThreadAnalytics {
     @Getter private final int threadsNeeded;
     private final Queue<Scheduler> threadPool = new ConcurrentLinkedQueue<>();
     // The best complete schedule length thus far
-    private AtomicInteger bestFinishTime;
+    private AtomicInteger bestFinishTime = new AtomicInteger(Integer.MAX_VALUE);
+    @Getter private Schedule bestSchedule;
 
     private ThreadAnalytics(int threadsNeeded) {
         this.threadsNeeded = threadsNeeded;
     }
 
     public static ThreadAnalytics getInstance(int threads) {
-        if (instance == null) {
-            instance = new ThreadAnalytics(threads);
-        }
-
+        instance = new ThreadAnalytics(threads);
         return instance;
     }
 
-    /* Threads call this when they have produced what
-        they believe to be a good schedule
+    public static ThreadAnalytics getInstance() {
+        return instance;
+    }
+
+    /* Threads call this when they have produced a
+        complete schedule.
      */
-    public synchronized void newScheduleTime(int time) {
+    public synchronized void newSchedule(int time, Schedule s) {
         if (bestFinishTime == null || time < bestFinishTime.get()) {
             if (bestFinishTime == null) {
                 bestFinishTime = new AtomicInteger();
             }
             bestFinishTime.set(time);
+            bestSchedule = s;
         }
-    }
-
-    public boolean hasGlobalBestTime() {
-        return bestFinishTime != null;
     }
 
     public int getGlobalBestTime() {
@@ -69,23 +68,5 @@ public class ThreadAnalytics {
                 t.join();
             }
         }
-    }
-
-    public Schedule getBestSchedule() {
-        Schedule best = null;
-
-        for (Scheduler t : threadPool) {
-            // Get the schedule
-            Schedule threadBest = t.getOutput();
-            if (threadBest != null) {
-                if (best == null || best.getFinishTime() > threadBest.getFinishTime()) {
-                    best = threadBest;
-                }
-            }
-        }
-
-        // Nullify the instance so it doesn't clash with consequent runs
-        instance = null;
-        return best;
     }
 }

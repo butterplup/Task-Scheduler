@@ -33,23 +33,17 @@ public class Scheduler extends Thread {
      * Given a node in the task graph, perform dfs
      */
     public void run() {
-        ThreadAnalytics ta = ThreadAnalytics.getInstance(current.getFreeTime().size());
-
-        // Current best schedule
-        Schedule best = null;
+        ThreadAnalytics ta = ThreadAnalytics.getInstance();
 
         Deque<Schedule> scheduleStack = new LinkedList<>();
         scheduleStack.push(this.current);
-
         while (!scheduleStack.isEmpty()) {
             Schedule current = scheduleStack.pop();
 
             // If this schedule includes all nodes in the taskGraph
             if (current.getNodesVisited() == taskGraph.getTotalTasksCount()) {
-                best = current;
-
                 // Send this to ThreadAnalytics
-                ta.newScheduleTime(current.getFinishTime());
+                ta.newSchedule(current.getFinishTime(), current);
             } else {
                 // Otherwise, explore branches
                 Scheduler scheduler = new Scheduler(current, taskGraph);
@@ -57,19 +51,12 @@ public class Scheduler extends Thread {
                 // Get a list of tasks that can be scheduled next
                 Stream<Node> branches = scheduler.getTasksCanBeScheduled(taskGraph.getNodes());
 
-                int finalBestFinishTime;
-                // Enable pruning when we get a complete schedule from a thread
-                if (ta.hasGlobalBestTime()) {
-                    finalBestFinishTime = ta.getGlobalBestTime();
-                } else {
-                    finalBestFinishTime = Integer.MAX_VALUE;
-                }
-
-                // For each branch, add possible schedules to the stack
+                // For each branch, add possible schedules to the stack, using global best time
                 branches.forEach(branch ->
-                        scheduler.scheduleTaskToProcessor(branch, finalBestFinishTime, scheduleStack)
+                        scheduler.scheduleTaskToProcessor(branch, ta.getGlobalBestTime(), scheduleStack)
                 );
             }
+
 
             synchronized (ta) {
                 if (ta.numThreadsAlive() < ta.getThreadsNeeded() && scheduleStack.size() > 1) {
@@ -85,7 +72,6 @@ public class Scheduler extends Thread {
         }
 
         ta.decThreadsAlive();
-        this.output = best;
     }
 
     /**

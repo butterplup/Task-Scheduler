@@ -26,13 +26,13 @@ public class SequentialDFS {
      *
      * @return The optimal Schedule
      */
-    public static Schedule generateOptimalSchedule(Graph taskGraph, int processorCount) {
+    public static Schedule generateOptimalSchedule(Graph taskGraph, int processorCount, int threads) {
         // Stack of schedules to be evaluated
         System.out.println("Start");
         // Empty schedule
         Scheduler s = new Scheduler(new Schedule(processorCount), taskGraph);
 
-        ThreadAnalytics ta = ThreadAnalytics.getInstance(processorCount);
+        ThreadAnalytics ta = ThreadAnalytics.getInstance(threads);
 
         s.getTasksCanBeScheduled(taskGraph.getNodes())
                 .forEach(
@@ -44,7 +44,7 @@ public class SequentialDFS {
         );
 
         try {
-            System.out.println("Waiting for notify()...");
+            System.out.println("Waiting...");
             ta.waitTillDone();
             System.out.println("Done!");
         } catch (InterruptedException e) {
