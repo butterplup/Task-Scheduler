@@ -51,6 +51,10 @@ public class ThreadAnalytics {
         t.start();
     }
 
+    public boolean threadNeeded() {
+        return threadsAlive.get() < threadsNeeded;
+    }
+
     public void decThreadsAlive() {
         this.threadsAlive.decrementAndGet();
     }

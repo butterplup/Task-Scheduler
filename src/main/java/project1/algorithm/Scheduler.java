@@ -57,15 +57,15 @@ public class Scheduler extends Thread {
                 );
             }
 
-
             synchronized (ta) {
-                if (ta.numThreadsAlive() < ta.getThreadsNeeded() && scheduleStack.size() > 1) {
-                    // TODO: Move into ThreadAnalytics?
+                if (ta.threadNeeded() && scheduleStack.size() > 1) {
                     System.out.printf("Thread Split (%d/%d)%n", ta.numThreadsAlive(), ta.getThreadsNeeded());
 
                     // Take the element from the end
                     Schedule split = scheduleStack.getLast();
                     scheduleStack.removeLast();
+
+                    // Make a new thread from that schedule
                     ta.addThread(new Scheduler(split, this.taskGraph));
                 }
             }
@@ -103,17 +103,20 @@ public class Scheduler extends Thread {
 
             // Find the earliest starting time on this processor p
             for (Edge e : in) {
-                Node pre = e.getStart(); //get parent node
-                List<TaskScheduled> scheduled = this.current.getCurrentSchedule(); //get current schedule
-                TaskScheduled predecessor = scheduled.get(pre.getId()); //lookup O(1)
+                Node pre = e.getStart(); // Get parent node
+
+                List<TaskScheduled> scheduled = this.current.getCurrentSchedule();
+                TaskScheduled predecessor = scheduled.get(pre.getId());
 
                 if (predecessor.getProcessor() != index) { //communication cost
                     communicationCost = Math.max(communicationCost, predecessor.getFinishTime() + e.getWeight());
                 }
             }
+
             startTime = Math.max(free, communicationCost);
             TaskScheduled scheduled = new TaskScheduled(t, startTime, index);
             possibility.addTask(scheduled);
+
             //Only add to Schedule to stack if its finish time<current best "complete" schedule
             if (possibility.getFinishTime() < best) {
                 scheduleStack.push(possibility);
