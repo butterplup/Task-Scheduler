@@ -59,8 +59,6 @@ public class Scheduler extends Thread {
 
             synchronized (ta) {
                 if (ta.threadNeeded() && scheduleStack.size() > 1) {
-                    System.out.printf("Thread Split (%d/%d)%n", ta.numThreadsAlive(), ta.getThreadsNeeded());
-
                     // Take the element from the end
                     Schedule split = scheduleStack.getLast();
                     scheduleStack.removeLast();

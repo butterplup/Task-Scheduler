@@ -57,6 +57,8 @@ public class SequentialDFS {
             throw new RuntimeException("No schedules generated!");
         }
 
+        System.out.printf("Thread starts: %d%n", ta.numThreadsSpawned());
+
         // Annotate nodes in the task graph with the processor its scheduled on
         for (TaskScheduled i : best.getCurrentSchedule()) {
             String taskName = i.getTaskNode().getName();

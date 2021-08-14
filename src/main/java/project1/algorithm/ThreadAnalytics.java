@@ -10,6 +10,8 @@ public class ThreadAnalytics {
     private static ThreadAnalytics instance;
 
     private final AtomicInteger threadsAlive = new AtomicInteger();
+    // Track the number of thread starts over the lifetime of this object
+    private final AtomicInteger threadsSpawned = new AtomicInteger();
     @Getter private final int threadsNeeded;
     private final Queue<Scheduler> threadPool = new ConcurrentLinkedQueue<>();
     // The best complete schedule length thus far
@@ -49,6 +51,7 @@ public class ThreadAnalytics {
             System.out.println("WARNING: Processor overprovision!");
         }
         t.start();
+        this.threadsSpawned.incrementAndGet();
     }
 
     public boolean threadNeeded() {
@@ -61,6 +64,10 @@ public class ThreadAnalytics {
 
     public int numThreadsAlive() {
         return this.threadsAlive.get();
+    }
+
+    public int numThreadsSpawned() {
+        return this.threadsSpawned.get();
     }
 
     public void waitTillDone() throws InterruptedException {

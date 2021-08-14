@@ -12,7 +12,7 @@ public class TestSequentialDFS {
     private Schedule run(String resource, int processors) throws IOException {
         URL url = getClass().getResource(resource);
         Graph g = Parser.parse(url.getPath());
-        return SequentialDFS.generateOptimalSchedule(g, processors, 6);
+        return SequentialDFS.generateOptimalSchedule(g, processors, 4);
     }
 
     @Test
