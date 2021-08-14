@@ -1,10 +1,13 @@
 package project1.algorithm;
 
+import lombok.Getter;
 import project1.graph.Edge;
+import project1.graph.Graph;
 import project1.graph.Node;
 
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -12,15 +15,69 @@ import java.util.stream.Stream;
  * A scheduler for each sub-schedule is responsible for scheduling more
  * task nodes to the current sub-schedule.
  */
-public class Scheduler {
-    private Schedule current;
+public class Scheduler extends Thread {
+    private final Schedule current;
+    @Getter private Schedule output;
+    private final Graph taskGraph;
 
     /**
      * Constructor method for scheduler, creates a scheduler for the Schedule object passed in.
      * @param c A Schedule object to be added with more tasks.
      */
-    public Scheduler(Schedule c) {
-        this.current=c;
+    public Scheduler(Schedule c, Graph taskGraph) {
+        this.current = c;
+        this.taskGraph = taskGraph;
+    }
+
+    /**
+     * Given a node in the task graph, perform dfs
+     */
+    public void run() {
+        ThreadAnalytics ta = ThreadAnalytics.getInstance(current.getFreeTime().size());
+        ta.addThread(this);
+
+        // Current best schedule and its finish time
+        Schedule best = this.current;
+        int bestFinishTime = Integer.MAX_VALUE;
+
+        Deque<Schedule> scheduleStack = new LinkedList<>();
+        scheduleStack.push(best);
+
+        while (!scheduleStack.isEmpty()) {
+            Schedule current = scheduleStack.pop();
+
+            // If this schedule includes all nodes in the taskGraph
+            if (current.getNodesVisited() == taskGraph.getTotalTasksCount()) {
+                best = current;
+                bestFinishTime = current.getFinishTime();
+            } else {
+                // Otherwise, explore branches
+                Scheduler scheduler = new Scheduler(current, taskGraph);
+
+                // Get a list of tasks that can be scheduled next
+                Stream<Node> branches = scheduler.getTasksCanBeScheduled(taskGraph.getNodes());
+
+                // For each branch, add possible schedules to the stack
+                int finalBestFinishTime = bestFinishTime;
+                branches.forEach(branch ->
+                        scheduler.scheduleTaskToProcessor(branch, finalBestFinishTime, scheduleStack)
+                );
+            }
+
+            if (ta.numThreadsAlive() < ta.getThreadsNeeded() && scheduleStack.size() > 1) {
+                // TODO: Increment thread counter here so multiple threads don't do this simultaneously
+                System.out.printf("Thread Split (%d/%d)", ta.numThreadsAlive(), ta.getThreadsNeeded());
+                // Take the element from the end
+                Schedule split = scheduleStack.getLast();
+                scheduleStack.removeLast();
+
+                // Spin up a new thread
+                new Scheduler(split, this.taskGraph).start();
+            }
+        }
+
+        ta.decThreadsAlive();
+        this.output = best;
     }
 
     /**

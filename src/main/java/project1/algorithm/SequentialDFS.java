@@ -3,9 +3,11 @@ package project1.algorithm;
 import project1.graph.Graph;
 import project1.graph.Node;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Stream;
 
 /**
@@ -24,35 +26,37 @@ public class SequentialDFS {
      *
      * @return The optimal Schedule
      */
-    public static Schedule generateOptimalSchedule(Graph taskGraph, int processorCount){
-        // Current best schedule and its finish time
-        Schedule best = new Schedule(processorCount);
-        int bestFinishTime = Integer.MAX_VALUE;
-
+    public static Schedule generateOptimalSchedule(Graph taskGraph, int processorCount) {
         // Stack of schedules to be evaluated
-        Deque<Schedule> scheduleStack = new LinkedList<>();
-        scheduleStack.push(best);
+        System.out.println("Start");
+        // Empty schedule
+        Scheduler s = new Scheduler(new Schedule(processorCount), taskGraph);
 
-        while (!scheduleStack.isEmpty()) {
-            Schedule current = scheduleStack.pop();
+        s.getTasksCanBeScheduled(taskGraph.getNodes())
+                .forEach(
+                    n -> {
+                        Schedule schedule = new Schedule(processorCount);
+                        schedule.addTask(new TaskScheduled(n, 0, 0));
+                        new Scheduler(schedule, taskGraph).start();
+                    }
+        );
 
-            // If this schedule includes all nodes in the taskGraph
-            if (current.getNodesVisited() == taskGraph.getTotalTasksCount()) {
-                best = current;
-                bestFinishTime = current.getFinishTime();
-            } else {
-                // Otherwise, explore branches
-                Scheduler scheduler = new Scheduler(current);
+        ThreadAnalytics ta = ThreadAnalytics.getInstance(processorCount);
 
-                // Get a list of tasks that can be scheduled next
-                Stream<Node> branches = scheduler.getTasksCanBeScheduled(taskGraph.getNodes());
-
-                // For each branch, add possible schedules to the stack
-                int finalBestFinishTime = bestFinishTime;
-                branches.forEach(branch ->
-                        scheduler.scheduleTaskToProcessor(branch, finalBestFinishTime, scheduleStack)
-                );
+        try {
+            System.out.println("Waiting for notify()...");
+            synchronized (ta) {
+                ta.wait();
             }
+            System.out.println("Done!");
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Threads interrupted!");
+        }
+
+        Schedule best = ta.getBestSchedule();
+
+        if (best == null) {
+            throw new RuntimeException("No schedules generated!");
         }
 
         // Annotate nodes in the task graph with the processor its scheduled on
