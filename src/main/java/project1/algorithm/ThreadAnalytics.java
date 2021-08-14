@@ -3,18 +3,15 @@ package project1.algorithm;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
 
 import lombok.Getter;
-import lombok.Setter;
 
 public class ThreadAnalytics {
     private static ThreadAnalytics instance;
 
-    private AtomicInteger threadsAlive = new AtomicInteger();
+    private final AtomicInteger threadsAlive = new AtomicInteger();
     @Getter private final int threadsNeeded;
-    private Queue<Scheduler> threadPool = new ConcurrentLinkedQueue<>();
+    private final Queue<Scheduler> threadPool = new ConcurrentLinkedQueue<>();
 
     private ThreadAnalytics(int threadsNeeded) {
         this.threadsNeeded = threadsNeeded;
@@ -30,42 +27,41 @@ public class ThreadAnalytics {
 
     public void addThread(Scheduler t) {
         this.threadPool.add(t);
-        this.threadsAlive.incrementAndGet();
-        System.out.printf("%d threads %n", threadsAlive.get());
+        if (this.threadsAlive.incrementAndGet() > threadsNeeded) {
+            System.out.println("WARNING: Processor overprovision!");
+        }
+        t.start();
     }
 
     public void decThreadsAlive() {
-        if (this.threadsAlive.decrementAndGet() == 0) {
-            System.out.println("Notifying...");
-            synchronized (instance) {
-                instance.notifyAll();
-            }
-        }
-        System.out.printf("%d threads %n", threadsAlive.get());
+        this.threadsAlive.decrementAndGet();
     }
 
     public int numThreadsAlive() {
         return this.threadsAlive.get();
     }
 
+    public void waitTillDone() throws InterruptedException {
+        while (threadsAlive.get() > 0) {
+            for (Thread t : threadPool) {
+                t.join();
+            }
+        }
+    }
+
     public Schedule getBestSchedule() {
         Schedule best = null;
 
         for (Scheduler t : threadPool) {
-            try {
-                // Wait until done
-                t.join();
-                // Get the schedule
-                Schedule threadBest = t.getOutput();
-                if (best == null || best.getFinishTime() > threadBest.getFinishTime()) {
-                    best = threadBest;
-                }
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            // Get the schedule
+            Schedule threadBest = t.getOutput();
+            if (best == null || best.getFinishTime() > threadBest.getFinishTime()) {
+                best = threadBest;
             }
         }
 
+        // Nullify the instance so it doesn't clash with consequent runs
+        instance = null;
         return best;
     }
 }
