@@ -7,16 +7,15 @@ import project1.graph.Node;
 /**
  * This class represents a node/task after it has been scheduled to
  * a processor.
- *
- * task      Task node that appears in a schedule/sub-schedule.
- * start     The time when the task node will start its job
- * processor The processor which the task node is assigned to.
  */
 @Getter
 @AllArgsConstructor
 public class TaskScheduled {
+    // Task node that appears in a schedule/sub-schedule.
     final Node taskNode;
+    // The time when the task node will start its job.
     final int startingTime;
+    // The processor which the task node is assigned to.
     final int processor;
 
     /**

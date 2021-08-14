@@ -23,6 +23,7 @@ public class SequentialDFS {
      * Generate an optimal schedule
      * @param taskGraph Task graph, given as a DAG
      * @param processorCount The number of processors to schedule for
+     * @param threads Number of parallel threads to be run
      *
      * @return The optimal Schedule
      */

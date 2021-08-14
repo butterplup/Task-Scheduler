@@ -23,6 +23,7 @@ public class Scheduler extends Thread {
     /**
      * Constructor method for scheduler, creates a scheduler for the Schedule object passed in.
      * @param c A Schedule object to be added with more tasks.
+     * @param taskGraph The Graph object representing the task graph to generate schedules for.
      */
     public Scheduler(Schedule c, Graph taskGraph) {
         this.current = c;
@@ -30,7 +31,7 @@ public class Scheduler extends Thread {
     }
 
     /**
-     * Given a node in the task graph, perform dfs
+     * Given a node in the task graph, perform DFS on it.
      */
     public void run() {
         ThreadAnalytics ta = ThreadAnalytics.getInstance();
@@ -68,15 +69,15 @@ public class Scheduler extends Thread {
                 }
             }
         }
-
+        // Thread has finished, decrease it from count of live threads
         ta.decThreadsAlive();
     }
 
     /**
-     * Generate all possible schedules when task t is scheduled
-     * @param t task to be scheduled
-     * @param best current best finish time of a complete schedule
-     * @param scheduleStack All generated schedules will be added to the current schedule stack
+     * Generate all possible schedules when task t is scheduled.
+     * @param t task to be scheduled.
+     * @param best current best finish time of a complete schedule.
+     * @param scheduleStack All generated schedules will be added to the current schedule stack.
      */
     public void scheduleTaskToProcessor(Node t,int best, Deque<Schedule> scheduleStack) { //current schedule+node t
         boolean foundEmpty = false;
@@ -135,7 +136,7 @@ public class Scheduler extends Thread {
     /**
      * Checks if a task satisfies the scheduling constraints and is ready to be scheduled.
      * @param t The task node to check if constraints are satisfied.
-     * @return Returns true if the constraints are satisfied, false otherwise
+     * @return Returns true if the constraints are satisfied, false otherwise.
      */
     private boolean checkTaskCanBeScheduled(Node t){
         // Cannot reschedule
@@ -150,7 +151,7 @@ public class Scheduler extends Thread {
 
     /**
      * Checks if a task has already been scheduled to the current schedule.
-     * @param t The task node to check
+     * @param t The task node to check.
      * @return Returns true if this task hasn't been scheduled yet, false otherwise.
      */
     private boolean checkTaskIsScheduled(Node t){
