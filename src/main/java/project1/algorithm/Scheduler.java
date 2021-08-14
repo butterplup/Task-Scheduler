@@ -34,7 +34,6 @@ public class Scheduler extends Thread {
      */
     public void run() {
         ThreadAnalytics ta = ThreadAnalytics.getInstance(current.getFreeTime().size());
-        ta.addThread(this);
 
         // Current best schedule and its finish time
         Schedule best = this.current;
@@ -64,15 +63,16 @@ public class Scheduler extends Thread {
                 );
             }
 
-            if (ta.numThreadsAlive() < ta.getThreadsNeeded() && scheduleStack.size() > 1) {
-                // TODO: Increment thread counter here so multiple threads don't do this simultaneously
-                System.out.printf("Thread Split (%d/%d)", ta.numThreadsAlive(), ta.getThreadsNeeded());
-                // Take the element from the end
-                Schedule split = scheduleStack.getLast();
-                scheduleStack.removeLast();
+            synchronized (ta) {
+                if (ta.numThreadsAlive() < ta.getThreadsNeeded() && scheduleStack.size() > 1) {
+                    // TODO: Increment thread counter here so multiple threads don't do this simultaneously
+                    System.out.printf("Thread Split (%d/%d)%n", ta.numThreadsAlive(), ta.getThreadsNeeded());
 
-                // Spin up a new thread
-                new Scheduler(split, this.taskGraph).start();
+                    // Take the element from the end
+                    Schedule split = scheduleStack.getLast();
+                    scheduleStack.removeLast();
+                    ta.addThread(new Scheduler(split, this.taskGraph));
+                }
             }
         }
 
