@@ -35,7 +35,7 @@ public class ArgsParser {
      * @param args - the cmd line arguments
      * @throws IOException - when cmd line args do not meet expected format
      */
-    ArgsParser(String[] args) throws IOException {
+    public ArgsParser(String[] args) throws IOException {
 
         if (args.length < 2) {
             throw new IOException("Mandatory arguments missing, see usage");
