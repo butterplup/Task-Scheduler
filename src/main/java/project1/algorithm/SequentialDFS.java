@@ -30,15 +30,12 @@ public class SequentialDFS {
     public static Schedule generateOptimalSchedule(Graph taskGraph, int processorCount, int threads) {
         // Stack of schedules to be evaluated
         System.out.println("Start");
-        // Empty schedule
-        Scheduler s = new Scheduler(new Schedule(processorCount, taskGraph.getTotalTasksCount()), taskGraph);
-
         ThreadAnalytics ta = ThreadAnalytics.getInstance(threads);
 
-        s.getInitialTasks()
+        new Schedule(processorCount, taskGraph.getNodes()).getSchedulable()
                 .forEach(
                     n -> {
-                        Schedule schedule = new Schedule(processorCount, taskGraph.getTotalTasksCount());
+                        Schedule schedule = new Schedule(processorCount, taskGraph.getNodes());
                         schedule.addTask(new TaskScheduled(n, 0, 0));
                         ta.addThread(new Scheduler(schedule, taskGraph));
                     }

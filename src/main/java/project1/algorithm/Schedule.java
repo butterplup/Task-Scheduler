@@ -6,6 +6,7 @@ import project1.graph.Edge;
 import project1.graph.Node;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * A Schedule object holds information for tasks in the current Schedule and the processors used.
@@ -15,7 +16,7 @@ public class Schedule {
     private int finishTime;
     // List of TaskScheduled, indexed by node id
     private final List<TaskScheduled> currentSchedule;
-    private final List<Boolean> isSchedulable;
+    private final List<Node> schedulable;
     private final List<Integer> freeTime;
     private int nodesVisited;
 
@@ -23,7 +24,7 @@ public class Schedule {
      * A constructor method which initialises an empty schedule.
      * @param n Number of processors available to the schedule
      */
-    public Schedule(int n, int nodes) {
+    public Schedule(int n, List<Node> nodes) {
         try {
             if (n < 1) {
                 throw new IllegalArgumentException("Can not generate a schedule when the number of processors is less than 1.");
@@ -33,8 +34,10 @@ public class Schedule {
         }
 
         this.finishTime = 0;
-        this.currentSchedule = new ArrayList<>(Collections.nCopies(nodes, null));
-        this.isSchedulable = new ArrayList<>(Collections.nCopies(nodes, false));
+        this.currentSchedule = new ArrayList<>(Collections.nCopies(nodes.size(), null));
+        this.schedulable = new ArrayList<>();
+        nodes.stream().filter(node -> node.getIncomingEdges().size() == 0).forEach(this.schedulable::add);
+
         this.freeTime = new ArrayList<>(Collections.nCopies(n, 0));
         this.nodesVisited = 0;
     }
@@ -47,7 +50,7 @@ public class Schedule {
         this.finishTime = s.getFinishTime();
         this.nodesVisited = s.getNodesVisited();
         this.currentSchedule = new ArrayList<>(s.currentSchedule);
-        this.isSchedulable = new ArrayList<>(s.isSchedulable);
+        this.schedulable = new ArrayList<>(s.schedulable);
         this.freeTime = new ArrayList<>(s.getFreeTime());
     }
 
@@ -58,7 +61,7 @@ public class Schedule {
     public void addTask(TaskScheduled s) {
         this.currentSchedule.set(s.getTaskNode().getId(), s);
         // Cannot reschedule
-        this.isSchedulable.set(s.getTaskNode().getId(), false);
+        this.schedulable.remove(s.getTaskNode());
 
         // Change the assigned processor's earliest start time
         this.freeTime.set(s.getProcessor(), s.getFinishTime());
@@ -70,13 +73,15 @@ public class Schedule {
         for (Edge e : s.getTaskNode().getOutgoingEdges()) {
             Node n = e.getEnd();
 
-            // If the node was previously inviable, check if it is now
-            if (!this.isSchedulable.get(n.getId())) {
-                boolean schedulable = n.getIncomingEdges().stream().allMatch(
+            if (currentSchedule.get(n.getId()) == null && !this.schedulable.contains(n)) {
+                // If the node was previously inviable, check if it is now
+                boolean canSchedule = n.getIncomingEdges().stream().allMatch(
                         inEdge -> this.currentSchedule.get(inEdge.getStart().getId()) != null
                 );
 
-                this.isSchedulable.set(n.getId(), schedulable);
+                if (canSchedule) {
+                    schedulable.add(n);
+                }
             }
         }
 

@@ -50,7 +50,7 @@ public class Scheduler extends Thread {
                 Scheduler scheduler = new Scheduler(current, taskGraph);
 
                 // Get a list of tasks that can be scheduled next
-                Stream<Node> branches = scheduler.getTasksCanBeScheduled();
+                List<Node> branches = scheduler.getTasksCanBeScheduled();
 
                 // For each branch, add possible schedules to the stack, using global best time
                 branches.forEach(branch ->
@@ -124,18 +124,10 @@ public class Scheduler extends Thread {
     }
 
     /**
-     * This method finds the tasks which can be run on an empty schedule (no incoming edges).
-     * @return A Stream of Nodes that can be scheduled
-     */
-    public Stream<Node> getInitialTasks(){
-        return taskGraph.getNodes().stream().filter(n -> n.getIncomingEdges().size() == 0);
-    }
-
-    /**
      *
      */
-    private Stream<Node> getTasksCanBeScheduled() {
-        return taskGraph.getNodes().stream().filter(n -> current.getIsSchedulable().get(n.getId()));
+    private List<Node> getTasksCanBeScheduled() {
+        return current.getSchedulable();
     }
 
     /**
