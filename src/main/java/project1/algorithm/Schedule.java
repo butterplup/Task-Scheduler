@@ -15,9 +15,9 @@ import java.util.stream.Stream;
 public class Schedule {
     private int finishTime;
     // List of TaskScheduled, indexed by node id
-    private final List<TaskScheduled> currentSchedule;
+    private final TaskScheduled[] currentSchedule;
+    private final int[] freeTime;
     private final List<Node> schedulable;
-    private final List<Integer> freeTime;
     private int nodesVisited;
 
     /**
@@ -34,11 +34,11 @@ public class Schedule {
         }
 
         this.finishTime = 0;
-        this.currentSchedule = new ArrayList<>(Collections.nCopies(nodes.size(), null));
-        this.schedulable = new ArrayList<>();
+        this.currentSchedule = new TaskScheduled[nodes.size()];
+        this.schedulable = new LinkedList<>();
         nodes.stream().filter(node -> node.getIncomingEdges().size() == 0).forEach(this.schedulable::add);
 
-        this.freeTime = new ArrayList<>(Collections.nCopies(n, 0));
+        this.freeTime = new int[n];
         this.nodesVisited = 0;
     }
 
@@ -49,9 +49,9 @@ public class Schedule {
     public Schedule(Schedule s) { //deep copy
         this.finishTime = s.getFinishTime();
         this.nodesVisited = s.getNodesVisited();
-        this.currentSchedule = new ArrayList<>(s.currentSchedule);
-        this.schedulable = new ArrayList<>(s.schedulable);
-        this.freeTime = new ArrayList<>(s.getFreeTime());
+        this.currentSchedule = s.currentSchedule.clone();
+        this.schedulable = new LinkedList<>(s.schedulable);
+        this.freeTime = s.freeTime.clone();
     }
 
     /**
@@ -59,12 +59,12 @@ public class Schedule {
      * @param s A newly scheduled task object.
      */
     public void addTask(TaskScheduled s) {
-        this.currentSchedule.set(s.getTaskNode().getId(), s);
+        this.currentSchedule[s.getTaskNode().getId()] = s;
         // Cannot reschedule
         this.schedulable.remove(s.getTaskNode());
 
         // Change the assigned processor's earliest start time
-        this.freeTime.set(s.getProcessor(), s.getFinishTime());
+        this.freeTime[s.getProcessor()] = s.getFinishTime();
         if (s.getFinishTime() > this.finishTime) {
             this.finishTime = s.getFinishTime(); //schedule's finish time
         }
@@ -73,10 +73,10 @@ public class Schedule {
         for (Edge e : s.getTaskNode().getOutgoingEdges()) {
             Node n = e.getEnd();
 
-            if (currentSchedule.get(n.getId()) == null && !this.schedulable.contains(n)) {
+            if (currentSchedule[n.getId()] == null && !this.schedulable.contains(n)) {
                 // If the node was previously inviable, check if it is now
                 boolean canSchedule = n.getIncomingEdges().stream().allMatch(
-                        inEdge -> this.currentSchedule.get(inEdge.getStart().getId()) != null
+                        inEdge -> this.currentSchedule[inEdge.getStart().getId()] != null
                 );
 
                 if (canSchedule) {

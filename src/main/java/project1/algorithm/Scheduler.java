@@ -104,8 +104,8 @@ public class Scheduler extends Thread {
             for (Edge e : in) {
                 Node pre = e.getStart(); // Get parent node
 
-                List<TaskScheduled> scheduled = this.current.getCurrentSchedule();
-                TaskScheduled predecessor = scheduled.get(pre.getId());
+                TaskScheduled[] scheduled = this.current.getCurrentSchedule();
+                TaskScheduled predecessor = scheduled[pre.getId()];
 
                 if (predecessor.getProcessor() != index) { //communication cost
                     communicationCost = Math.max(communicationCost, predecessor.getFinishTime() + e.getWeight());
@@ -128,14 +128,5 @@ public class Scheduler extends Thread {
      */
     private List<Node> getTasksCanBeScheduled() {
         return current.getSchedulable();
-    }
-
-    /**
-     * Checks if a task has already been scheduled to the current schedule.
-     * @param t The task node to check.
-     * @return Returns true if this task hasn't been scheduled yet, false otherwise.
-     */
-    private boolean checkTaskIsScheduled(Node t){
-        return current.getCurrentSchedule().get(t.getId()) != null;
     }
 }
