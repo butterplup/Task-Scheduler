@@ -8,6 +8,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -32,14 +33,33 @@ public class SequentialDFS {
         System.out.println("Start");
         ThreadAnalytics ta = ThreadAnalytics.getInstance(threads);
 
-        new Schedule(processorCount, taskGraph.getNodes()).getSchedulable()
-                .forEach(
-                    n -> {
-                        Schedule schedule = new Schedule(processorCount, taskGraph.getNodes());
-                        schedule.addTask(new TaskScheduled(n, 0, 0));
-                        ta.addThread(new Scheduler(schedule, taskGraph));
-                    }
-        );
+        List<Node> initNodes = new Schedule(processorCount, taskGraph.getNodes()).getSchedulable();
+        Stream<Schedule> initSchedules = initNodes.stream().map(n -> {
+            Schedule schedule = new Schedule(processorCount, taskGraph.getNodes());
+            schedule.addTask(new TaskScheduled(n, 0, 0));
+
+            return schedule;
+        });
+
+        DFSThread[] threadPool = new DFSThread[threads];
+        for (int i = 0; i < threads; i++) {
+            threadPool[i] = new DFSThread(taskGraph);
+        }
+
+        // Circle the thread pool until we're out of schedules
+        int i = 0;
+        for (Schedule s : initSchedules.collect(Collectors.toCollection(LinkedList::new))) {
+            threadPool[i].scheduleStack.push(s);
+            i += 1;
+            i %= threads;
+        }
+
+        for (DFSThread d : threadPool) {
+            // Only spawn threads with a non-empty stack
+            if (d.scheduleStack.size() > 0) {
+                ta.addThread(d);
+            }
+        }
 
         try {
             System.out.println("Waiting...");
@@ -58,10 +78,10 @@ public class SequentialDFS {
         System.out.printf("Thread starts: %d%n", ta.numThreadsSpawned());
 
         // Annotate nodes in the task graph with the processor its scheduled on
-        for (TaskScheduled i : best.getCurrentSchedule()) {
-            String taskName = i.getTaskNode().getName();
-            int processor = i.getProcessor();
-            int startTime = i.getStartingTime();
+        for (TaskScheduled t : best.getCurrentSchedule()) {
+            String taskName = t.getTaskNode().getName();
+            int processor = t.getProcessor();
+            int startTime = t.getStartingTime();
 
             Node n = taskGraph.getNodeMap().get(taskName);
             n.setProcessor(processor);

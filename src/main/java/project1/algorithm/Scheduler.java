@@ -6,10 +6,7 @@ import project1.graph.Graph;
 import project1.graph.Node;
 
 import java.util.Deque;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * A scheduler for each sub-schedule is responsible for scheduling more
@@ -17,60 +14,14 @@ import java.util.stream.Stream;
  */
 public class Scheduler extends Thread {
     private final Schedule current;
-    @Getter private Schedule output;
-    private final Graph taskGraph;
 
     /**
      * Constructor method for scheduler, creates a scheduler for the Schedule object passed in.
      * @param c A Schedule object to be added with more tasks.
      * @param taskGraph The Graph object representing the task graph to generate schedules for.
      */
-    public Scheduler(Schedule c, Graph taskGraph) {
+    public Scheduler(Schedule c) {
         this.current = c;
-        this.taskGraph = taskGraph;
-    }
-
-    /**
-     * Given a node in the task graph, perform DFS on it.
-     */
-    public void run() {
-        ThreadAnalytics ta = ThreadAnalytics.getInstance();
-
-        Deque<Schedule> scheduleStack = new LinkedList<>();
-        scheduleStack.push(this.current);
-        while (!scheduleStack.isEmpty()) {
-            Schedule current = scheduleStack.pop();
-
-            // If this schedule includes all nodes in the taskGraph
-            if (current.getNodesVisited() == taskGraph.getTotalTasksCount()) {
-                // Send this to ThreadAnalytics
-                ta.newSchedule(current.getFinishTime(), current);
-            } else {
-                // Otherwise, explore branches
-                Scheduler scheduler = new Scheduler(current, taskGraph);
-
-                // Get a list of tasks that can be scheduled next
-                List<Node> branches = scheduler.getTasksCanBeScheduled();
-
-                // For each branch, add possible schedules to the stack, using global best time
-                branches.forEach(branch ->
-                        scheduler.scheduleTaskToProcessor(branch, ta.getGlobalBestTime(), scheduleStack)
-                );
-            }
-
-            synchronized (ta) {
-                if (ta.threadNeeded() && scheduleStack.size() > 1) {
-                    // Take the element from the end
-                    Schedule split = scheduleStack.getLast();
-                    scheduleStack.removeLast();
-
-                    // Make a new thread from that schedule
-                    ta.addThread(new Scheduler(split, this.taskGraph));
-                }
-            }
-        }
-        // Thread has finished, decrease it from count of live threads
-        ta.decThreadsAlive();
     }
 
     /**
@@ -126,7 +77,7 @@ public class Scheduler extends Thread {
     /**
      *
      */
-    private List<Node> getTasksCanBeScheduled() {
+    public List<Node> getTasksCanBeScheduled() {
         return current.getSchedulable();
     }
 }
