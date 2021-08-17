@@ -30,7 +30,7 @@ public class Scheduler extends Thread {
      * @param best current best finish time of a complete schedule.
      * @param scheduleStack All generated schedules will be added to the current schedule stack.
      */
-    public void scheduleTaskToProcessor(Node t,int best, Deque<Schedule> scheduleStack) { //current schedule+node t
+    public void scheduleTaskToProcessor(Node t, int best, Deque<Schedule> scheduleStack) { //current schedule+node t
         boolean foundEmpty = false;
 
         // Loop through all processors to find all possible schedules, every schedule is a potential solution
@@ -72,12 +72,5 @@ public class Scheduler extends Thread {
                 scheduleStack.push(possibility);
             }
         }
-    }
-
-    /**
-     *
-     */
-    public List<Node> getTasksCanBeScheduled() {
-        return current.getSchedulable();
     }
 }
