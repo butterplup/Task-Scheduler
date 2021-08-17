@@ -1,39 +1,49 @@
 package project1.graph.dotparser;
 
+import com.paypal.digraph.parser.GraphEdge;
+import com.paypal.digraph.parser.GraphNode;
+import com.paypal.digraph.parser.GraphParser;
 import project1.graph.Edge;
 import project1.graph.Graph;
-import project1.graph.GraphObject;
 import project1.graph.Node;
 
-import java.util.HashMap;
 import java.io.*;
 
 public class Parser {
     /**
-     * Read a given file into a Graph object
+     * Use the PayPal dot parser and convert it to our internal representaion.
      *
      * @param filename The .dot file to read in
      * @return The Graph object
      * @throws IOException When the file cannot be opened
      */
     public static Graph parse(String filename) throws IOException {
-        // Create a buffered reader from the specified file
-        File file = new File(filename);
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        GraphParser parser = new GraphParser(new FileInputStream(filename));
 
-        // Create an empty graph named "digraph"
+        // Create a graph object, removing trailing and leading double quotes
         Graph graph = new Graph("digraph");
 
-        // Read line-by-line
-        String st;
-        while ((st = br.readLine()) != null) {
-            // Try to parse the line
-            try {
-                GraphObject o = GraphObjectFactory.getGraphObject(st, graph.getNodeMap());
-                o.addTo(graph);
-            } catch (GraphObjectFactory.UnknownSyntaxException e) {
-                // Failing that, ignore the line
-            }
+        // Set name if non-empty
+        String name = parser.getGraphId().replaceAll("^\"|\"$", "");
+        if (name.length() > 0) {
+            graph.setName(name);
+        }
+
+        // Add all graph nodes
+        for (GraphNode n : parser.getNodes().values()) {
+            int weight = Integer.parseInt((String) n.getAttribute("Weight"));
+            Node newNode = new Node(weight, n.getId());
+            graph.addNode(newNode);
+        }
+
+        // Add all graph edges
+        for (GraphEdge e : parser.getEdges().values()) {
+            int weight = Integer.parseInt((String) e.getAttribute("Weight"));
+            Node start = graph.getNodeMap().get(e.getNode1().getId());
+            Node end = graph.getNodeMap().get(e.getNode2().getId());
+
+            Edge newEdge = new Edge(weight, start, end);
+            graph.addEdge(newEdge);
         }
 
         return graph;
