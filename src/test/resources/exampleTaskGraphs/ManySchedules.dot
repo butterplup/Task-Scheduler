@@ -1,0 +1,21 @@
+digraph "ManySchedules" {
+	0	 [Weight=50];
+	1	 [Weight=70];
+	2	 [Weight=90];
+	3	 [Weight=100];
+	4	 [Weight=40];
+	1 -> 2	 [Weight=6];
+	3 -> 2	 [Weight=5];
+	4 -> 2	 [Weight=10];
+	5	 [Weight=20];
+	1 -> 5	 [Weight=7];
+	6	 [Weight=100];
+	1 -> 6	 [Weight=5];
+	7	 [Weight=80];
+	2 -> 7	 [Weight=5];
+	8	 [Weight=50];
+	9	 [Weight=20];
+	10	 [Weight=20];
+	8 -> 9 [Weight=10];
+	8 -> 10 [Weight=5];
+}

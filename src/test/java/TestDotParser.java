@@ -90,4 +90,13 @@ public class TestDotParser {
         Assert.assertEquals(g.getEdges().size(), 6);
         Assert.assertEquals(g.getNodes().size(), 7);
     }
+
+    @Test
+    public void testGraphFunctions() throws IOException {
+        // Pull a graph with nodes from src/test/resources
+        URL graph = getClass().getResource("graph.dot");
+        Graph g = Parser.parse(graph.getPath());
+        g.print();
+        Assert.assertEquals(g.getTotalTasksCount(),7);
+    }
 }

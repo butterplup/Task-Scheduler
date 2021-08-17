@@ -18,7 +18,6 @@ public class Scheduler extends Thread {
     /**
      * Constructor method for scheduler, creates a scheduler for the Schedule object passed in.
      * @param c A Schedule object to be added with more tasks.
-     * @param taskGraph The Graph object representing the task graph to generate schedules for.
      */
     public Scheduler(Schedule c) {
         this.current = c;
@@ -67,7 +66,7 @@ public class Scheduler extends Thread {
             TaskScheduled scheduled = new TaskScheduled(t, startTime, index);
             possibility.addTask(scheduled);
 
-            //Only add to Schedule to stack if its finish time<current best "complete" schedule
+            //Only add to Schedule to stack if its finish time is better (less than) current best "complete" schedule
             if (possibility.getFinishTime() < best) {
                 scheduleStack.push(possibility);
             }
@@ -75,7 +74,8 @@ public class Scheduler extends Thread {
     }
 
     /**
-     *
+     * Get the current lists of tasks that can be scheduled.
+     * @return List containing tasks that can be scheduled.
      */
     public List<Node> getTasksCanBeScheduled() {
         return current.getSchedulable();

@@ -23,14 +23,15 @@ public class Schedule {
     /**
      * A constructor method which initialises an empty schedule.
      * @param n Number of processors available to the schedule
+     * @param nodes List of nodes to add to the schedule
      */
     public Schedule(int n, List<Node> nodes) {
         try {
             if (n < 1) {
-                throw new IllegalArgumentException("Can not generate a schedule when the number of processors is less than 1.");
+                throw new IllegalArgumentException("");
             }
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            throw new IllegalArgumentException("Can not generate a schedule when the number of processors is less than 1.");
         }
 
         this.finishTime = 0;

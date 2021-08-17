@@ -19,7 +19,7 @@ public class TaskScheduled {
     final int processor;
 
     /**
-     * This method computes and returns the finishing time of this scheduled task object.
+     * Computes and returns the finishing time of this scheduled task object.
      * @return The finishing time of this already scheduled task node.
      */
     public int getFinishTime(){

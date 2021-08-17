@@ -18,7 +18,7 @@ public class ThreadAnalytics {
     // Track the number of thread starts over the lifetime of this object
     private final AtomicInteger threadsSpawned = new AtomicInteger();
     @Getter private final int threadsNeeded;
-    private final Queue<DFSThread> threadPool = new ConcurrentLinkedQueue<>();
+    @Getter private final Queue<DFSThread> threadPool = new ConcurrentLinkedQueue<>();
     // The best complete schedule length thus far
     private int bestFinishTime = Integer.MAX_VALUE;
     @Getter private Schedule bestSchedule;

@@ -1,7 +1,10 @@
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import project1.algorithm.Schedule;
 import project1.algorithm.SequentialDFS;
+import project1.algorithm.ThreadAnalytics;
 import project1.graph.dotparser.Parser;
 import project1.graph.Graph;
 
@@ -73,5 +76,14 @@ public class TestSequentialDFS {
     public synchronized void test11Node4Processors() throws IOException {
         Schedule s = run("exampleTaskGraphs/Nodes_11_OutTree.dot", 4);
         Assert.assertEquals(227, s.getFinishTime());
+    }
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
+
+    @Test
+    public synchronized void testNoSchedules() throws IOException {
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("No schedules generated!");
+        Schedule s = run("graph_empty.dot", 4);
     }
 }
