@@ -10,15 +10,4 @@ public class TestSchedule {
         // Create a Schedule with no processors - should throw an error
         Schedule noProcessors = new Schedule(0, new ArrayList<>());
     }
-
-    // @Test
-    public void testCopySchedule() {
-        // Create a Schedule
-        Schedule schedule = new Schedule(2, new ArrayList<>());
-        // Create a Copy of the Schedule
-        Schedule scheduleCopy = new Schedule(schedule);
-
-        // Check they are equal
-        assertEquals(schedule, scheduleCopy);
-    }
 }

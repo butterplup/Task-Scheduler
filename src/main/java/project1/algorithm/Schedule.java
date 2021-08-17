@@ -46,31 +46,27 @@ public class Schedule {
      * Creates a deep copy of a sub-schedule
      * @param s A sub-schedule to be copied
      */
-    public Schedule(Schedule s) { //deep copy
+    public Schedule(Schedule s, TaskScheduled ts) {
         this.finishTime = s.getFinishTime();
         this.nodesVisited = s.getNodesVisited();
         this.currentSchedule = s.currentSchedule.clone();
-        this.schedulable = new LinkedList<>(s.schedulable);
         this.freeTime = s.freeTime.clone();
-    }
 
-    /**
-     * Adds a scheduled task to the current schedule and updates the processor information
-     * @param s A newly scheduled task object.
-     */
-    public void addTask(TaskScheduled s) {
-        this.currentSchedule[s.getTaskNode().getId()] = s;
+        // Keep reference unless we modify
+        this.schedulable = new LinkedList<>(s.schedulable);
+
+        this.currentSchedule[ts.getTaskNode().getId()] = ts;
         // Cannot reschedule
-        this.schedulable.remove(s.getTaskNode());
+        this.schedulable.remove(ts.getTaskNode());
 
         // Change the assigned processor's earliest start time
-        this.freeTime[s.getProcessor()] = s.getFinishTime();
-        if (s.getFinishTime() > this.finishTime) {
-            this.finishTime = s.getFinishTime(); //schedule's finish time
+        this.freeTime[ts.getProcessor()] = ts.getFinishTime();
+        if (ts.getFinishTime() > this.finishTime) {
+            this.finishTime = ts.getFinishTime(); //schedule's finish time
         }
 
         // Check if nodes out from this can be scheduled
-        for (Edge e : s.getTaskNode().getOutgoingEdges()) {
+        for (Edge e : ts.getTaskNode().getOutgoingEdges()) {
             Node n = e.getEnd();
 
             if (currentSchedule[n.getId()] == null && !this.schedulable.contains(n)) {

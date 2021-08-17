@@ -35,7 +35,6 @@ public class Scheduler extends Thread {
 
             foundEmpty = empty || foundEmpty;
 
-            Schedule possibility=new Schedule(current); //deep copy
             int startTime;
             int communicationCost = 0;
             List<Edge> in = t.getIncomingEdges();
@@ -54,7 +53,7 @@ public class Scheduler extends Thread {
 
             startTime = Math.max(free, communicationCost);
             TaskScheduled scheduled = new TaskScheduled(t, startTime, index);
-            possibility.addTask(scheduled);
+            Schedule possibility = new Schedule(current, scheduled); //deep copy
 
             //Only add to Schedule to stack if its finish time<current best "complete" schedule
             if (possibility.getFinishTime() < best) {
