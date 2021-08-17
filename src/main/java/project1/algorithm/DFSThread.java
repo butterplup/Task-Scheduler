@@ -29,15 +29,12 @@ public class DFSThread extends Thread {
                 // Send this to ThreadAnalytics
                 ta.newSchedule(current.getFinishTime(), current);
             } else {
-                // Otherwise, explore branches
-                Scheduler scheduler = new Scheduler(current);
-
                 // Get a list of tasks that can be scheduled next
-                List<Node> branches = scheduler.getTasksCanBeScheduled();
+                List<Node> branches = current.getSchedulable();
 
                 // For each branch, add possible schedules to the stack, using global best time
                 branches.forEach(branch ->
-                        scheduler.scheduleTaskToProcessor(branch, ta.getGlobalBestTime(), scheduleStack)
+                        Scheduler.scheduleTaskToProcessor(current, branch, ta.getGlobalBestTime(), scheduleStack)
                 );
             }
 
@@ -47,9 +44,7 @@ public class DFSThread extends Thread {
                     DFSThread newThread = new DFSThread(taskGraph);
 
                     // Give an element from the back of the stack to the new thread
-                    Schedule split = scheduleStack.getLast();
-                    scheduleStack.removeLast();
-                    newThread.scheduleStack.push(split);
+                    newThread.scheduleStack.push(scheduleStack.removeLast());
 
                     // Start the new thread
                     ta.addThread(newThread);

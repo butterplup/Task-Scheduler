@@ -79,6 +79,7 @@ public class ThreadAnalytics {
         if (this.threadsAlive.incrementAndGet() > threadsNeeded) {
             System.out.println("WARNING: Processor overprovision!");
         }
+
         t.start();
         this.threadsSpawned.incrementAndGet();
     }

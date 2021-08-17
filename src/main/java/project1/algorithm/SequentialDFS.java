@@ -34,12 +34,12 @@ public class SequentialDFS {
         ThreadAnalytics ta = ThreadAnalytics.getInstance(threads);
 
         List<Node> initNodes = new Schedule(processorCount, taskGraph.getNodes()).getSchedulable();
-        Stream<Schedule> initSchedules = initNodes.stream().map(n -> {
-            Schedule schedule = new Schedule(processorCount, taskGraph.getNodes());
-            schedule.addTask(new TaskScheduled(n, 0, 0));
 
-            return schedule;
-        });
+        // Empty schedule
+        Schedule schedule = new Schedule(processorCount, taskGraph.getNodes());
+        Stream<Schedule> initSchedules = initNodes.stream().map(n ->
+                new Schedule(schedule, new TaskScheduled(n, 0, 0))
+        );
 
         DFSThread[] threadPool = new DFSThread[threads];
         for (int i = 0; i < threads; i++) {

@@ -13,28 +13,18 @@ import java.util.List;
  * task nodes to the current sub-schedule.
  */
 public class Scheduler extends Thread {
-    private final Schedule current;
-
-    /**
-     * Constructor method for scheduler, creates a scheduler for the Schedule object passed in.
-     * @param c A Schedule object to be added with more tasks.
-     */
-    public Scheduler(Schedule c) {
-        this.current = c;
-    }
-
     /**
      * Generate all possible schedules when task t is scheduled.
      * @param t task to be scheduled.
      * @param best current best finish time of a complete schedule.
      * @param scheduleStack All generated schedules will be added to the current schedule stack.
      */
-    public void scheduleTaskToProcessor(Node t,int best, Deque<Schedule> scheduleStack) { //current schedule+node t
+    public static void scheduleTaskToProcessor(Schedule current, Node t, int best, Deque<Schedule> scheduleStack) { //current schedule+node t
         boolean foundEmpty = false;
 
         // Loop through all processors to find all possible schedules, every schedule is a potential solution
         int index = -1;
-        for (int free : this.current.getFreeTime()) {
+        for (int free : current.getFreeTime()) {
             index++;
 
             // Break if we encounter two empty processors
@@ -45,7 +35,6 @@ public class Scheduler extends Thread {
 
             foundEmpty = empty || foundEmpty;
 
-            Schedule possibility=new Schedule(this.current); //deep copy
             int startTime;
             int communicationCost = 0;
             List<Edge> in = t.getIncomingEdges();
@@ -54,7 +43,7 @@ public class Scheduler extends Thread {
             for (Edge e : in) {
                 Node pre = e.getStart(); // Get parent node
 
-                TaskScheduled[] scheduled = this.current.getCurrentSchedule();
+                TaskScheduled[] scheduled = current.getCurrentSchedule();
                 TaskScheduled predecessor = scheduled[pre.getId()];
 
                 if (predecessor.getProcessor() != index) { //communication cost
@@ -64,20 +53,12 @@ public class Scheduler extends Thread {
 
             startTime = Math.max(free, communicationCost);
             TaskScheduled scheduled = new TaskScheduled(t, startTime, index);
-            possibility.addTask(scheduled);
+            Schedule possibility = new Schedule(current, scheduled); //deep copy
 
-            //Only add to Schedule to stack if its finish time is better (less than) current best "complete" schedule
+            //Only add to Schedule to stack if its finish time<current best "complete" schedule
             if (possibility.getFinishTime() < best) {
                 scheduleStack.push(possibility);
             }
         }
-    }
-
-    /**
-     * Get the current lists of tasks that can be scheduled.
-     * @return List containing tasks that can be scheduled.
-     */
-    public List<Node> getTasksCanBeScheduled() {
-        return current.getSchedulable();
     }
 }
