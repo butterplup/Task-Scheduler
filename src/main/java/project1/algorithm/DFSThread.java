@@ -32,10 +32,9 @@ public class DFSThread extends Thread {
                 // Get a list of tasks that can be scheduled next
                 List<Node> branches = current.getSchedulable();
 
-                Scheduler scheduler = new Scheduler(current);
                 // For each branch, add possible schedules to the stack, using global best time
                 branches.forEach(branch ->
-                        scheduler.scheduleTaskToProcessor(branch, ta.getGlobalBestTime(), scheduleStack)
+                        Scheduler.scheduleTaskToProcessor(current, branch, ta.getGlobalBestTime(), scheduleStack)
                 );
             }
 
