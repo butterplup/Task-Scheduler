@@ -6,7 +6,6 @@ import project1.graph.Edge;
 import project1.graph.Node;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * A Schedule object holds information for tasks in the current Schedule and the processors used.
@@ -34,25 +33,26 @@ public class Schedule {
         }
 
         this.finishTime = 0;
+        this.nodesVisited = 0;
+
         this.currentSchedule = new TaskScheduled[nodes.size()];
+        // We can schedule any node with no incoming edges
         this.schedulable = new LinkedList<>();
         nodes.stream().filter(node -> node.getIncomingEdges().size() == 0).forEach(this.schedulable::add);
-
         this.freeTime = new int[n];
-        this.nodesVisited = 0;
     }
 
     /**
-     * Creates a deep copy of a sub-schedule
+     * Creates a deep copy of a sub-schedule and adds a TaskScheduled
      * @param s A sub-schedule to be copied
      */
     public Schedule(Schedule s, TaskScheduled ts) {
         this.finishTime = s.getFinishTime();
         this.nodesVisited = s.getNodesVisited();
+
+        // Shallow copy arrays
         this.currentSchedule = s.currentSchedule.clone();
         this.freeTime = s.freeTime.clone();
-
-        // Keep reference unless we modify
         this.schedulable = new LinkedList<>(s.schedulable);
 
         this.currentSchedule[ts.getTaskNode().getId()] = ts;
