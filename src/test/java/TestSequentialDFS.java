@@ -17,6 +17,7 @@ public class TestSequentialDFS {
     private static final Graph graph9 = load("exampleTaskGraphs/Nodes_9_SeriesParallel.dot");
     private static final Graph graph10 = load("exampleTaskGraphs/Nodes_10_Random.dot");
     private static final Graph graph11 = load("exampleTaskGraphs/Nodes_11_OutTree.dot");
+    private static final Graph graphEmpty = load("graph_empty.dot");
 
     private static Graph load(String resource) {
         URL url = TestSequentialDFS.class.getResource(resource);
@@ -97,6 +98,6 @@ public class TestSequentialDFS {
     public synchronized void testNoSchedules() throws IOException {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("No schedules generated!");
-        Schedule s = run("graph_empty.dot", 4);
+        Schedule s = run(graphEmpty, 4);
     }
 }
