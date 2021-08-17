@@ -50,7 +50,7 @@ public class Scheduler extends Thread {
                 Scheduler scheduler = new Scheduler(current, taskGraph);
 
                 // Get a list of tasks that can be scheduled next
-                Stream<Node> branches = scheduler.getTasksCanBeScheduled(taskGraph.getNodes());
+                Stream<Node> branches = scheduler.getTasksCanBeScheduled();
 
                 // For each branch, add possible schedules to the stack, using global best time
                 branches.forEach(branch ->
@@ -124,29 +124,18 @@ public class Scheduler extends Thread {
     }
 
     /**
-     * This method finds the tasks which satisfies the scheduling constraints and is ready
-     * to be scheduled to a processor.
-     * @param taskList A list of tasks to be checked if they are ready to be scheduled.
-     * @return A Stream of tasks which satisfies the scheduling constraints and can be scheduled.
+     * This method finds the tasks which can be run on an empty schedule (no incoming edges).
+     * @return A Stream of Nodes that can be scheduled
      */
-    public Stream<Node> getTasksCanBeScheduled(List<Node> taskList){
-        return taskList.stream().filter(this::checkTaskCanBeScheduled);
+    public Stream<Node> getInitialTasks(){
+        return taskGraph.getNodes().stream().filter(n -> n.getIncomingEdges().size() == 0);
     }
 
     /**
-     * Checks if a task satisfies the scheduling constraints and is ready to be scheduled.
-     * @param t The task node to check if constraints are satisfied.
-     * @return Returns true if the constraints are satisfied, false otherwise.
+     *
      */
-    private boolean checkTaskCanBeScheduled(Node t){
-        // Cannot reschedule
-        if (checkTaskIsScheduled(t)){
-            return false;
-        }
-
-        // THIS NODE'S PREDECESSORS MUST HAVE ALREADY BEEN SCHEDULED !!
-        List<Edge> incomingEdges = t.getIncomingEdges();
-        return incomingEdges.stream().allMatch(e -> checkTaskIsScheduled(e.getStart()));
+    private Stream<Node> getTasksCanBeScheduled() {
+        return taskGraph.getNodes().stream().filter(n -> current.getIsSchedulable().get(n.getId()));
     }
 
     /**

@@ -35,7 +35,7 @@ public class SequentialDFS {
 
         ThreadAnalytics ta = ThreadAnalytics.getInstance(threads);
 
-        s.getTasksCanBeScheduled(taskGraph.getNodes())
+        s.getInitialTasks()
                 .forEach(
                     n -> {
                         Schedule schedule = new Schedule(processorCount, taskGraph.getTotalTasksCount());

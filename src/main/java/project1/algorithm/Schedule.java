@@ -2,11 +2,10 @@
 package project1.algorithm;
 
 import lombok.Getter;
+import project1.graph.Edge;
+import project1.graph.Node;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * A Schedule object holds information for tasks in the current Schedule and the processors used.
@@ -16,6 +15,7 @@ public class Schedule {
     private int finishTime;
     // List of TaskScheduled, indexed by node id
     private final List<TaskScheduled> currentSchedule;
+    private final List<Boolean> isSchedulable;
     private final List<Integer> freeTime;
     private int nodesVisited;
 
@@ -34,6 +34,7 @@ public class Schedule {
 
         this.finishTime = 0;
         this.currentSchedule = new ArrayList<>(Collections.nCopies(nodes, null));
+        this.isSchedulable = new ArrayList<>(Collections.nCopies(nodes, false));
         this.freeTime = new ArrayList<>(Collections.nCopies(n, 0));
         this.nodesVisited = 0;
     }
@@ -45,7 +46,8 @@ public class Schedule {
     public Schedule(Schedule s) { //deep copy
         this.finishTime = s.getFinishTime();
         this.nodesVisited = s.getNodesVisited();
-        this.currentSchedule = new ArrayList<>(s.getCurrentSchedule());
+        this.currentSchedule = new ArrayList<>(s.currentSchedule);
+        this.isSchedulable = new ArrayList<>(s.isSchedulable);
         this.freeTime = new ArrayList<>(s.getFreeTime());
     }
 
@@ -55,11 +57,29 @@ public class Schedule {
      */
     public void addTask(TaskScheduled s) {
         this.currentSchedule.set(s.getTaskNode().getId(), s);
-        //Change the assigned processor's earliest start time
+        // Cannot reschedule
+        this.isSchedulable.set(s.getTaskNode().getId(), false);
+
+        // Change the assigned processor's earliest start time
         this.freeTime.set(s.getProcessor(), s.getFinishTime());
         if (s.getFinishTime() > this.finishTime) {
             this.finishTime = s.getFinishTime(); //schedule's finish time
         }
+
+        // Check if nodes out from this can be scheduled
+        for (Edge e : s.getTaskNode().getOutgoingEdges()) {
+            Node n = e.getEnd();
+
+            // If the node was previously inviable, check if it is now
+            if (!this.isSchedulable.get(n.getId())) {
+                boolean schedulable = n.getIncomingEdges().stream().allMatch(
+                        inEdge -> this.currentSchedule.get(inEdge.getStart().getId()) != null
+                );
+
+                this.isSchedulable.set(n.getId(), schedulable);
+            }
+        }
+
         this.nodesVisited++;
     }
 
