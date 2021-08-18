@@ -92,4 +92,95 @@ public class TestArgsParser {
         }
 
     }
+
+    @Test
+    public void testMissingMandatoryArg() {
+        // args too small, i.e only 1 arg
+        String[] args = {"test.dot"};
+        String expectedMessage = "Mandatory arguments missing, see usage";
+
+        try {
+            ArgsParser argsParser = new ArgsParser(args);
+            Assert.fail("An IOException should be thrown");
+
+        } catch (IOException e) {
+            Assert.assertEquals(expectedMessage, e.getMessage());
+        }
+    }
+
+    @Test
+    public void testProcessorsNotInt() {
+        // processor count not given as a parsable int
+        String[] args = {"test.dot", "Five"};
+        String expectedMessage = "Processor count P not given as an integer";
+
+        try {
+            ArgsParser argsParser = new ArgsParser(args);
+            Assert.fail("An IOException should be thrown");
+
+        } catch (IOException e) {
+            Assert.assertEquals(expectedMessage, e.getMessage());
+        }
+    }
+
+    @Test
+    public void testDotExtensionMissing() {
+        // the .dot extension missing in filename
+        String[] args = {"test", "2"};
+        String expectedMessage = "DOT_FILE missing .dot extension in cmd line argument";
+
+        try {
+            ArgsParser argsParser = new ArgsParser(args);
+            Assert.fail("An IOException should be thrown");
+
+        } catch (IOException e) {
+            Assert.assertEquals(expectedMessage, e.getMessage());
+        }
+    }
+
+    @Test
+    public void testUnknownArgSupplied() {
+        // unknown arg given
+        String[] args = {"test.dot", "2", "-z"};
+        String expectedMessage = "Supplied argument does not match any known optional args";
+
+        try {
+            ArgsParser argsParser = new ArgsParser(args);
+            Assert.fail("An IOException should be thrown");
+
+        } catch (IOException e) {
+            Assert.assertEquals(expectedMessage, e.getMessage());
+        }
+    }
+
+    @Test
+    public void testCoreCountNotInt() {
+        // core count is not a parsable to an integer
+        String[] args = {"test.dot", "2", "-p", "NotInteger"};
+        String expectedMessage = "Parallel core count after -p not given as an integer";
+
+        try {
+            ArgsParser argsParser = new ArgsParser(args);
+            Assert.fail("An IOException should be thrown");
+
+        } catch (IOException e) {
+            Assert.assertEquals(expectedMessage, e.getMessage());
+        }
+    }
+
+    @Test
+    public void testIncompleteOptionalArg() {
+        // optional args -o or -p missing subsequent arg
+        String[] args = {"test.dot", "2", "-p"};
+        String expectedMessage = "No arg given following at least one optional arg -p or -o";
+
+        try {
+            ArgsParser argsParser = new ArgsParser(args);
+            Assert.fail("An IOException should be thrown");
+
+        } catch (IOException e) {
+            Assert.assertEquals(expectedMessage, e.getMessage());
+        }
+    }
+
 }
