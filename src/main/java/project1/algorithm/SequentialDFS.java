@@ -3,9 +3,12 @@ package project1.algorithm;
 import project1.graph.Graph;
 import project1.graph.Node;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -21,45 +24,64 @@ public class SequentialDFS {
      * Generate an optimal schedule
      * @param taskGraph Task graph, given as a DAG
      * @param processorCount The number of processors to schedule for
+     * @param threads Number of parallel threads to be run
      *
      * @return The optimal Schedule
      */
-    public static Schedule generateOptimalSchedule(Graph taskGraph, int processorCount){
-        // Current best schedule and its finish time
-        Schedule best = new Schedule(processorCount);
-        int bestFinishTime = Integer.MAX_VALUE;
-
+    public static Schedule generateOptimalSchedule(Graph taskGraph, int processorCount, int threads) {
         // Stack of schedules to be evaluated
-        Deque<Schedule> scheduleStack = new LinkedList<>();
-        scheduleStack.push(best);
+        System.out.println("Start");
+        ThreadAnalytics ta = ThreadAnalytics.getInstance(threads);
 
-        while (!scheduleStack.isEmpty()) {
-            Schedule current = scheduleStack.pop();
+        List<Node> initNodes = new Schedule(processorCount, taskGraph.getNodes()).getSchedulable();
 
-            // If this schedule includes all nodes in the taskGraph
-            if (current.getNodesVisited() == taskGraph.getTotalTasksCount()) {
-                best = current;
-                bestFinishTime = current.getFinishTime();
-            } else {
-                // Otherwise, explore branches
-                Scheduler scheduler = new Scheduler(current);
+        // Empty schedule
+        Schedule schedule = new Schedule(processorCount, taskGraph.getNodes());
+        Stream<Schedule> initSchedules = initNodes.stream().map(n ->
+                new Schedule(schedule, new TaskScheduled(n, 0, 0))
+        );
 
-                // Get a list of tasks that can be scheduled next
-                Stream<Node> branches = scheduler.getTasksCanBeScheduled(taskGraph.getNodes());
+        DFSThread[] threadPool = new DFSThread[threads];
+        for (int i = 0; i < threads; i++) {
+            threadPool[i] = new DFSThread(taskGraph);
+        }
 
-                // For each branch, add possible schedules to the stack
-                int finalBestFinishTime = bestFinishTime;
-                branches.forEach(branch ->
-                        scheduler.scheduleTaskToProcessor(branch, finalBestFinishTime, scheduleStack)
-                );
+        // Circle the thread pool until we're out of schedules
+        int i = 0;
+        for (Schedule s : initSchedules.collect(Collectors.toCollection(LinkedList::new))) {
+            threadPool[i].scheduleStack.push(s);
+            i += 1;
+            i %= threads;
+        }
+
+        for (DFSThread d : threadPool) {
+            // Only spawn threads with a non-empty stack
+            if (d.scheduleStack.size() > 0) {
+                ta.addThread(d);
             }
         }
 
+        try {
+            System.out.println("Waiting...");
+            ta.waitTillDone();
+            System.out.println("Done!");
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Threads interrupted!");
+        }
+
+        Schedule best = ta.getBestSchedule();
+
+        if (best == null) {
+            throw new RuntimeException("No schedules generated!");
+        }
+
+        System.out.printf("Thread starts: %d%n", ta.numThreadsSpawned());
+
         // Annotate nodes in the task graph with the processor its scheduled on
-        for (Map.Entry<String, TaskScheduled> i : best.getCurrentSchedule().entrySet()) {
-            String taskName = i.getKey();
-            int processor = i.getValue().getProcessor();
-            int startTime = i.getValue().getStartingTime();
+        for (TaskScheduled t : best.getCurrentSchedule()) {
+            String taskName = t.getTaskNode().getName();
+            int processor = t.getProcessor();
+            int startTime = t.getStartingTime();
 
             Node n = taskGraph.getNodeMap().get(taskName);
             n.setProcessor(processor);
