@@ -80,6 +80,7 @@ public class MainController {
         // set up display elements
         setUpMemoryTile();
         setUpCpuTile();
+        setUpTotalThreadTile();
 
         // start polling
         startPolling();
