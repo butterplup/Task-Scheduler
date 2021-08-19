@@ -97,7 +97,7 @@ public class TestArgsParser {
     public void testMissingMandatoryArg() {
         // args too small, i.e only 1 arg
         String[] args = {"test.dot"};
-        String expectedMessage = "Mandatory arguments missing, see usage";
+        String expectedMessage = "Mandatory arguments missing. Usage: java -jar scheduler.jar INPUT.dot P [OPTION]. See README for more OPTION choices.";
 
         try {
             ArgsParser argsParser = new ArgsParser(args);
@@ -127,7 +127,7 @@ public class TestArgsParser {
     public void testDotExtensionMissing() {
         // the .dot extension missing in filename
         String[] args = {"test", "2"};
-        String expectedMessage = "DOT_FILE missing .dot extension in cmd line argument";
+        String expectedMessage = "DOT_FILE missing .dot extension in command line argument";
 
         try {
             ArgsParser argsParser = new ArgsParser(args);
@@ -157,7 +157,7 @@ public class TestArgsParser {
     public void testCoreCountNotInt() {
         // core count is not a parsable to an integer
         String[] args = {"test.dot", "2", "-p", "NotInteger"};
-        String expectedMessage = "Parallel core count after -p not given as an integer";
+        String expectedMessage = "Parallel core count (for -p) not given as an integer";
 
         try {
             ArgsParser argsParser = new ArgsParser(args);
