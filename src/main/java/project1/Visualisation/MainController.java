@@ -2,6 +2,11 @@ package project1.Visualisation;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
+import eu.hansolo.tilesfx.colors.Bright;
+import eu.hansolo.tilesfx.colors.Dark;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -9,8 +14,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Stop;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+import eu.hansolo.tilesfx.tools.FlowGridPane;
 
-
+import static javafx.scene.paint.Color.rgb;
 
 public class MainController {
 
@@ -56,6 +63,40 @@ public class MainController {
     private double currentTime;
     private double finishTime;
 
+    //timeline for the pooller
+    private Timeline timerHandler;
+
+
+
+    //intilisation call
+    public void init() {
+
+
+        // set up display elements
+        setUpMemoryTile();
+        setUpCpsuTile();
+
+        // start polling
+        startPolling();
+
+        // initialize the tile values so they can work
+        memoryTile.setValue(0);
+        cpuTile.setValue(0);
+
+        // begin timer
+        startTimer();
+    }
+
+    //statrs the timer
+    private void startTimer(){
+
+
+    }
+
+    //poller to update visual display
+    private void startPolling() {
+
+    }
 
     //ssets up the memory tile
     private void setUpMemoryTile() {
@@ -108,7 +149,9 @@ public class MainController {
     }
 
 
-
+    private FlowGridPane buildFlowGridPane(Tile tile) {
+        return new FlowGridPane(1, 1, tile);
+    }
 
 
 }
