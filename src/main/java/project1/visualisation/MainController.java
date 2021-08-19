@@ -2,6 +2,7 @@ package project1.visualisation;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
+import eu.hansolo.tilesfx.chart.ChartData;
 import eu.hansolo.tilesfx.colors.Bright;
 import eu.hansolo.tilesfx.colors.Dark;
 import javafx.animation.Animation;
@@ -86,6 +87,7 @@ public class MainController {
         // initialize the tile values so they can work
         memoryTile.setValue(0);
         cpuTile.setValue(0);
+        totalThreadsTile.setValue(0);
 
         // begin timer
         startTimer();
@@ -145,13 +147,16 @@ public class MainController {
 
     private void setUpTotalThreadTile(){
         this.totalThreadsTile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
-                .unit("Threads")
-                .animated(true)
+                .chartData(new ChartData(0), new ChartData(0))
+                .title("total threads run")
+                .titleColor(rgb(15,50,50))
+                .unit("Total threads run")
+                .textSize(Tile.TextSize.BIGGER)
+                .animated(false)
+                .smoothing(true)
                 .decimals(0)
                 .backgroundColor(Color.WHITE)
                 .valueColor(rgb(0,216,244))
-                .unitColor(rgb(0,216,244))
-                .barBackgroundColor(rgb(242, 242, 242))
                 .build();
 
                 totalThreadBox.getChildren().addAll(buildFlowGridPane(this.cpuTile));
