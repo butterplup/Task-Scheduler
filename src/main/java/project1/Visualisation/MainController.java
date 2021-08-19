@@ -1,10 +1,16 @@
 package project1.Visualisation;
 
+import eu.hansolo.tilesfx.Tile;
+import eu.hansolo.tilesfx.TileBuilder;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Stop;
 import javafx.scene.text.Text;
+
+
 
 public class MainController {
 
@@ -34,5 +40,75 @@ public class MainController {
 
     @FXML
     private TextField numProField;
+
+    @FXML
+    private VBox CpuBox;
+
+    @FXML
+    private VBox memBox;
+
+    //tile intilisation
+    private Tile memoryTile;
+    private Tile cpuTile;
+
+    //timer set up
+    private double startTime;
+    private double currentTime;
+    private double finishTime;
+
+
+    //ssets up the memory tile
+    private void setUpMemoryTile() {
+        this.memoryTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
+                .unit("MB")
+                .maxValue(Runtime.getRuntime().maxMemory() / (1024 * 1024))
+                .threshold(Runtime.getRuntime().maxMemory() * 0.8 / (1024 * 1024))
+                .gradientStops(new Stop(0, rgb(244,160,0)),
+                        new Stop(0.8, Bright.RED),
+                        new Stop(1.0, Dark.RED))
+                .animated(true)
+                .decimals(0)
+                .strokeWithGradient(true)
+                .thresholdVisible(true)
+                .backgroundColor(Color.WHITE)
+                .valueColor(rgb(244,160,0))
+                .unitColor(rgb(244,160,0))
+                .barBackgroundColor(rgb(242, 242, 242))
+                .thresholdColor(rgb(128, 84, 1))
+                .needleColor(rgb(244,160,0))
+                .build();
+
+        memBox.getChildren().addAll(buildFlowGridPane(this.memoryTile));
+
+    }
+
+    //sets up the cpu tile
+    private void setUpCpsuTile() {
+        this.cpuTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
+                .unit("%")
+                .maxValue(100)
+                .threshold(100 * 0.8)
+                .gradientStops(new Stop(0, rgb(244,160,0)),
+                        new Stop(0.8, Bright.RED),
+                        new Stop(1.0, Dark.RED))
+                .animated(true)
+                .decimals(0)
+                .strokeWithGradient(true)
+                .thresholdVisible(true)
+                .backgroundColor(Color.WHITE)
+                .valueColor(rgb(244,160,0))
+                .unitColor(rgb(244,160,0))
+                .barBackgroundColor(rgb(242, 242, 242))
+                .thresholdColor(rgb(128, 84, 1))
+                .needleColor(rgb(244,160,0))
+                .build();
+
+        CpuBox.getChildren().addAll(buildFlowGridPane(this.cpuTile));
+
+    }
+
+
+
+
 
 }
