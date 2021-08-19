@@ -24,7 +24,7 @@ import static javafx.scene.paint.Color.rgb;
 public class MainController {
 
     @FXML
-    private Text PlaceHolderText;
+    private Text bestScheduleTime;
 
     @FXML
     private Text TimeText;
@@ -36,10 +36,10 @@ public class MainController {
     private VBox ganttBox;
 
     @FXML
-    private HBox allocBox;
+    private HBox totalThreadBox;
 
     @FXML
-    private HBox orderBox;
+    private HBox activeThreadsBox;
 
     @FXML
     private TextField inputField;
@@ -59,6 +59,8 @@ public class MainController {
     //tile initialisation
     private Tile memoryTile;
     private Tile cpuTile;
+    private Tile totalActive;
+    private Tile totalThreadsTile;
 
     //timer set up
     private double startTime;
@@ -140,6 +142,21 @@ public class MainController {
         memBox.getChildren().addAll(buildFlowGridPane(this.memoryTile));
 
     }
+
+    private void setUpTotalThreadTile(){
+        this.totalThreadsTile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
+                .unit("Threads")
+                .animated(true)
+                .decimals(0)
+                .backgroundColor(Color.WHITE)
+                .valueColor(rgb(0,216,244))
+                .unitColor(rgb(0,216,244))
+                .barBackgroundColor(rgb(242, 242, 242))
+                .build();
+
+                totalThreadBox.getChildren().addAll(buildFlowGridPane(this.cpuTile));
+    }
+
 
     //sets up the cpu tile
     private void setUpCpuTile() {
