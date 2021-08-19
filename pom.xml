@@ -15,6 +15,12 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/eu.hansolo/tilesfx -->
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>tilesfx</artifactId>
+            <version>1.0.7</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
