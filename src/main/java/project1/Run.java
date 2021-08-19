@@ -18,6 +18,9 @@ public class Run {
             String filename = argsParser.getFilename();
             Graph g = Parser.parse(filename);
 
+            //needs to start a new thread and start the visualisation
+
+
             Schedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount(), argsParser.getParallelCoreCount());
             s.printSchedule();
 
