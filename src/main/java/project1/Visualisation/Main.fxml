@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController.java">
     <children>
         <VBox layoutX="7.0" prefHeight="260.0" prefWidth="592.0">
@@ -70,16 +69,8 @@
                         </HBox>
                     </children>
                 </VBox>
-                <VBox prefHeight="105.0" prefWidth="140.0">
-                    <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="placeHolder" wrappingWidth="121.13671875" />
-                    </children>
-                </VBox>
-                <VBox prefHeight="105.0" prefWidth="140.0">
-                    <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Memory" />
-                    </children>
-                </VBox>
+                <VBox fx:id="CpuBox" prefHeight="105.0" prefWidth="140.0" />
+                <VBox fx:id="memBox" prefHeight="105.0" prefWidth="140.0" />
             </children>
         </HBox>
     </children>
