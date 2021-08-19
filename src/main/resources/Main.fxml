@@ -14,8 +14,8 @@
                     <children>
                         <VBox alignment="CENTER" prefHeight="60.0" prefWidth="222.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Placehodler" />
-                                <Text fx:id="PlaceHolderText" strokeType="OUTSIDE" strokeWidth="0.0" text="pplaceholder value" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Best time" />
+                                <Text fx:id="bestScheduleTime" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
                             </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="60.0" prefWidth="145.0">
@@ -51,20 +51,20 @@
                     <children>
                         <HBox prefHeight="42.0" prefWidth="249.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Input Graph:" wrappingWidth="71.13671875" />
-                                <TextField fx:id="inputField" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Input Graph:" wrappingWidth="80.0" />
+                                <TextField fx:id="inputField" prefHeight="25.0" prefWidth="150.0" />
                             </children>
                         </HBox>
                         <HBox prefHeight="44.0" prefWidth="257.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Output Graph:" wrappingWidth="78.13671875" />
-                                <TextField fx:id="outputField" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Output Graph:" wrappingWidth="80.0" />
+                                <TextField fx:id="outputField" prefHeight="25.0" prefWidth="150.0" />
                             </children>
                         </HBox>
                         <HBox prefHeight="44.0" prefWidth="249.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of processors" wrappingWidth="78.13671875" />
-                                <TextField fx:id="numProField" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of processors" wrappingWidth="80.0" />
+                                <TextField fx:id="numProField" prefWidth="150.0" />
                             </children>
                         </HBox>
                     </children>
