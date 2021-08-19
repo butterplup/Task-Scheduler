@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController.java">
+    <children>
+        <VBox layoutX="7.0" prefHeight="260.0" prefWidth="592.0">
+            <children>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="222.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Placehodler" />
+                                <Text fx:id="PlaceHolderText" strokeType="OUTSIDE" strokeWidth="0.0" text="pplaceholder value" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="145.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed" textAlignment="CENTER" wrappingWidth="105.662109375" />
+                                <Text fx:id="TimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="82.13671875" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="229.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status" textAlignment="CENTER" wrappingWidth="105.662109375" />
+                                <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox prefHeight="240.0" prefWidth="600.0">
+                    <children>
+                        <VBox fx:id="ganttBox" prefHeight="379.0" prefWidth="640.0" />
+                        <VBox prefHeight="384.0" prefWidth="389.0">
+                            <children>
+                                <HBox fx:id="allocBox" prefHeight="214.0" prefWidth="387.0" />
+                                <HBox fx:id="orderBox" prefHeight="205.0" prefWidth="387.0" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+        <HBox layoutY="290.0" prefHeight="105.0" prefWidth="600.0">
+            <children>
+                <VBox prefHeight="105.0" prefWidth="256.0">
+                    <children>
+                        <HBox prefHeight="42.0" prefWidth="249.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Input Graph:" wrappingWidth="71.13671875" />
+                                <TextField fx:id="inputField" />
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="44.0" prefWidth="257.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Output Graph:" wrappingWidth="78.13671875" />
+                                <TextField fx:id="outputField" />
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="44.0" prefWidth="249.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of processors" wrappingWidth="78.13671875" />
+                                <TextField fx:id="numProField" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <VBox prefHeight="105.0" prefWidth="140.0">
+                    <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="placeHolder" wrappingWidth="121.13671875" />
+                    </children>
+                </VBox>
+                <VBox prefHeight="105.0" prefWidth="140.0">
+                    <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Memory" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>
