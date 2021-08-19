@@ -37,8 +37,8 @@
                         <VBox fx:id="ganttBox" prefHeight="379.0" prefWidth="640.0" />
                         <VBox prefHeight="384.0" prefWidth="389.0">
                             <children>
-                                <HBox fx:id="allocBox" prefHeight="214.0" prefWidth="387.0" />
-                                <HBox fx:id="orderBox" prefHeight="205.0" prefWidth="387.0" />
+                                <HBox fx:id="totalThreadBox" prefHeight="214.0" prefWidth="387.0" />
+                                <HBox fx:id="activeThreadsBox" prefHeight="205.0" prefWidth="387.0" />
                             </children>
                         </VBox>
                     </children>
