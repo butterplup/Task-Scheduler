@@ -62,6 +62,7 @@ public class MainController {
     private Tile cpuTile;
     private Tile totalActive;
     private Tile totalThreadsTile;
+    private Tile totalActiveTile;
 
     //timer set up
     private double startTime;
@@ -81,6 +82,7 @@ public class MainController {
         setUpMemoryTile();
         setUpCpuTile();
         setUpTotalThreadTile();
+        setUpActiveThreadTile();
 
         // start polling
         startPolling();
@@ -88,7 +90,6 @@ public class MainController {
         // initialize the tile values so they can work
         memoryTile.setValue(0);
         cpuTile.setValue(0);
-        totalThreadsTile.setValue(0);
 
         // begin timer
         startTimer();
@@ -121,6 +122,44 @@ public class MainController {
 
     }
 
+    /**
+     * Creates the smooth area charts for the number of active threads and the number of total threads spawned
+     */
+    private void setUpActiveThreadTile(){
+        this.totalActiveTile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
+                .chartData(new ChartData(0), new ChartData(0))
+                .title("total threads active")
+                .titleColor(rgb(15,50,50))
+                .textSize(Tile.TextSize.BIGGER)
+                .animated(false)
+                .smoothing(true)
+                .decimals(0)
+                .backgroundColor(Color.WHITE)
+                .valueColor(rgb(0,216,244))
+                .build();
+
+        activeThreadsBox.getChildren().addAll(buildFlowGridPane(this.totalActiveTile));
+    }
+
+    private void setUpTotalThreadTile(){
+        this.totalThreadsTile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
+                .chartData(new ChartData(0), new ChartData(0))
+                .title("total threads run")
+                .titleColor(rgb(15,50,50))
+                .textSize(Tile.TextSize.BIGGER)
+                .animated(false)
+                .smoothing(true)
+                .decimals(0)
+                .backgroundColor(Color.WHITE)
+                .valueColor(rgb(0,216,244))
+                .build();
+
+        totalThreadBox.getChildren().addAll(buildFlowGridPane(this.totalThreadsTile));
+    }
+
+    /**
+     * Sets up the memory and cpu usage tiles for the graphical user interface
+     */
     //sets up the memory tile
     private void setUpMemoryTile() {
         this.memoryTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
@@ -145,24 +184,6 @@ public class MainController {
         memBox.getChildren().addAll(buildFlowGridPane(this.memoryTile));
 
     }
-
-    private void setUpTotalThreadTile(){
-        this.totalThreadsTile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
-                .chartData(new ChartData(0), new ChartData(0))
-                .title("total threads run")
-                .titleColor(rgb(15,50,50))
-                .unit("Total threads run")
-                .textSize(Tile.TextSize.BIGGER)
-                .animated(false)
-                .smoothing(true)
-                .decimals(0)
-                .backgroundColor(Color.WHITE)
-                .valueColor(rgb(0,216,244))
-                .build();
-
-                totalThreadBox.getChildren().addAll(buildFlowGridPane(this.cpuTile));
-    }
-
 
     //sets up the cpu tile
     private void setUpCpuTile() {
