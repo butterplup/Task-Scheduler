@@ -1,4 +1,4 @@
-package project1.Visualisation;
+package project1.visualisation;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
@@ -56,7 +56,7 @@ public class MainController {
     @FXML
     private VBox memBox;
 
-    //tile intilisation
+    //tile initialisation
     private Tile memoryTile;
     private Tile cpuTile;
 
@@ -65,18 +65,18 @@ public class MainController {
     private double currentTime;
     private double finishTime;
 
-    //timeline for the pooller
+    //timeline for the poller
     private Timeline timerHandler;
 
 
 
-    //intilisation call
+    //initialisation call
     public void init() {
 
 
         // set up display elements
         setUpMemoryTile();
-        setUpCpsuTile();
+        setUpCpuTile();
 
         // start polling
         startPolling();
@@ -89,10 +89,10 @@ public class MainController {
         startTimer();
     }
 
-    //statrs the timer
+    //starts the timer
     private void startTimer(){
 
-        //ever specifed time interval it creates an event to change the time on the gui
+        //ever specified time interval it creates an event to change the time on the gui
         startTime=System.currentTimeMillis();
         timerHandler = new Timeline(new KeyFrame(Duration.seconds(0.05), new EventHandler<ActionEvent>() {
 
@@ -116,7 +116,7 @@ public class MainController {
 
     }
 
-    //ssets up the memory tile
+    //sets up the memory tile
     private void setUpMemoryTile() {
         this.memoryTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .unit("MB")
@@ -142,7 +142,7 @@ public class MainController {
     }
 
     //sets up the cpu tile
-    private void setUpCpsuTile() {
+    private void setUpCpuTile() {
         this.cpuTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .unit("%")
                 .maxValue(100)
