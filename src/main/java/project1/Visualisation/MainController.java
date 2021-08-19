@@ -7,6 +7,8 @@ import eu.hansolo.tilesfx.colors.Dark;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -90,8 +92,24 @@ public class MainController {
     //statrs the timer
     private void startTimer(){
 
+        //ever specifed time interval it creates an event to change the time on the gui
+        startTime=System.currentTimeMillis();
+        timerHandler = new Timeline(new KeyFrame(Duration.seconds(0.05), new EventHandler<ActionEvent>() {
 
+            @Override
+            public void handle(ActionEvent event) {
+                currentTime=System.currentTimeMillis();
+                TimeText.setText(""+((currentTime-startTime)/1000));
+            }
+        }));
+        timerHandler.setCycleCount(Timeline.INDEFINITE);
+        timerHandler.play();
     }
+
+    private void stopTimer(){
+        timerHandler.stop();
+    }
+
 
     //poller to update visual display
     private void startPolling() {
