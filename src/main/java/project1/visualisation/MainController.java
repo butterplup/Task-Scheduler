@@ -165,14 +165,12 @@ public class MainController {
         this.memoryTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .unit("MB")
                 .maxValue(Runtime.getRuntime().maxMemory() / (1024 * 1024))
-                .threshold(Runtime.getRuntime().maxMemory() * 0.8 / (1024 * 1024))
                 .gradientStops(new Stop(0, rgb(244,160,0)),
                         new Stop(0.8, Bright.RED),
                         new Stop(1.0, Dark.RED))
                 .animated(true)
                 .decimals(0)
                 .strokeWithGradient(true)
-                .thresholdVisible(true)
                 .backgroundColor(Color.WHITE)
                 .valueColor(rgb(244,160,0))
                 .unitColor(rgb(244,160,0))
@@ -190,19 +188,16 @@ public class MainController {
         this.cpuTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .unit("%")
                 .maxValue(100)
-                .threshold(100 * 0.8)
                 .gradientStops(new Stop(0, rgb(244,160,0)),
                         new Stop(0.8, Bright.RED),
                         new Stop(1.0, Dark.RED))
                 .animated(true)
                 .decimals(0)
                 .strokeWithGradient(true)
-                .thresholdVisible(true)
                 .backgroundColor(Color.WHITE)
                 .valueColor(rgb(244,160,0))
                 .unitColor(rgb(244,160,0))
                 .barBackgroundColor(rgb(242, 242, 242))
-                .thresholdColor(rgb(128, 84, 1))
                 .needleColor(rgb(244,160,0))
                 .build();
 
