@@ -13,6 +13,9 @@ import lombok.Getter;
 public class ThreadAnalytics {
     private static ThreadAnalytics instance;
 
+    //private boolean to determine if the class is finished working
+    private boolean isFinished = false;
+
     // Track the current number of threads running
     private final AtomicInteger threadsAlive = new AtomicInteger();
     // Track the number of thread starts over the lifetime of this object
@@ -125,5 +128,11 @@ public class ThreadAnalytics {
                 t.join();
             }
         }
+    }
+
+    public boolean determineFinished() {
+
+        //needs to check if the appliaction is finsihed
+        return isFinished;
     }
 }
