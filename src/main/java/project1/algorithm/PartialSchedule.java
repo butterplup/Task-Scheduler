@@ -59,9 +59,13 @@ public class PartialSchedule {
             }
 
             // Check that all dependencies are scheduled
-            boolean canBeScheduled = n.getIncomingEdges().stream().noneMatch(
-                    in -> alreadyScheduled[in.getStart().getId()]==null
-            );
+            boolean canBeScheduled = true;
+            for (Edge in : n.getIncomingEdges()) {
+                if (alreadyScheduled[in.getStart().getId()] == null) {
+                    canBeScheduled = false;
+                    break;
+                }
+            }
 
             if (!canBeScheduled){
                 continue;
