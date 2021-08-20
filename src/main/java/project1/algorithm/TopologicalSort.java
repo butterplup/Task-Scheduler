@@ -4,10 +4,7 @@ import project1.graph.Edge;
 import project1.graph.Graph;
 import project1.graph.Node;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
 public class TopologicalSort {
 
@@ -16,7 +13,7 @@ public class TopologicalSort {
         // Shallow copy of graph nodes
         LinkedList<Node> nodesDone = new LinkedList<>(g.getNodes());
 
-        //Sorts list of nodes from graph based on critical path
+        // Sorts list of nodes from graph based on critical path
         nodesDone.sort((n1, n2) -> n2.getCriticalPath() - n1.getCriticalPath());
 
         PartialSchedule topoSchedule = new PartialSchedule(g, processorsCount);
