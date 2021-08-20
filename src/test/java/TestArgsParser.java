@@ -18,7 +18,7 @@ public class TestArgsParser {
         try {
             ArgsParser argsParser = new ArgsParser(args);
             // Two mandatory arguments successfully parsed
-            Assert.assertEquals(expectedFilename, argsParser.getFilename());
+            Assert.assertEquals(expectedFilename, argsParser.getInputFilename());
             Assert.assertEquals(expectedNum, argsParser.getProcessorCount());
         } catch (IOException e) {
             // Should not be reached based upon this input

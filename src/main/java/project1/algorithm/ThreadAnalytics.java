@@ -21,7 +21,8 @@ public class ThreadAnalytics {
     @Getter private final Queue<DFSThread> threadPool = new ConcurrentLinkedQueue<>();
     // The best complete schedule length thus far
     private int bestFinishTime = Integer.MAX_VALUE;
-    @Getter private Schedule bestSchedule;
+    //@Getter private Schedule bestSchedule;
+    @Getter private PartialSchedule bestSchedule;
 
     /**
      * Constructor to create a single instance of ThreadAnalytics.
@@ -55,7 +56,8 @@ public class ThreadAnalytics {
      * @param time Time for the produced schedule to run.
      * @param s The produced schedule.
      */
-    public synchronized void newSchedule(int time, Schedule s) {
+    public synchronized void newSchedule(int time, PartialSchedule s) {
+        //public synchronized void newSchedule(int time, Schedule s) {
         if (time < bestFinishTime) {
             bestFinishTime = time;
             bestSchedule = s;

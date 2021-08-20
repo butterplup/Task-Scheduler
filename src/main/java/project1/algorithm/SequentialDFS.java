@@ -4,10 +4,6 @@ import project1.graph.Graph;
 import project1.graph.Node;
 
 import java.util.*;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,11 +24,17 @@ public class SequentialDFS {
      *
      * @return The optimal Schedule
      */
-    public static Schedule generateOptimalSchedule(Graph taskGraph, int processorCount, int threads) {
+    public static PartialSchedule generateOptimalSchedule(Graph taskGraph, int processorCount, int threads) {
         // Stack of schedules to be evaluated
         System.out.println("Start");
         ThreadAnalytics ta = ThreadAnalytics.getInstance(threads);
 
+        //Schedule ubound=new TopologicalSort().getSchedule(taskGraph,processorCount);
+        PartialSchedule ubound=new TopologicalSort().getSchedule(taskGraph,processorCount);
+        ta.newSchedule(ubound.getFinishTime(),ubound);
+        System.out.println(ubound.getFinishTime());
+
+        /*
         List<Node> initNodes = new Schedule(processorCount, taskGraph.getNodes()).getSchedulable();
 
         // Empty schedule
@@ -40,6 +42,13 @@ public class SequentialDFS {
         Stream<Schedule> initSchedules = initNodes.stream().map(n ->
                 new Schedule(schedule, new TaskScheduled(n, 0, 0))
         );
+         */
+        if (new PartialSchedule(taskGraph,processorCount).expandSchedule(ubound.getFinishTime())==null){
+            System.out.println("is null");
+        }
+
+        Stream<PartialSchedule> initSchedules = new PartialSchedule(taskGraph,processorCount).expandSchedule(ubound.getFinishTime()).stream();
+
 
         DFSThread[] threadPool = new DFSThread[threads];
         for (int i = 0; i < threads; i++) {
@@ -48,7 +57,8 @@ public class SequentialDFS {
 
         // Circle the thread pool until we're out of schedules
         int i = 0;
-        for (Schedule s : initSchedules.collect(Collectors.toCollection(LinkedList::new))) {
+        for (PartialSchedule s : initSchedules.collect(Collectors.toCollection(LinkedList::new))) {
+            //for (Schedule s : initSchedules.collect(Collectors.toCollection(LinkedList::new))) {
             threadPool[i].scheduleStack.push(s);
             i += 1;
             i %= threads;
@@ -69,16 +79,18 @@ public class SequentialDFS {
             throw new RuntimeException("Threads interrupted!");
         }
 
-        Schedule best = ta.getBestSchedule();
+        //Schedule best = ta.getBestSchedule();
+        PartialSchedule best = ta.getBestSchedule();
 
-        if (best == null) {
+        if (best == null||best.getFinishTime()==0) {
             throw new RuntimeException("No schedules generated!");
         }
 
         System.out.printf("Thread starts: %d%n", ta.numThreadsSpawned());
 
         // Annotate nodes in the task graph with the processor its scheduled on
-        for (TaskScheduled t : best.getCurrentSchedule()) {
+        for (TaskScheduled t : best.getScheduledTasks()) {
+            //for (TaskScheduled t : best.getCurrentSchedule()) {
             String taskName = t.getTaskNode().getName();
             int processor = t.getProcessor();
             int startTime = t.getStartingTime();
