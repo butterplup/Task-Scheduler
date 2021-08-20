@@ -19,6 +19,9 @@ import javafx.scene.paint.Stop;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import eu.hansolo.tilesfx.tools.FlowGridPane;
+import project1.algorithm.ThreadAnalytics;
+import com.sun.management.OperatingSystemMXBean;
+import java.lang.management.ManagementFactory;
 
 import static javafx.scene.paint.Color.rgb;
 
@@ -72,11 +75,17 @@ public class MainController {
     //timeline for the poller
     private Timeline timerHandler;
 
+    //this is where we ge thte scehudel daat from
+    private ThreadAnalytics threadData;
+    private java.lang.management.OperatingSystemMXBean osBean;
 
 
     //initialisation call
     public void init() {
 
+        //intilisses the fields that will hold all the data for the gui
+        threadData = ThreadAnalytics.getInstance();
+        osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
 
         // set up display elements
         setUpMemoryTile();
@@ -121,6 +130,25 @@ public class MainController {
     private void startPolling() {
         //timeline that adds a enw keyframe every 50miliseconds
         Timeline autoUpdater = new Timeline(new KeyFrame(Duration.millis(50), event -> {
+
+            if(threadData.determineFinished()){
+
+                //stops the timer form running as the alogrithm is finished
+                stopTimer();
+
+                //if the threadData is finsihed set the running text to be done
+                StatusText.setStyle("-fx-fill: rgb(15,150,100)");
+                StatusText.setText("Done");
+            }
+
+            //updates  the memory in the memory tile
+            double memoryUsage = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/(1000000d);
+            memoryTile.setValue(memoryUsage);
+
+            //gets the cpu usage over the entire system
+            double cpuUsage = osBean.getSystemLoadAverage();
+            cpuTile.setValue(cpuUsage);
+
 
 
 
