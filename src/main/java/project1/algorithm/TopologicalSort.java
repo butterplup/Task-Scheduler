@@ -16,14 +16,15 @@ public class TopologicalSort {
 
     //Using Kahn's algorithm
     public PartialSchedule getSchedule(Graph g, int processorsCount){
-        //List of Schedulable nodes
 
-        //Collections.sort(agentDtoList, (o1, o2) -> o1.getCustomerCount() - o2.getCustomerCount());
-
+        LinkedList<Node> nodesDone = new LinkedList<>();
 
         ArrayList<Node> tempNodes = (ArrayList<Node>) g.getNodes();
-        LinkedList<Node> nodesDone = new LinkedList<>();
+
+        //Sorts list of nodes from graph based on critical path
         Collections.sort(tempNodes, (n1, n2) -> n2.getCriticalPath() - n1.getCriticalPath());
+
+        //Converts array list to linked list
         for(Node n: tempNodes){
             nodesDone.add(n);
         }
