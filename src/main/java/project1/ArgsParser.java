@@ -1,12 +1,18 @@
 package project1;
 
 import java.io.IOException;
+
+import com.sun.org.apache.xpath.internal.Arg;
 import lombok.Getter;
+import project1.algorithm.ThreadAnalytics;
 
 /**
- * Class ArgsParser takes the command line arguments and stores them for use by other classes
+ * A ArgsParser singleton takes the command line arguments and stores them for use by other classes
  */
 public class ArgsParser {
+
+    // A single instance of ArgsParser
+    private static ArgsParser instance;
 
     // Stored settings for the algorithm
     /**
@@ -35,7 +41,7 @@ public class ArgsParser {
      * @param args - the cmd line arguments
      * @throws IOException - when cmd line args do not meet expected format
      */
-    ArgsParser(String[] args) throws IOException {
+    private ArgsParser(String[] args) throws IOException {
 
         if (args.length < 2) {
             throw new IOException("Mandatory arguments missing, see usage");
@@ -85,4 +91,23 @@ public class ArgsParser {
             throw new IOException("No arg given following at least one optional arg -p or -o");
         }
     }
+
+    /**
+     * Instantiate an instance of ArgsParser, and return it.
+     * @param args User inputted arguments.
+     * @return The single ArgsParser instance.
+     */
+    public static ArgsParser getInstance(String[] args) throws IOException {
+        instance = new ArgsParser(args);
+        return instance;
+    }
+
+    /**
+     * Return the single ArgsParser instance.
+     * @return The single ArgsParser instance.
+     */
+    public static ArgsParser getInstance() {
+        return instance;
+    }
+
 }

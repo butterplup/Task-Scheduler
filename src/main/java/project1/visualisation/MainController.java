@@ -92,16 +92,12 @@ public class MainController {
     private java.lang.management.OperatingSystemMXBean osBean;
     private ArgsParser argsParser; //ArgsParser object stores user input data
 
-    //TODO PROPERLY INJECT THIS FROM VISUALISER/RUN.JAVA
-    public void injectArgs(ArgsParser argsParser) {
-        this.argsParser = argsParser;
-    }
-
     //initialisation call
     public void init() {
 
         //intilisses the fields that will hold all the data for the gui
         threadData = ThreadAnalytics.getInstance();
+        argsParser = ArgsParser.getInstance();
         osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
 
         // set up display elements

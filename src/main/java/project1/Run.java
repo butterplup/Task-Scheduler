@@ -13,7 +13,7 @@ public class Run {
     public static void main(String[] args) throws IOException {
         try {
             // Parses and stores arguments in an object
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
 
             String filename = argsParser.getFilename();
             Graph g = Parser.parse(filename);
