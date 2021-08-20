@@ -102,7 +102,7 @@ public class PartialSchedule {
                 PartialSchedule possibility = new PartialSchedule(this, scheduled);
 
                 //Only add to Schedule to stack if its finish time<current best "complete" schedule
-                if (possibility.getFinishTime() < best) {
+                if (possibility.getFinishTime() + scheduled.getTaskNode().CalcPath() < best) {
                     expanded.add(possibility);
                 }
             }
