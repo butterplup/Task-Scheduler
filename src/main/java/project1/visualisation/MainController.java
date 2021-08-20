@@ -149,7 +149,13 @@ public class MainController {
             double cpuUsage = osBean.getSystemLoadAverage();
             cpuTile.setValue(cpuUsage);
 
+            if(threadData.getBestSchedule() != null){
 
+                //needs to update gant
+            }
+
+            //sets the current best time to the the string of the global best time (int)
+            bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime()));
 
 
         }));
