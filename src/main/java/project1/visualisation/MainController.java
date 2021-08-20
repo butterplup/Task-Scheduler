@@ -84,16 +84,18 @@ public class MainController {
     //timeline for the poller
     private Timeline timerHandler;
 
-    //creates the gantChart
+    //GantChart used to display best schedule
     private GanttChart<Number,String> chart;
-
-    //brings in the argsparser object
-    private ArgsParser argsParser;
 
     //this is where we ge thte scehudel daat from
     private ThreadAnalytics threadData;
     private java.lang.management.OperatingSystemMXBean osBean;
+    private ArgsParser argsParser; //ArgsParser object stores user input data
 
+    //TODO PROPERLY INJECT THIS FROM VISUALISER/RUN.JAVA
+    public void injectArgs(ArgsParser argsParser) {
+        this.argsParser = argsParser;
+    }
 
     //initialisation call
     public void init() {
@@ -107,6 +109,7 @@ public class MainController {
         setUpCpuTile();
         setUpTotalThreadTile();
         setUpActiveThreadTile();
+        setUpBestScheduleGantt();
 
         // start polling
         startPolling();
@@ -146,7 +149,7 @@ public class MainController {
         //timeline that adds a enw keyframe every 50miliseconds
         Timeline autoUpdater = new Timeline(new KeyFrame(Duration.millis(50), event -> {
 
-            if(threadData.determineFinished()){
+            if(threadData.isFinished()){
 
                 //stops the timer form running as the alogrithm is finished
                 stopTimer();
@@ -164,10 +167,10 @@ public class MainController {
             double cpuUsage = osBean.getSystemLoadAverage();
             cpuTile.setValue(cpuUsage);
 
-            //if a best schedule exists, apply it
+            //if a best schedule exists, display on screen
             if(threadData.getBestSchedule() != null){
+                updateBestScheduleGantt(threadData.getBestSchedule());
 
-                //needs to update gant
             }
 
             //sets the current best time to the the string of the global best time (int)
@@ -279,7 +282,7 @@ public class MainController {
 
 
     /**
-     * Code from visualisation.VisualController by Joel
+     * Code refactored from visualisation.VisualController by Joel
      */
 
     /**
