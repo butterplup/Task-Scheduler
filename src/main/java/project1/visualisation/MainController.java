@@ -8,9 +8,14 @@ import eu.hansolo.tilesfx.colors.Dark;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -19,9 +24,13 @@ import javafx.scene.paint.Stop;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import eu.hansolo.tilesfx.tools.FlowGridPane;
+import project1.ArgsParser;
+import project1.algorithm.Schedule;
+import project1.algorithm.TaskScheduled;
 import project1.algorithm.ThreadAnalytics;
 import com.sun.management.OperatingSystemMXBean;
 import java.lang.management.ManagementFactory;
+import java.util.Arrays;
 
 import static javafx.scene.paint.Color.rgb;
 
@@ -74,6 +83,12 @@ public class MainController {
 
     //timeline for the poller
     private Timeline timerHandler;
+
+    //creates the gantChart
+    private GanttChart<Number,String> chart;
+
+    //brings in the argsparser object
+    private ArgsParser argsParser;
 
     //this is where we ge thte scehudel daat from
     private ThreadAnalytics threadData;
@@ -149,14 +164,22 @@ public class MainController {
             double cpuUsage = osBean.getSystemLoadAverage();
             cpuTile.setValue(cpuUsage);
 
+            //if a best schedule exists, apply it
             if(threadData.getBestSchedule() != null){
 
                 //needs to update gant
             }
 
             //sets the current best time to the the string of the global best time (int)
-            bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime()));
+            bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime())); //there will always be an int here as its intilisied to 999
 
+            //then updates the active thread and total thread counts
+            ObservableList<ChartData> allocData = totalActiveTile.getChartData();
+            ObservableList<ChartData> orderData = totalThreadsTile.getChartData();
+
+            //then gets the additional data and adds it to the existing data
+            totalActiveTile.addChartData(new ChartData(threadData.numThreadsAlive()));
+            totalThreadsTile.addChartData(new ChartData(threadData.numThreadsSpawned()));
 
         }));
             //sets the cycle count to be indefinite so it never stops then starts the autoupdater
@@ -252,6 +275,81 @@ public class MainController {
 
     private FlowGridPane buildFlowGridPane(Tile tile) {
         return new FlowGridPane(1, 1, tile);
+    }
+
+
+    /**
+     * Code from visualisation.VisualController by Joel
+     */
+
+    /**
+     * Initialises the blank Gantt chart to be used for displaying the current best schedule. Heavy inspiration taken
+     * from Roland, author of GanttChart.java, in terms of proper usage of the class. Proper reference can be found in
+     * that class.
+     */
+    private void setUpBestScheduleGantt() {
+
+        int processorCount = argsParser.getProcessorCount();
+        String[] processors = new String[processorCount];
+
+        for (int i = 0; i < processorCount; i++) {
+            processors[i] = "Processor " + String.valueOf(i);
+        }
+
+        // Init the axis for time (x)
+        final NumberAxis timeAxis = new NumberAxis();
+        timeAxis.setLabel("");
+        timeAxis.setTickLabelFill(Color.rgb(0,128,0));
+        timeAxis.setMinorTickCount(5);
+
+        // Init the axis for processors (y)
+        final CategoryAxis processorAxis = new CategoryAxis();
+        processorAxis.setLabel("");
+        timeAxis.setTickLabelFill(Color.rgb(0,128,0));
+        processorAxis.setTickLabelGap(1);
+        processorAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList(processors)));
+
+        // Setting up chart
+        chart = new GanttChart<Number,String>(timeAxis,processorAxis);
+        chart.setLegendVisible(false);
+        // Make sure height per task is smaller when scheduled on more processors
+        chart.setBlockHeight(280/processorCount);
+        // Styles the appearance of tasks on the chart
+        chart.getStylesheets().add(getClass().getResource("/GanttChart.css").toExternalForm());
+        chart.setMaxHeight(ganttBox.getPrefHeight());
+        ganttBox.getChildren().add(chart);
+        ganttBox.setStyle("-fx-background-color: WHITE");
+
+    }
+
+    private void updateBestScheduleGantt(Schedule bestSchedule) {
+
+        int processorCount = argsParser.getProcessorCount();
+
+        // new array of series to write schedule data onto
+        XYChart.Series[] seriesArray = new XYChart.Series[processorCount];
+        // init series objs
+        for (int i = 0; i < processorCount; i++){
+            seriesArray[i] = new XYChart.Series();
+        }
+
+        // for every task in schedule, write its data onto the specific series
+        for (TaskScheduled taskScheduled: bestSchedule.getCurrentSchedule()){
+            // Get the processor which this task is scheduled on
+            int processorForTask = taskScheduled.getProcessor();
+
+            XYChart.Data newTaskData = new XYChart.Data(taskScheduled.getStartingTime(),
+                    "Processor "+ String.valueOf(processorForTask),
+                    new GanttChart.ExtraData(taskScheduled, "task-styles"));
+            // Add this task to its respective processor
+            seriesArray[processorForTask].getData().add(newTaskData);
+        }
+
+        // clear out the old data and add new schedule
+        chart.getData().clear();
+        for (XYChart.Series series: seriesArray){
+            chart.getData().add(series);
+        }
     }
 
 
