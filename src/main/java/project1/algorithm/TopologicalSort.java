@@ -3,6 +3,9 @@ package project1.algorithm;
 import project1.graph.Edge;
 import project1.graph.Graph;
 import project1.graph.Node;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,30 +17,16 @@ public class TopologicalSort {
     //Using Kahn's algorithm
     public PartialSchedule getSchedule(Graph g, int processorsCount){
         //List of Schedulable nodes
-        LinkedList<Node> readyNodes=new LinkedList<>();
-        int[] in=new int[g.getNodes().size()];
-        for (Node n:g.getNodes()){
-            in[n.getId()]=n.getIncomingEdges().size();
-            if (n.getIncomingEdges().size()==0){
-                readyNodes.add(n);
-            }
-        }
 
-        //Create a topological order
+        //Collections.sort(agentDtoList, (o1, o2) -> o1.getCustomerCount() - o2.getCustomerCount());
+
+
+        ArrayList<Node> tempNodes = (ArrayList<Node>) g.getNodes();
         LinkedList<Node> nodesDone = new LinkedList<>();
-        while (!readyNodes.isEmpty()){
-            Node ready= readyNodes.removeFirst();
-            nodesDone.add(ready);
-            for (Edge e:ready.getOutgoingEdges()){
-                Node child=e.getEnd();
-                in[child.getId()]=in[child.getId()]-1;
-                if (in[child.getId()]==0){
-                    //ready
-                    readyNodes.add(child);
-                }
-            }
+        Collections.sort(tempNodes, (n1, n2) -> n2.getCriticalPath() - n1.getCriticalPath());
+        for(Node n: tempNodes){
+            nodesDone.add(n);
         }
-
 
         PartialSchedule topoSchedule=new PartialSchedule(g,processorsCount);
 
