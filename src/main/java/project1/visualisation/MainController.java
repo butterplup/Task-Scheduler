@@ -87,15 +87,14 @@ public class MainController {
     //GantChart used to display best schedule
     private GanttChart<Number,String> chart;
 
-    //this is where we ge thte scehudel daat from
-    private ThreadAnalytics threadData;
+    private ThreadAnalytics threadData; // stores info on best schedule and threads
     private java.lang.management.OperatingSystemMXBean osBean;
-    private ArgsParser argsParser; //ArgsParser object stores user input data
+    private ArgsParser argsParser; // ArgsParser object stores user input data
 
     //initialisation call
     public void init() {
 
-        //intilisses the fields that will hold all the data for the gui
+        //initialises the fields that will hold all the data for the gui
         threadData = ThreadAnalytics.getInstance();
         argsParser = ArgsParser.getInstance();
         osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
@@ -142,20 +141,20 @@ public class MainController {
 
     //poller to update visual display
     private void startPolling() {
-        //timeline that adds a enw keyframe every 50miliseconds
+        //timeline that adds a new keyframe every 50 milliseconds
         Timeline autoUpdater = new Timeline(new KeyFrame(Duration.millis(50), event -> {
 
             if(threadData.isFinished()){
 
-                //stops the timer form running as the alogrithm is finished
+                //stops the timer form running as the algorithm is finished
                 stopTimer();
 
-                //if the threadData is finsihed set the running text to be done
+                //if the threadData is finished set the running text to be done
                 StatusText.setStyle("-fx-fill: rgb(15,150,100)");
                 StatusText.setText("Done");
             }
 
-            //updates  the memory in the memory tile
+            //updates the memory in the memory tile
             double memoryUsage = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/(1000000d);
             memoryTile.setValue(memoryUsage);
 
@@ -181,7 +180,7 @@ public class MainController {
             totalThreadsTile.addChartData(new ChartData(threadData.numThreadsSpawned()));
 
         }));
-            //sets the cycle count to be indefinite so it never stops then starts the autoupdater
+            //sets the cycle count to be indefinite so it never stops then starts the auto-updater
             autoUpdater.setCycleCount(Animation.INDEFINITE);
             autoUpdater.play();
         }
@@ -224,9 +223,8 @@ public class MainController {
     }
 
     /**
-     * Sets up the memory and cpu usage tiles for the graphical user interface
+     * Sets up the memory usage tiles for the graphical user interface
      */
-    //sets up the memory tile
     private void setUpMemoryTile() {
         this.memoryTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .unit("MB")
@@ -249,7 +247,9 @@ public class MainController {
 
     }
 
-    //sets up the cpu tile
+    /**
+     * Sets up the cpu usage tiles for the graphical user interface
+     */
     private void setUpCpuTile() {
         this.cpuTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .unit("%")
