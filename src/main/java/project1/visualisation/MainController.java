@@ -119,8 +119,18 @@ public class MainController {
 
     //poller to update visual display
     private void startPolling() {
+        //timeline that adds a enw keyframe every 50miliseconds
+        Timeline autoUpdater = new Timeline(new KeyFrame(Duration.millis(50), event -> {
 
-    }
+
+
+        }));
+            //sets the cycle count to be indefinite so it never stops then starts the autoupdater
+            autoUpdater.setCycleCount(Animation.INDEFINITE);
+            autoUpdater.play();
+        }
+
+
 
     /**
      * Creates the smooth area charts for the number of active threads and the number of total threads spawned
