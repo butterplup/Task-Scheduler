@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import project1.algorithm.PartialSchedule;
 import project1.algorithm.SequentialDFS;
-import project1.algorithm.ThreadAnalytics;
 import project1.graph.dotparser.Parser;
 import project1.graph.Graph;
 

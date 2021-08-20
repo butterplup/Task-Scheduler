@@ -1,7 +1,6 @@
 package project1.algorithm;
 
 import project1.graph.Graph;
-import project1.graph.Node;
 
 import java.util.Deque;
 import java.util.LinkedList;
