@@ -1,4 +1,4 @@
-# SE306 Team 2 Project 1
+![SE306 Team 2 Logo](docs/logo.png)
 This project aims to solve an NP-hard scheduling problem, assigning tasks from a Directed Acyclic Graph(DAG) to a given number of processors. The current release uses a sequential Depth-First-Branch and Bound Search to find an optimal schedule that gives a minimal amount of time to complete all tasks.
 ## Project Setup
 1. Clone repo into a directory:
