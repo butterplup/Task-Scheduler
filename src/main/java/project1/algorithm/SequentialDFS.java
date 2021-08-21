@@ -23,17 +23,16 @@ public class SequentialDFS {
      * Generate an optimal schedule
      * @param taskGraph Task graph, given as a DAG
      * @param processorCount The number of processors to schedule for
-     * @param threads Number of parallel threads to be run
      *
      * @return The optimal Schedule
      */
-    public static Schedule generateOptimalSchedule(Graph taskGraph, int processorCount, int threads) {
+    public static Schedule generateOptimalSchedule(Graph taskGraph, int processorCount) {
         // Stack of schedules to be evaluated
         System.out.println("Start");
         // Empty schedule
         Scheduler s = new Scheduler(new Schedule(processorCount, taskGraph.getTotalTasksCount()), taskGraph);
 
-        ThreadAnalytics ta = ThreadAnalytics.getInstance(threads);
+        ThreadAnalytics ta = ThreadAnalytics.getInstance();
 
         s.getTasksCanBeScheduled(taskGraph.getNodes())
                 .forEach(

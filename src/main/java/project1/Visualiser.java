@@ -18,7 +18,7 @@ public class Visualiser extends Application {
     }
 
     public static void Main(String[] args) {
-        launch(args);
+        launch();
     }
 }
 

@@ -109,7 +109,7 @@ public class MainController {
         // start polling
         startPolling();
 
-        // initialize the tile values so they can work
+        // initialise the tile values so they can work
         memoryTile.setValue(0);
         cpuTile.setValue(0);
 
@@ -146,12 +146,14 @@ public class MainController {
 
             if(threadData.isFinished()){
 
-                //stops the timer form running as the algorithm is finished
+                //stops the timer from running as the algorithm is finished
                 stopTimer();
 
                 //if the threadData is finished set the running text to be done
                 StatusText.setStyle("-fx-fill: rgb(15,150,100)");
                 StatusText.setText("Done");
+
+                //TODO SET AUTOUPDATER TO STOP? AFTER ONE LAST UPDATE?
             }
 
             //updates the memory in the memory tile
