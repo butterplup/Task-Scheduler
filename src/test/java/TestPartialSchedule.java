@@ -1,4 +1,4 @@
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import project1.algorithm.PartialSchedule;
 import project1.algorithm.TaskScheduled;
@@ -29,9 +29,8 @@ public class TestPartialSchedule {
         }
     }
 
-    @BeforeClass
-    public static void setUp(){
-        System.out.println("invoked once");
+    @Before
+    public void setUp(){
         complete= new PartialSchedule(small,2);
         taskOne= new TaskScheduled(small.getNodes().get(0),0,0);
         complete=new PartialSchedule(complete,taskOne);
@@ -96,10 +95,10 @@ public class TestPartialSchedule {
         check[0]=taskOne;
         check[1]=taskTwo;
         TaskScheduled[] scheduledTasks=complete.getScheduledTasks();
-        int index=0;
+        int i=0;
         for (TaskScheduled t:scheduledTasks){
-            assertEquals(check[index],t);
-            ++index;
+            assertEquals(check[i],t);
+            i++;
         }
     }
 
@@ -108,15 +107,5 @@ public class TestPartialSchedule {
         assertTrue(complete.isCompleteSchedule(2));
     }
 
-    /*
-    @Test
-    public void testAddTask() {
-        List<Node> nodes = new ArrayList<>(Arrays.asList(new Node(0, "1"), new Node(0, "2")));
-        // Create a Schedule
-        Schedule schedule = new Schedule(2, nodes);
-        Schedule newSchedule = new Schedule(schedule, new TaskScheduled(new Node(0, ""), 0, 1));
-    }
-
- */
 }
 
