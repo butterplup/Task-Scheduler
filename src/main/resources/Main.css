@@ -1,0 +1,36 @@
+/* font importing */
+@font-face {
+    src: url("/SourceCodePro-Bold.ttf");
+}
+@font-face {
+    src: url("/SourceCodePro-Regular.ttf");
+}
+@font-face {
+    src: url("/SourceCodePro-Light.ttf");
+}
+
+.main-container {
+    -fx-background-image: url("future-background.png");
+    -fx-background-size: 620 420;
+    -fx-background-position: center center;
+}
+
+.title, .text {
+    -fx-fill: white;
+}
+
+.title {
+    -fx-font-weight: bold;
+}
+
+.source-text, .title {
+    -fx-font-family: 'Source Code Pro';
+}
+
+.text {
+    -fx-font-weight: 300;
+}
+
+.running-status {
+    -fx-fill: crimson;
+}
