@@ -21,7 +21,7 @@ public class TestPartialSchedule {
     private static TaskScheduled taskTwo;
 
     private static Graph load(String resource) {
-        URL url = TestSequentialDFS.class.getResource(resource);
+        URL url = TestPartialSchedule.class.getResource(resource);
         try {
             return Parser.parse(url.getPath());
         } catch (IOException e) {
