@@ -102,6 +102,11 @@ public class MainController {
         argsParser = ArgsParser.getInstance();
         osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
 
+        //setup display text
+        inputField.setText(argsParser.getFilename());
+        outputField.setText(argsParser.getOutputFilename());
+        numProField.setText(String.valueOf(argsParser.getProcessorCount()));
+
         // set up display elements
         setUpMemoryTile();
         setUpCpuTile();
@@ -157,6 +162,9 @@ public class MainController {
             //gets the cpu usage over the entire system
             double cpuUsage = osBean.getSystemLoadAverage();
             cpuTile.setValue(cpuUsage);
+
+            //for testing
+            //System.out.println(cpuUsage);
 
             //if a best schedule exists, display on screen
             if(threadData.getBestSchedule() != null){
