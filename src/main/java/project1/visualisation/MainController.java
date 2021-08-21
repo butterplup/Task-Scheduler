@@ -159,6 +159,28 @@ public class MainController {
         //timeline that adds a new keyframe every 50 milliseconds
         Timeline autoUpdater = new Timeline(new KeyFrame(Duration.millis(50), event -> {
 
+
+            //checks if the algo is done, then runs the update one more time after its finished
+            if(threadData.isFinished()) {
+
+                System.out.println("needs to end");
+
+                //stops the timer from running as the algorithm is finished
+                stopTimer();
+
+                //if the threadData is finished set the running text to be done
+                StatusText.setStyle("-fx-fill: rgb(15,150,100)");
+                StatusText.setText("Done");
+
+                // checks if event loop has run once more following algorithm finishing
+                // so idle cpu and mem loads and optimal schedule are updated on GUI
+                if (!runAgain) {
+                    return;
+                }
+                //cahnges the value of the runagain boolean
+                runAgain = false;
+            }
+
             //updates the memory in the memory tile
             double memoryUsage = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/(1000000d);
             memoryTile.setValue(memoryUsage);
@@ -167,8 +189,11 @@ public class MainController {
             double cpuUsage = osBean.getSystemLoadAverage();
             cpuTile.setValue(cpuUsage);
 
+           // System.out.println(threadData.getBestSchedule());
+
             //if a best schedule exists, display on screen
             if(threadData.getBestSchedule() != null){
+                System.out.println("valid schedule found");
                 updateBestScheduleGantt(threadData.getBestSchedule());
             }
 
@@ -183,25 +208,7 @@ public class MainController {
             totalActiveTile.addChartData(new ChartData(threadData.numThreadsAlive()));
             totalThreadsTile.addChartData(new ChartData(threadData.numThreadsSpawned()));
 
-            //checks if the algo is done, then runs the update one more time after its finished
-            if(threadData.isFinished()){
 
-                //stops the timer from running as the algorithm is finished
-                stopTimer();
-
-                //if the threadData is finished set the running text to be done
-                StatusText.setStyle("-fx-fill: rgb(15,150,100)");
-                StatusText.setText("Done");
-
-                // checks if event loop has run once more following algorithm finishing
-                // so idle cpu and mem loads and optimal schedule are updated on GUI
-                if(runAgain){
-                    runAgain = false;
-                }else{
-                    return;
-                }
-
-            }
 
         }));
             //sets the cycle count to be indefinite so it never stops then starts the auto-updater
