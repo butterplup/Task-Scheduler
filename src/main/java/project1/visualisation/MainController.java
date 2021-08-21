@@ -3,15 +3,11 @@ package project1.visualisation;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.chart.ChartData;
-import eu.hansolo.tilesfx.colors.Bright;
-import eu.hansolo.tilesfx.colors.Dark;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -72,7 +68,6 @@ public class MainController {
     //tile initialisation
     private Tile memoryTile;
     private Tile cpuTile;
-    private Tile totalActive;
     private Tile totalThreadsTile;
     private Tile totalActiveTile;
 
@@ -134,16 +129,12 @@ public class MainController {
 
         //ever specified time interval it creates an event to change the time on the gui
         startTime=System.currentTimeMillis();
-        timerHandler = new Timeline(new KeyFrame(Duration.seconds(0.05), new EventHandler<ActionEvent>() {
+        timerHandler = new Timeline(new KeyFrame(Duration.seconds(0.05), event -> {
+            currentTime=System.currentTimeMillis();
 
-            @Override
-            public void handle(ActionEvent event) {
-                currentTime=System.currentTimeMillis();
-
-                //converts the time into an int so the decimal numbers are not displayed as well
-                int roundedTime = (int) ((currentTime-startTime)/1000);
-                TimeText.setText(String.valueOf(roundedTime));
-            }
+            //converts the time into an int so the decimal numbers are not displayed as well
+            int roundedTime = (int) ((currentTime-startTime)/1000);
+            TimeText.setText(String.valueOf(roundedTime));
         }));
         timerHandler.setCycleCount(Timeline.INDEFINITE);
         timerHandler.play();
@@ -217,13 +208,13 @@ public class MainController {
     private void setUpActiveThreadTile(){
         this.totalActiveTile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
                 .chartData(new ChartData(0), new ChartData(0))
-                .title("total threads active")
-                .titleColor(rgb(15,50,50))
+                .title("Total Threads Active")
+                .titleColor(Color.WHITE)
                 .textSize(Tile.TextSize.BIGGER)
                 .animated(false)
                 .smoothing(true)
                 .decimals(0)
-                .backgroundColor(Color.WHITE)
+                .backgroundColor(Color.TRANSPARENT)
                 .valueColor(rgb(0,216,244))
                 .build();
 
@@ -233,13 +224,13 @@ public class MainController {
     private void setUpTotalThreadTile(){
         this.totalThreadsTile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
                 .chartData(new ChartData(0), new ChartData(0))
-                .title("total threads run")
-                .titleColor(rgb(15,50,50))
+                .title("Total Threads Created")
+                .titleColor(Color.WHITE)
                 .textSize(Tile.TextSize.BIGGER)
                 .animated(false)
                 .smoothing(true)
                 .decimals(0)
-                .backgroundColor(Color.WHITE)
+                .backgroundColor(Color.TRANSPARENT)
                 .valueColor(rgb(0,216,244))
                 .build();
 
@@ -252,19 +243,19 @@ public class MainController {
     private void setUpMemoryTile() {
         this.memoryTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .unit("MB")
-                .maxValue(Runtime.getRuntime().maxMemory() / (1024 * 1024))
-                .gradientStops(new Stop(0, rgb(244,160,0)),
-                        new Stop(0.8, Bright.RED),
-                        new Stop(1.0, Dark.RED))
+                .maxValue(Runtime.getRuntime().maxMemory() / (1024.0 * 1024.0))
+                .gradientStops(new Stop(0, rgb(251,206,66)),
+                        new Stop(0.8, rgb(251,145,66)),
+                        new Stop(1.0, rgb(245,22,118)))
                 .animated(true)
                 .decimals(0)
                 .strokeWithGradient(true)
-                .backgroundColor(Color.WHITE)
-                .valueColor(rgb(244,160,0))
-                .unitColor(rgb(244,160,0))
+                .backgroundColor(Color.TRANSPARENT)
+                .valueColor(rgb(251,237,66))
+                .unitColor(rgb(251,237,66))
                 .barBackgroundColor(rgb(242, 242, 242))
                 .thresholdColor(rgb(128, 84, 1))
-                .needleColor(rgb(244,160,0))
+                .needleColor(rgb(251,206,66))
                 .build();
 
         memBox.getChildren().addAll(buildFlowGridPane(this.memoryTile));
@@ -278,17 +269,17 @@ public class MainController {
         this.cpuTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .unit("%")
                 .maxValue(100)
-                .gradientStops(new Stop(0, rgb(244,160,0)),
-                        new Stop(0.8, Bright.RED),
-                        new Stop(1.0, Dark.RED))
+                .gradientStops(new Stop(0, rgb(251,206,66)),
+                        new Stop(0.8, rgb(251,145,66)),
+                        new Stop(1.0, rgb(245,22,118)))
                 .animated(true)
                 .decimals(0)
                 .strokeWithGradient(true)
-                .backgroundColor(Color.WHITE)
-                .valueColor(rgb(244,160,0))
-                .unitColor(rgb(244,160,0))
+                .backgroundColor(Color.TRANSPARENT)
+                .valueColor(rgb(251,237,66))
+                .unitColor(rgb(251,237,66))
                 .barBackgroundColor(rgb(242, 242, 242))
-                .needleColor(rgb(244,160,0))
+                .needleColor(rgb(251,206,66))
                 .build();
 
         CpuBox.getChildren().addAll(buildFlowGridPane(this.cpuTile));
@@ -313,24 +304,24 @@ public class MainController {
         String[] processors = new String[processorCount];
 
         for (int i = 0; i < processorCount; i++) {
-            processors[i] = "Processor " + String.valueOf(i+1);
+            processors[i] = "Processor " + (i + 1);
         }
 
         // Init the axis for time (x)
         final NumberAxis timeAxis = new NumberAxis();
         timeAxis.setLabel("");
-        timeAxis.setTickLabelFill(Color.rgb(0,128,0));
+        timeAxis.setTickLabelFill(Color.rgb(251,145,66));
         timeAxis.setMinorTickCount(5);
 
         // Init the axis for processors (y)
         final CategoryAxis processorAxis = new CategoryAxis();
         processorAxis.setLabel("");
-        timeAxis.setTickLabelFill(Color.rgb(0,128,0));
+        processorAxis.setTickLabelFill(Color.WHITE);
         processorAxis.setTickLabelGap(1);
-        processorAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList(processors)));
+        processorAxis.setCategories(FXCollections.observableArrayList(Arrays.asList(processors)));
 
         // Setting up chart
-        chart = new GanttChart<Number,String>(timeAxis,processorAxis);
+        chart = new GanttChart<>(timeAxis,processorAxis);
         chart.setLegendVisible(false);
         // Make sure height per task is smaller when scheduled on more processors
         chart.setBlockHeight(100.0/processorCount);
@@ -338,7 +329,7 @@ public class MainController {
         chart.getStylesheets().add(getClass().getResource("/GanttChart.css").toExternalForm());
         chart.setMaxHeight(ganttBox.getPrefHeight());
         ganttBox.getChildren().add(chart);
-        ganttBox.setStyle("-fx-background-color: WHITE");
+        ganttBox.setStyle("-fx-background-color: transparent");
 
     }
 
