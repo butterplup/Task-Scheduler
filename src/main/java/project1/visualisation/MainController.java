@@ -174,7 +174,7 @@ public class MainController {
             totalActiveTile.addChartData(new ChartData(threadData.numThreadsAlive()));
             totalThreadsTile.addChartData(new ChartData(threadData.numThreadsSpawned()));
 
-            //checks if the algo is done, then runs the udpate one more time after its finished
+            //checks if the algo is done, then runs the update one more time after its finished
             if(threadData.isFinished()){
 
                 //stops the timer from running as the algorithm is finished
@@ -184,12 +184,11 @@ public class MainController {
                 StatusText.setStyle("-fx-fill: rgb(15,150,100)");
                 StatusText.setText("Done");
 
-                //makes the loop run one more time after the alog finishes to put idle loads onto cpu and mem tile and final gant box up
+                // checks if event loop has run once more following algorithm finishing
+                // so idle cpu and mem loads and optimal schedule are updated on GUI
                 if(runAgain){
-
                     runAgain = false;
                 }else{
-
                     return;
                 }
 
