@@ -4,57 +4,76 @@ import lombok.Getter;
 import project1.graph.Edge;
 import project1.graph.Graph;
 import project1.graph.Node;
+
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * This class represents the current schedule with scheduled nodes and a reference
+ * to its parent schedule
+ */
+@Getter
 public class PartialSchedule {
-    @Getter private PartialSchedule prev;
-    @Getter private TaskScheduled ts;
-    private int[] processorInfo;
-    private final int nodesVisited;
-    @Getter int finishTime;
-
     // Global vars
     @Getter private static int processors;
     @Getter private static Graph schedulingGraph;
+    private final int nodesVisited;
+    int finishTime;
+    private PartialSchedule prev;
+    private TaskScheduled ts;
+    private int[] processorInfo;
 
+    /**
+     * Creates an initial empty PartialSchedule object.
+     *
+     * @param g The task graph that we create partial schedule for.
+     * @param p Number of processors.
+     */
     public PartialSchedule(Graph g, int p) {
-        this.nodesVisited=0;
-        this.finishTime =0;
+        try {
+            if (p < 1) {
+                throw new IllegalArgumentException("Can not generate a schedule when the number of processors is less than 1.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+        this.nodesVisited = 0;
+        this.finishTime = 0;
 
         // Fields that we can persist across schedules (improves perf.)
-        processors=p;
-        schedulingGraph=g;
+        processors = p;
+        schedulingGraph = g;
     }
 
     /**
      * Build a new schedule based on a previous one and a TaskScheduled
+     *
      * @param ps Previous schedule
      * @param ts New TaskScheduled
      */
-    public PartialSchedule(PartialSchedule ps,TaskScheduled ts){
-        this.prev=ps;
-        this.ts=ts;
-        this.nodesVisited=ps.nodesVisited+1;
-        this.finishTime =Math.max(ps.finishTime,ts.getFinishTime());
+    public PartialSchedule(PartialSchedule ps, TaskScheduled ts) {
+        this.prev = ps;
+        this.ts = ts;
+        this.nodesVisited = ps.nodesVisited + 1;
+        this.finishTime = Math.max(ps.finishTime, ts.getFinishTime());
     }
 
     /**
      * Return all schedules that branch from this one
+     *
      * @param best Best complete schedule time thus far
      * @return List of schedules
      */
-    public List<PartialSchedule> expandSchedule(int best){
-        List<PartialSchedule> expanded=new LinkedList<>();
+    public List<PartialSchedule> expandSchedule(int best) {
+        List<PartialSchedule> expanded = new LinkedList<>();
 
         // Find nodes that are already scheduled
-        TaskScheduled[] alreadyScheduled=this.getScheduledTasks();
+        TaskScheduled[] alreadyScheduled = this.getScheduledTasks();
 
         // Node hasn't been Scheduled
-        for (Node n : schedulingGraph.getNodes()){
+        for (Node n : schedulingGraph.getNodes()) {
             //cannot be scheduled if it has been scheduled already
-            if (alreadyScheduled[n.getId()]!=null){
+            if (alreadyScheduled[n.getId()] != null) {
                 continue;
             }
 
@@ -67,18 +86,18 @@ public class PartialSchedule {
                 }
             }
 
-            if (!canBeScheduled){
+            if (!canBeScheduled) {
                 continue;
             }
 
             boolean foundEmpty = false;
-            for (int p=0; p < processors; p++){
-                int start=this.processorInfo[p];
+            for (int p = 0; p < processors; p++) {
+                int start = this.processorInfo[p];
                 int startTime;
                 // Get processor start time
                 // Break if we encounter two empty processors
                 boolean empty = start == 0;
-                if (foundEmpty && empty){
+                if (foundEmpty && empty) {
                     break;
                 }
 
@@ -113,9 +132,10 @@ public class PartialSchedule {
 
     /**
      * Get all scheduled tasks
+     *
      * @return Array of TaskScheduled, indexed by Node ID
      */
-    public TaskScheduled[] getScheduledTasks(){
+    public TaskScheduled[] getScheduledTasks() {
         this.processorInfo = new int[processors];
         TaskScheduled[] currentTasks = new TaskScheduled[schedulingGraph.getNodes().size()];
 
@@ -125,22 +145,22 @@ public class PartialSchedule {
             currentTasks[this.ts.getTaskNode().getId()] = this.ts;
 
             // Update the relevant processor finish time if need be
-            int start=ts.getStartingTime() + ts.getTaskNode().getWeight();
-            if (this.processorInfo[ts.getProcessor()]<start) {
+            int start = ts.getStartingTime() + ts.getTaskNode().getWeight();
+            if (this.processorInfo[ts.getProcessor()] < start) {
                 this.processorInfo[ts.getProcessor()] = start;
             }
         }
 
         // Traverse the PartialSchedule hierarchy
-        PartialSchedule current=this.prev;
-        while (current != null && current.getTs() != null){
+        PartialSchedule current = this.prev;
+        while (current != null && current.getTs() != null) {
             TaskScheduled ts = current.getTs();
             // Add to currentTasks
             currentTasks[ts.getTaskNode().getId()] = ts;
 
             // Update the relevant processor finish time if need be
             int pStart = ts.getStartingTime() + ts.getTaskNode().getWeight();
-            if (pStart > this.processorInfo[ts.getProcessor()]){
+            if (pStart > this.processorInfo[ts.getProcessor()]) {
                 this.processorInfo[ts.getProcessor()] = pStart;
             }
 
@@ -151,18 +171,24 @@ public class PartialSchedule {
         return currentTasks;
     }
 
-    public int[] getProcessorInfo(){
-        return this.processorInfo;
-    }
-
-    public boolean isCompleteSchedule(int total){
+    /**
+     * Checks if the partial schedule is a complete schedule
+     *
+     * @param total Expected number of nodes to be visited for a complete schedule
+     * @return true if the number of nodes visited=total
+     * false if the number of nodes visited does not equal to total
+     */
+    public boolean isCompleteSchedule(int total) {
         return this.nodesVisited == total;
     }
 
-    public void printSchedule(){
-        TaskScheduled[] tasks=this.getScheduledTasks();
-        for (TaskScheduled t:tasks){
-            if (t!=null) {
+    /**
+     * Prints out the current schedule
+     */
+    public void printSchedule() {
+        TaskScheduled[] tasks = this.getScheduledTasks();
+        for (TaskScheduled t : tasks) {
+            if (t != null) {
                 System.out.println(t.getTaskNode().getName() + "is scheduled to" + t.getProcessor() + "Starting at" + t.getStartingTime());
             }
         }

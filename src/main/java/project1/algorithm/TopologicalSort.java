@@ -6,10 +6,21 @@ import project1.graph.Node;
 
 import java.util.LinkedList;
 
+/**
+ * This class aids DFSBnB search by generating a valid complete schedule based
+ * on the topological order identified and can be used as initial ubound.
+ */
 public class TopologicalSort {
 
-    //Using Kahn's algorithm
-    public static PartialSchedule getSchedule(Graph g, int processorsCount){
+    /**
+     * The algorithm performs a topological sort and assigns tasks in this topological
+     * order to processors which the task to be scheduled can have an earliest start time.
+     *
+     * @param g               Task graph to generate a topological order for.
+     * @param processorsCount Number of processors allowed for scheduling.
+     * @return A valid complete schedule as a PartialSchedule object.
+     */
+    public static PartialSchedule getSchedule(Graph g, int processorsCount) {
         // Shallow copy of graph nodes
         LinkedList<Node> nodesDone = new LinkedList<>(g.getNodes());
 
@@ -18,13 +29,13 @@ public class TopologicalSort {
 
         PartialSchedule topoSchedule = new PartialSchedule(g, processorsCount);
 
-        while (!nodesDone.isEmpty()){
-            Node currentNode= nodesDone.removeFirst();  // Get a node to schedule
+        while (!nodesDone.isEmpty()) {
+            Node currentNode = nodesDone.removeFirst();  // Get a node to schedule
 
-            int index=-1;
-            int bestProcessor=index;
-            int currentEarliest=Integer.MAX_VALUE;
-            TaskScheduled[] scheduled= topoSchedule.getScheduledTasks();
+            int index = -1;
+            int bestProcessor = index;
+            int currentEarliest = Integer.MAX_VALUE;
+            TaskScheduled[] scheduled = topoSchedule.getScheduledTasks();
 
             // Go through all processors,Use earliestStartTime as selection rule
             for (int free : topoSchedule.getProcessorInfo()) {
@@ -42,12 +53,12 @@ public class TopologicalSort {
                 }
 
                 startTime = Math.max(free, communicationCost);
-                if (startTime < currentEarliest){
+                if (startTime < currentEarliest) {
                     currentEarliest = startTime;
                     bestProcessor = index;
                 }
 
-                if (currentEarliest == 0){
+                if (currentEarliest == 0) {
                     //can not have better EST time
                     break;
                 }
@@ -55,7 +66,7 @@ public class TopologicalSort {
 
             //Assign task to this processor
             TaskScheduled ts = new TaskScheduled(currentNode, currentEarliest, bestProcessor);
-            topoSchedule = new PartialSchedule(topoSchedule,ts);
+            topoSchedule = new PartialSchedule(topoSchedule, ts);
         }
 
         return topoSchedule;
