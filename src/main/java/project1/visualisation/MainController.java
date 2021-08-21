@@ -139,6 +139,7 @@ public class MainController {
             public void handle(ActionEvent event) {
                 currentTime=System.currentTimeMillis();
 
+                //converts the time into an int so the decimal numbers are not displayed as well
                 int roundedTime = (int) ((currentTime-startTime)/1000);
                 TimeText.setText(String.valueOf(roundedTime));
             }
