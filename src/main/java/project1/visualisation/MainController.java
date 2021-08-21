@@ -81,6 +81,9 @@ public class MainController {
     private double currentTime;
     private double finishTime;
 
+    //boolean to determine fi the updater needs to trigger again
+    private boolean runAgain;
+
     //timeline for the poller
     private Timeline timerHandler;
 
@@ -105,6 +108,9 @@ public class MainController {
         setUpTotalThreadTile();
         setUpActiveThreadTile();
         setUpBestScheduleGantt();
+
+        //initialises the boolean to true
+        runAgain = true;
 
         // start polling
         startPolling();
@@ -144,18 +150,6 @@ public class MainController {
         //timeline that adds a new keyframe every 50 milliseconds
         Timeline autoUpdater = new Timeline(new KeyFrame(Duration.millis(50), event -> {
 
-            if(threadData.isFinished()){
-
-                //stops the timer from running as the algorithm is finished
-                stopTimer();
-
-                //if the threadData is finished set the running text to be done
-                StatusText.setStyle("-fx-fill: rgb(15,150,100)");
-                StatusText.setText("Done");
-
-                //TODO SET AUTOUPDATER TO STOP? AFTER ONE LAST UPDATE?
-            }
-
             //updates the memory in the memory tile
             double memoryUsage = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/(1000000d);
             memoryTile.setValue(memoryUsage);
@@ -167,7 +161,6 @@ public class MainController {
             //if a best schedule exists, display on screen
             if(threadData.getBestSchedule() != null){
                 updateBestScheduleGantt(threadData.getBestSchedule());
-
             }
 
             //sets the current best time to the the string of the global best time (int)
@@ -180,6 +173,27 @@ public class MainController {
             //then gets the additional data and adds it to the existing data
             totalActiveTile.addChartData(new ChartData(threadData.numThreadsAlive()));
             totalThreadsTile.addChartData(new ChartData(threadData.numThreadsSpawned()));
+
+            //checks if the algo is done, then runs the udpate one more time after its finished
+            if(threadData.isFinished()){
+
+                //stops the timer from running as the algorithm is finished
+                stopTimer();
+
+                //if the threadData is finished set the running text to be done
+                StatusText.setStyle("-fx-fill: rgb(15,150,100)");
+                StatusText.setText("Done");
+
+                //makes the loop run one more time after the alog finishes to put idle loads onto cpu and mem tile and final gant box up
+                if(runAgain){
+
+                    runAgain = false;
+                }else{
+
+                    return;
+                }
+
+            }
 
         }));
             //sets the cycle count to be indefinite so it never stops then starts the auto-updater
