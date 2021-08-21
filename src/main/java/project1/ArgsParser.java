@@ -1,10 +1,7 @@
 package project1;
 
 import java.io.IOException;
-
-//import com.sun.org.apache.xpath.internal.Arg;
 import lombok.Getter;
-import project1.algorithm.ThreadAnalytics;
 
 /**
  * A ArgsParser singleton takes the command line arguments and stores them for use by other classes

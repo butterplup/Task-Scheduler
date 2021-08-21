@@ -81,7 +81,7 @@ public class MainController {
     private double currentTime;
     private double finishTime;
 
-    //boolean to determine fi the updater needs to trigger again
+    //boolean to determine if the updater needs to trigger again
     private boolean runAgain;
 
     //timeline for the poller
@@ -95,6 +95,7 @@ public class MainController {
     private ArgsParser argsParser; // ArgsParser object stores user input data
 
     //initialisation call
+    @FXML
     public void initialize() {
 
         //initialises the fields that will hold all the data for the gui
@@ -166,9 +167,6 @@ public class MainController {
             double cpuUsage = osBean.getSystemLoadAverage();
             cpuTile.setValue(cpuUsage);
 
-            //for testing
-            //System.out.println(cpuUsage);
-
             //if a best schedule exists, display on screen
             if(threadData.getBestSchedule() != null){
                 updateBestScheduleGantt(threadData.getBestSchedule());
@@ -177,9 +175,6 @@ public class MainController {
             //sets the current best time to the the string of the global best time (int)
             bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime())); //there will always be an int here as its intilisied to 999
 
-            //System.out.println(threadData.getGlobalBestTime());
-
-
             //then updates the active thread and total thread counts
             ObservableList<ChartData> allocData = totalActiveTile.getChartData();
             ObservableList<ChartData> orderData = totalThreadsTile.getChartData();
@@ -187,9 +182,6 @@ public class MainController {
             //then gets the additional data and adds it to the existing data
             totalActiveTile.addChartData(new ChartData(threadData.numThreadsAlive()));
             totalThreadsTile.addChartData(new ChartData(threadData.numThreadsSpawned()));
-
-            System.out.println(totalActiveTile.getChartData().size());
-
 
             //checks if the algo is done, then runs the update one more time after its finished
             if(threadData.isFinished()){
@@ -308,10 +300,7 @@ public class MainController {
         return new FlowGridPane(1, 1, tile);
     }
 
-
-    /**
-     * Code refactored from visualisation.VisualController by Joel
-     */
+     //Following code refactored from visualisation.VisualController by Joel
 
     /**
      * Initialises the blank Gantt chart to be used for displaying the current best schedule. Heavy inspiration taken
