@@ -138,7 +138,9 @@ public class MainController {
             @Override
             public void handle(ActionEvent event) {
                 currentTime=System.currentTimeMillis();
-                TimeText.setText(""+((currentTime-startTime)/1000));
+
+                int roundedTime = (int) ((currentTime-startTime)/1000);
+                TimeText.setText(String.valueOf(roundedTime));
             }
         }));
         timerHandler.setCycleCount(Timeline.INDEFINITE);
@@ -174,6 +176,9 @@ public class MainController {
             //sets the current best time to the the string of the global best time (int)
             bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime())); //there will always be an int here as its intilisied to 999
 
+            //System.out.println(threadData.getGlobalBestTime());
+
+
             //then updates the active thread and total thread counts
             ObservableList<ChartData> allocData = totalActiveTile.getChartData();
             ObservableList<ChartData> orderData = totalThreadsTile.getChartData();
@@ -181,6 +186,9 @@ public class MainController {
             //then gets the additional data and adds it to the existing data
             totalActiveTile.addChartData(new ChartData(threadData.numThreadsAlive()));
             totalThreadsTile.addChartData(new ChartData(threadData.numThreadsSpawned()));
+
+            System.out.println(totalActiveTile.getChartData().size());
+
 
             //checks if the algo is done, then runs the update one more time after its finished
             if(threadData.isFinished()){
