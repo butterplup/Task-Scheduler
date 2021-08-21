@@ -95,7 +95,7 @@ public class MainController {
     private ArgsParser argsParser; // ArgsParser object stores user input data
 
     //initialisation call
-    public void init() {
+    public void initialize() {
 
         //initialises the fields that will hold all the data for the gui
         threadData = ThreadAnalytics.getInstance();
