@@ -26,13 +26,13 @@ public class SequentialDFS {
      */
     public static PartialSchedule generateOptimalSchedule(Graph taskGraph, int processorCount, int threads) {
         // Stack of schedules to be evaluated
-        System.out.println("Start");
+        //System.out.println("Start");
         ThreadAnalytics ta = ThreadAnalytics.getInstance(threads);
 
         //Schedule ubound=new TopologicalSort().getSchedule(taskGraph,processorCount);
         PartialSchedule ubound=new TopologicalSort().getSchedule(taskGraph,processorCount);
         ta.newSchedule(ubound.getFinishTime(),ubound);
-        System.out.println(ubound.getFinishTime());
+        //System.out.println(ubound.getFinishTime());
 
         /*
         List<Node> initNodes = new Schedule(processorCount, taskGraph.getNodes()).getSchedulable();
@@ -72,9 +72,9 @@ public class SequentialDFS {
         }
 
         try {
-            System.out.println("Waiting...");
+            //System.out.println("Waiting...");
             ta.waitTillDone();
-            System.out.println("Done!");
+            //System.out.println("Done!");
         } catch (InterruptedException e) {
             throw new RuntimeException("Threads interrupted!");
         }
@@ -86,7 +86,7 @@ public class SequentialDFS {
             throw new RuntimeException("No schedules generated!");
         }
 
-        System.out.printf("Thread starts: %d%n", ta.numThreadsSpawned());
+        //System.out.printf("Thread starts: %d%n", ta.numThreadsSpawned());
 
         // Annotate nodes in the task graph with the processor its scheduled on
         for (TaskScheduled t : best.getScheduledTasks()) {
