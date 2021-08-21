@@ -185,12 +185,16 @@ public class PartialSchedule {
     /**
      * Prints out the current schedule
      */
-    public void printSchedule() {
+    public String printSchedule() {
         TaskScheduled[] tasks = this.getScheduledTasks();
+        StringBuilder s=new StringBuilder();
         for (TaskScheduled t : tasks) {
             if (t != null) {
-                System.out.println(t.getTaskNode().getName() + "is scheduled to" + t.getProcessor() + "Starting at" + t.getStartingTime());
+                s.append(t.getTaskNode().getName() + " is scheduled to Processor " + t.getProcessor() +
+                        " Starting at time " + t.getStartingTime()+"\n");
             }
         }
+        //System.out.println(s.toString());
+        return s.toString();
     }
 }
