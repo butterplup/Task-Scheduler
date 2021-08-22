@@ -28,6 +28,7 @@ public class Run {
 
                 PartialSchedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount(), argsParser.getParallelCoreCount());
                 s.printSchedule();
+                System.out.println(s);
 
                 String outputFilename = argsParser.getOutputFilename();
                 Parser.saveToFile(g, outputFilename);
