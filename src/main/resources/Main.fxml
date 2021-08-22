@@ -21,14 +21,14 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="60.0" prefWidth="223.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Time Elapsed" textAlignment="CENTER" wrappingWidth="105.662109375" />
-                                <Text fx:id="TimeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Status" textAlignment="CENTER" wrappingWidth="105.662109375" />
+                                <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="running-status" text="Running" />
                             </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="60.0" prefWidth="223.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Status" textAlignment="CENTER" wrappingWidth="105.662109375" />
-                                <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="running-status" text="Running" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Time Elapsed" textAlignment="CENTER" wrappingWidth="105.662109375" />
+                                <Text fx:id="TimeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875" />
                             </children>
                         </VBox>
                     </children>
