@@ -12,7 +12,7 @@ import java.util.List;
 public class Node {
     @Getter private final int weight;
     @Getter private final String name;
-    @Getter private int additionTime;
+    @Getter private int[][] location= new int [10][22];
     @Getter @Setter private int processor;
     @Getter @Setter private int start;
     @Getter @Setter private int id = 0;
@@ -61,7 +61,7 @@ public class Node {
 //        System.out.println("true " + this.name + " " + other.getName());
         return true;
     }
-    public void incrementAdd(){
-        additionTime++;
+    public void incrementAdd(int processor,int topologicalOrder){
+        location[processor][topologicalOrder]++;
     }
 }

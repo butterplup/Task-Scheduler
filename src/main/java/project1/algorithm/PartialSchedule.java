@@ -93,13 +93,6 @@ public class PartialSchedule {
                     break;
                 }
             }
-            if(n.getAdditionTime() > processors*schedulingGraph.getEdges().size()){
-                for(TaskScheduled t : alreadyScheduled){
-                    if(t != null && t.getTaskNode().sameLevel(n)){
-                        cloneWeight+=n.getWeight();
-                    }
-                }
-            }
 
             if (!canBeScheduled) {
                 continue;
@@ -131,6 +124,15 @@ public class PartialSchedule {
                     }
                 }
 
+
+                if(n.getLocation()[p][nodesVisited] > processors*schedulingGraph.getEdges().size()){
+                    for(TaskScheduled t : alreadyScheduled){
+                        if(t != null && t.getTaskNode().sameLevel(n)){
+                            cloneWeight+=n.getWeight();
+                        }
+                    }
+                }
+
                 startTime = Math.max(start, communicationCost);
                 TaskScheduled scheduled = new TaskScheduled(n, startTime, p);
                 PartialSchedule possibility = new PartialSchedule(this, scheduled);
@@ -139,7 +141,7 @@ public class PartialSchedule {
                 //Only add to Schedule to stack if its finish time<current best "complete" schedule
                 if (heuristic < best) {
                     expanded.add(possibility);
-                    n.incrementAdd();
+                    n.incrementAdd(p,nodesVisited);
                 }else{
 
 //                    System.out.println(scheduled.getTaskNode().getCriticalPath() + " c");
