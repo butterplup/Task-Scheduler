@@ -69,7 +69,7 @@
             <children>
                 <VBox prefHeight="105.0" prefWidth="256.0">
                     <children>
-                  <Region prefHeight="9.0" prefWidth="256.0" />
+                  <Region prefHeight="28.0" prefWidth="256.0" />
                         <HBox alignment="CENTER" prefHeight="42.0" prefWidth="249.0">
                             <children>
                         <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
@@ -82,13 +82,6 @@
                         <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Output Graph:" wrappingWidth="80.0" />
                                 <TextField fx:id="outputField" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" HBox.hgrow="NEVER" />
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="44.0" prefWidth="249.0">
-                            <children>
-                        <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Number of Nodes:" wrappingWidth="80.0" />
-                                <TextField fx:id="numProField" editable="false" prefWidth="150.0" styleClass="source-text" HBox.hgrow="NEVER" />
                             </children>
                         </HBox>
                   <HBox alignment="CENTER" prefHeight="42.0" prefWidth="249.0">
