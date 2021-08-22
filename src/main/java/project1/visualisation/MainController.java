@@ -36,6 +36,8 @@ import static javafx.scene.paint.Color.rgb;
  */
 public class MainController {
 
+    private final int  MAX_ELEMENTS = 500;
+
     @FXML
     private Text bestScheduleTime;
 
@@ -211,6 +213,7 @@ public class MainController {
             totalActiveTile.addChartData(new ChartData(threadData.numThreadsAlive()));
             totalThreadsTile.addChartData(new ChartData(threadData.numThreadsSpawned()));
 
+            //needs to check if the chart data is above the max elements
 
 
         }));
@@ -264,6 +267,8 @@ public class MainController {
      */
     private void setUpMemoryTile() {
         this.memoryTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
+                .title("Current Memory Usage")
+                .titleColor(rgb(0,0,0))
                 .unit("MB")
                 .maxValue(Runtime.getRuntime().maxMemory() / (1024.0 * 1024.0))
                 .gradientStops(new Stop(0, rgb(251,206,66)),
@@ -289,6 +294,8 @@ public class MainController {
      */
     private void setUpCpuTile() {
         this.cpuTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
+                .title("Current Cpu Usage")
+                .titleColor(rgb(0,0,0))
                 .unit("%")
                 .maxValue(100)
                 .gradientStops(new Stop(0, rgb(251,206,66)),
