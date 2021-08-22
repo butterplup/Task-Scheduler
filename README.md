@@ -10,20 +10,23 @@ To set up this project and view the source code for editing/building yourself:
 ```shell
 $ git clone https://github.com/SoftEng306-2021/project-1-project-1-team-2.git 
 ```
-2. Import this project into Intellij as a Maven project.
+2. Import this project into IntelliJ as a Maven project.
 ## Building
 ### Dependencies
 - Maven
 - Java Development Kit >= 8
 ### Instructions
-From the directory, run the follwing command in your shell:
+From the directory, run the following command in your shell:
 ```shell
 # Package into a self-contained jar in the target/directory
 mvn package
 ```
+This will create the jar which you can execute by following the instructions under ****Usage****. 
 ## Usage
 ### Dependencies
 - Java 8
+
+You can specify various arguments while running the scheduler. See below for your options:
 ```shell
 java -jar scheduler.jar INPUT.dot P [OPTION]
 # Mandatory Arguments:
@@ -31,7 +34,18 @@ java -jar scheduler.jar INPUT.dot P [OPTION]
 # P         Number of processors to schedule the INPUT graph on (minimum 1)
 #
 # Optional Arguments:
-# -p N      Use N cores for parallel execution
+# -p N      Use N cores (threads) for parallel execution
 # -v        Enable search visualisation
 # -o OUTPUT Output filename (Default is INPUT−output.dot)
 ```
+Examples:
+* ```java -jar scheduler.jar INPUT.dot 2 -o MYOUTPUT.dot```: Run scheduler.jar to schedule INPUT.dot to 2 processors, and output to MYOUTPUT.dot
+* ```java -jar schedular.jar INPUT.dot 4 -p 2 -v```: Run scheduler.jar on 2 threads in parallel to schedule INPUT.dot to 4 processors, with search visualisation enabled
+
+## Contributors
+* [Johnathan](https://github.com/johnathan-coe)
+* [Stephy](https://github.com/colaMeowSY)
+* [Joel](https://github.com/butterplup)
+* [Henry](https://github.com/randomguy7373)
+* [Kieran](https://github.com/kieran-byte)
+* [Tyler](https://github.com/dogeliness)
