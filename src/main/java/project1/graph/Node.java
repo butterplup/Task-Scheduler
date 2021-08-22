@@ -12,7 +12,7 @@ import java.util.List;
 public class Node {
     @Getter private final int weight;
     @Getter private final String name;
-    @Getter private int[][] location= new int [10][22];
+    @Getter private int[][] location= new int [10][22];//Location in terms of processor and scheduled order
     @Getter @Setter private int processor;
     @Getter @Setter private int start;
     @Getter @Setter private int id = 0;

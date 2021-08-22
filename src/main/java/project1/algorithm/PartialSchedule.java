@@ -132,7 +132,7 @@ public class PartialSchedule {
                 if(n.getLocation()[p][nodesVisited] > processors*schedulingGraph.getEdges().size()){
                     for(TaskScheduled t : alreadyScheduled){
                         if(t != null && t.getTaskNode().sameLevel(n)){
-                            cloneWeight+=n.getWeight();
+                            cloneWeight+=t.getTaskNode().getWeight();
                         }
                     }
                 }
