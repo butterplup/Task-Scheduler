@@ -13,19 +13,19 @@
             <children>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="222.0">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="223.0">
                             <children>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Best Time" />
                                 <Text fx:id="bestScheduleTime" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" />
                             </children>
                         </VBox>
-                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="145.0">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="223.0">
                             <children>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Time Elapsed" textAlignment="CENTER" wrappingWidth="105.662109375" />
                                 <Text fx:id="TimeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875" />
                             </children>
                         </VBox>
-                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="229.0">
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="223.0">
                             <children>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Status" textAlignment="CENTER" wrappingWidth="105.662109375" />
                                 <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="running-status" text="Running" />
@@ -55,7 +55,7 @@
                             <children>
                         <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Input Graph:" wrappingWidth="80.0" />
-                                <TextField fx:id="inputField" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" HBox.hgrow="NEVER" />
+                        <TextField fx:id="inputField" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" />
                             </children>
                         </HBox>
                         <HBox prefHeight="44.0" prefWidth="257.0">
