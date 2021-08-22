@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A ThreadAnalytics singleton is used to manage a thread pool
@@ -129,4 +130,5 @@ public class ThreadAnalytics {
             }
         }
     }
+
 }

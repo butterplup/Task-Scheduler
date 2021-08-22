@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="761.0" styleClass="main-container" stylesheets="@Main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project1.visualisation.MainController">
+    <children>
+        <VBox layoutX="-1.0" prefHeight="281.0" prefWidth="669.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="254.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Best Time">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Text>
+                                <Text fx:id="bestScheduleTime" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Text>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="254.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Status" textAlignment="CENTER" wrappingWidth="105.662109375">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Text>
+                                <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="running-status" text="Running">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Text>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="60.0" prefWidth="254.0">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Time Elapsed" textAlignment="CENTER" wrappingWidth="105.662109375">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Text>
+                                <Text fx:id="TimeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Text>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox prefHeight="240.0" prefWidth="600.0">
+                    <children>
+                        <VBox fx:id="ganttBox" prefHeight="379.0" prefWidth="640.0" HBox.hgrow="ALWAYS" />
+                        <VBox prefHeight="384.0" prefWidth="389.0">
+                            <children>
+                                <HBox fx:id="totalThreadBox" prefHeight="214.0" prefWidth="387.0" VBox.vgrow="ALWAYS" />
+                                <HBox fx:id="activeThreadsBox" prefHeight="205.0" prefWidth="387.0" VBox.vgrow="ALWAYS" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+        <HBox layoutY="284.0" prefHeight="168.0" prefWidth="669.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="284.0">
+            <children>
+                <VBox prefHeight="105.0" prefWidth="256.0">
+                    <children>
+                  <Region prefHeight="40.0" prefWidth="256.0" />
+                        <HBox alignment="CENTER" prefHeight="42.0" prefWidth="249.0">
+                            <children>
+                        <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Input Graph:" textAlignment="CENTER" wrappingWidth="80.0" />
+                        <TextField fx:id="inputField" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="44.0" prefWidth="257.0">
+                            <children>
+                        <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Output Graph:" wrappingWidth="80.0" />
+                                <TextField fx:id="outputField" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" HBox.hgrow="NEVER" />
+                            </children>
+                        </HBox>
+                  <HBox alignment="CENTER" prefHeight="42.0" prefWidth="249.0">
+                     <children>
+                        <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Number of nodes:" textAlignment="CENTER" wrappingWidth="80.0" />
+                        <TextField fx:id="nodeField" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" />
+                     </children>
+                  </HBox>
+                    </children>
+                </VBox>
+            <Region prefHeight="168.0" prefWidth="10.0" />
+                <VBox fx:id="CpuBox" prefHeight="168.0" prefWidth="185.0" HBox.hgrow="ALWAYS" />
+                <VBox fx:id="memBox" prefHeight="105.0" prefWidth="170.0" HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

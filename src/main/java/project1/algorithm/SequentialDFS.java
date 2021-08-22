@@ -27,7 +27,7 @@ public class SequentialDFS {
     public static PartialSchedule generateOptimalSchedule(Graph taskGraph, int processorCount, int threads) {
         // Stack of schedules to be evaluated
         System.out.println("Start");
-        ThreadAnalytics ta = ThreadAnalytics.getInstance(threads);
+        ThreadAnalytics ta = ThreadAnalytics.getInstance();
 
         //Schedule ubound=new TopologicalSort().getSchedule(taskGraph,processorCount);
         PartialSchedule ubound=new TopologicalSort().getSchedule(taskGraph,processorCount);

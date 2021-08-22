@@ -1,6 +1,7 @@
 package project1;
-import project1.algorithm.PartialSchedule;
+import project1.algorithm.Schedule;
 import project1.algorithm.SequentialDFS;
+import project1.algorithm.ThreadAnalytics;
 import project1.graph.dotparser.Parser;
 import project1.graph.Graph;
 
@@ -13,18 +14,24 @@ public class Run {
     public static void main(String[] args) throws IOException {
         try {
             // Parses and stores arguments in an object
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
+            // Initialises ThreadAnalytics for the desired core count
+            ThreadAnalytics.getInstance(argsParser.getParallelCoreCount());
 
-            String filename = argsParser.getInputFilename();
-            Graph g = Parser.parse(filename);
+            if (argsParser.isVisualise()) {
+                //needs to start a new thread and start the visualisation
+                Visualiser.Main(args);
 
-            PartialSchedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount(), argsParser.getParallelCoreCount());
-            s.printSchedule();
-            System.out.println(s);
+            } else {
+                String filename = argsParser.getFilename();
+                Graph g = Parser.parse(filename);
 
-            String outputFilename = argsParser.getOutputFilename();
-            Parser.saveToFile(g, outputFilename);
+                Schedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount());
+                s.printSchedule();
 
+                String outputFilename = argsParser.getOutputFilename();
+                Parser.saveToFile(g, outputFilename);
+            }
         } catch (IOException e) {
             // Relays message of specific error as identified in the ArgsParser class
             System.out.println(e.getMessage());
