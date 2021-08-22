@@ -264,9 +264,11 @@ public class MainController {
     private void setUpMemoryTile() {
         this.memoryTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .title("Current Memory Usage")
+                .textSize(Tile.TextSize.BIGGER)
                 .titleColor(rgb(255,255,255))
                 .titleAlignment(TextAlignment.CENTER)
                 .unit("MB")
+                .backgroundColor(Color.TRANSPARENT)
                 .maxValue(Runtime.getRuntime().maxMemory() / (1024.0 * 1024.0))
                 .gradientStops(new Stop(0, rgb(251,206,66)),
                         new Stop(0.8, rgb(251,145,66)),
@@ -274,13 +276,14 @@ public class MainController {
                 .animated(true)
                 .decimals(0)
                 .strokeWithGradient(true)
-                .backgroundColor(Color.TRANSPARENT)
+                .barBackgroundColor(Color.TRANSPARENT)
                 .valueColor(rgb(251,237,66))
                 .unitColor(rgb(251,237,66))
-                .barBackgroundColor(rgb(242, 242, 242))
                 .thresholdColor(rgb(128, 84, 1))
                 .needleColor(rgb(251,206,66))
                 .build();
+
+
 
         memBox.getChildren().addAll(buildFlowGridPane(this.memoryTile));
 
@@ -292,6 +295,7 @@ public class MainController {
     private void setUpCpuTile() {
         this.cpuTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .title("Current Cpu Usage")
+                .textSize(Tile.TextSize.BIGGER)
                 .titleColor(rgb(255,255,255))
                 .titleAlignment(TextAlignment.CENTER)
                 .unit("%")
