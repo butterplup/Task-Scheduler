@@ -39,7 +39,7 @@ java -jar scheduler.jar INPUT.dot P [OPTION]
 # -o OUTPUT Output filename (Default is INPUT−output.dot)
 ```
 
-##Contributors
+## Contributors
 * [Johnathan](https://github.com/johnathan-coe)
 * [Stephy](https://github.com/colaMeowSY)
 * [Joel](https://github.com/butterplup)
