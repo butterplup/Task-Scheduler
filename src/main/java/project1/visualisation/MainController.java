@@ -169,8 +169,6 @@ public class MainController {
             //checks if the algo is done, then runs the update one more time after its finished
             if(threadData.isFinished()) {
 
-                System.out.println("needs to end");
-
                 //stops the timer from running as the algorithm is finished
                 stopTimer();
 
@@ -195,11 +193,8 @@ public class MainController {
             double cpuUsage = osBean.getSystemLoadAverage();
             cpuTile.setValue(cpuUsage);
 
-           // System.out.println(threadData.getBestSchedule());
-
             //if a best schedule exists, display on screen
             if(threadData.getBestSchedule() != null){
-                System.out.println("valid schedule found");
                 updateBestScheduleGantt(threadData.getBestSchedule());
 
                 //sets the current best time to the the string of the global best time (int)
