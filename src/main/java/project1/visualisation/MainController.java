@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Stop;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import eu.hansolo.tilesfx.tools.FlowGridPane;
 import project1.ArgsParser;
@@ -268,7 +269,8 @@ public class MainController {
     private void setUpMemoryTile() {
         this.memoryTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .title("Current Memory Usage")
-                .titleColor(rgb(0,0,0))
+                .titleColor(rgb(255,255,255))
+                .titleAlignment(TextAlignment.CENTER)
                 .unit("MB")
                 .maxValue(Runtime.getRuntime().maxMemory() / (1024.0 * 1024.0))
                 .gradientStops(new Stop(0, rgb(251,206,66)),
@@ -295,7 +297,8 @@ public class MainController {
     private void setUpCpuTile() {
         this.cpuTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .title("Current Cpu Usage")
-                .titleColor(rgb(0,0,0))
+                .titleColor(rgb(255,255,255))
+                .titleAlignment(TextAlignment.CENTER)
                 .unit("%")
                 .maxValue(100)
                 .gradientStops(new Stop(0, rgb(251,206,66)),
