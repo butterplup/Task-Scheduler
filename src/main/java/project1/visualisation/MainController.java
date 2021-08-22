@@ -3,15 +3,11 @@ package project1.visualisation;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.chart.ChartData;
-import eu.hansolo.tilesfx.colors.Bright;
-import eu.hansolo.tilesfx.colors.Dark;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -34,6 +30,10 @@ import java.util.Arrays;
 
 import static javafx.scene.paint.Color.rgb;
 
+/**
+ * This class controls how the UI is updated in Main.fxml
+ * It updates the visualised elements of the algorithm as it is calculated
+ */
 public class MainController {
 
     @FXML
@@ -69,20 +69,19 @@ public class MainController {
     @FXML
     private VBox memBox;
 
-    //tile initialisation
+    //tiles
     private Tile memoryTile;
     private Tile cpuTile;
-    private Tile totalActive;
     private Tile totalThreadsTile;
     private Tile totalActiveTile;
 
-    //timer set up
+    //timer fields
     private double startTime;
     private double currentTime;
     private double finishTime;
 
     //boolean to determine if the updater needs to trigger again
-    private boolean runAgain;
+    private boolean runAgain = true;
 
     //timeline for the poller
     private Timeline timerHandler;
@@ -94,7 +93,10 @@ public class MainController {
     private java.lang.management.OperatingSystemMXBean osBean;
     private ArgsParser argsParser; // ArgsParser object stores user input data
 
-    //initialisation call
+    /**
+     * Called following object construction to set up FXML fields and their initial state
+     * Also begins the event polling loop and the algorithm timer
+     */
     @FXML
     public void initialize() {
 
@@ -115,13 +117,10 @@ public class MainController {
         setUpActiveThreadTile();
         setUpBestScheduleGantt();
 
-        //initialises the boolean to true
-        runAgain = true;
-
         // start polling
         startPolling();
 
-        // initialise the tile values so they can work
+        // initialise the tile values so they function properly
         memoryTile.setValue(0);
         cpuTile.setValue(0);
 
@@ -129,32 +128,36 @@ public class MainController {
         startTimer();
     }
 
-    //starts the timer
+    /**
+     * Creates a Timeline object which handles updating the timer state to the user
+     * This displays how long the algorithm has been currently running
+     */
     private void startTimer(){
 
-        //ever specified time interval it creates an event to change the time on the gui
+        //using specified time interval it creates an event to change the timer in the gui
         startTime=System.currentTimeMillis();
-        timerHandler = new Timeline(new KeyFrame(Duration.seconds(0.05), new EventHandler<ActionEvent>() {
+        timerHandler = new Timeline(new KeyFrame(Duration.seconds(0.05), event -> {
+            currentTime=System.currentTimeMillis();
 
-            @Override
-            public void handle(ActionEvent event) {
-                currentTime=System.currentTimeMillis();
-
-                //converts the time into an int so the decimal numbers are not displayed as well
-                int roundedTime = (int) ((currentTime-startTime)/1000);
-                TimeText.setText(String.valueOf(roundedTime));
-            }
+            //converts the time into an int so the decimal numbers are not displayed as well
+            int roundedTime = (int) ((currentTime-startTime)/1000);
+            TimeText.setText(String.valueOf(roundedTime));
         }));
         timerHandler.setCycleCount(Timeline.INDEFINITE);
         timerHandler.play();
     }
 
+    /**
+     * Stops the Timeline object refreshing the timer to freeze its state at the final algorithm runtime
+     */
     private void stopTimer(){
         timerHandler.stop();
     }
 
 
-    //poller to update visual display
+    /**
+     * Called following proper initialisation of all screen elements to continuously update the data for the user
+     */
     private void startPolling() {
         //timeline that adds a new keyframe every 50 milliseconds
         Timeline autoUpdater = new Timeline(new KeyFrame(Duration.millis(50), event -> {
@@ -195,10 +198,10 @@ public class MainController {
             if(threadData.getBestSchedule() != null){
                 System.out.println("valid schedule found");
                 updateBestScheduleGantt(threadData.getBestSchedule());
-            }
 
-            //sets the current best time to the the string of the global best time (int)
-            bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime())); //there will always be an int here as its intilisied to 999
+                //sets the current best time to the the string of the global best time (int)
+                bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime())); // will always be an int as is initialised to 999
+            }
 
             //then updates the active thread and total thread counts
             ObservableList<ChartData> allocData = totalActiveTile.getChartData();
@@ -219,34 +222,37 @@ public class MainController {
 
 
     /**
-     * Creates the smooth area charts for the number of active threads and the number of total threads spawned
+     * Creates a smooth area chart for the number of active threads running
      */
     private void setUpActiveThreadTile(){
         this.totalActiveTile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
                 .chartData(new ChartData(0), new ChartData(0))
-                .title("total threads active")
-                .titleColor(rgb(15,50,50))
+                .title("Total Threads Active")
+                .titleColor(Color.WHITE)
                 .textSize(Tile.TextSize.BIGGER)
                 .animated(false)
                 .smoothing(true)
                 .decimals(0)
-                .backgroundColor(Color.WHITE)
+                .backgroundColor(Color.TRANSPARENT)
                 .valueColor(rgb(0,216,244))
                 .build();
 
         activeThreadsBox.getChildren().addAll(buildFlowGridPane(this.totalActiveTile));
     }
 
+    /**
+     * Sets up the tile to display total thread count history over time
+     */
     private void setUpTotalThreadTile(){
         this.totalThreadsTile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
                 .chartData(new ChartData(0), new ChartData(0))
-                .title("total threads run")
-                .titleColor(rgb(15,50,50))
+                .title("Total Threads Created")
+                .titleColor(Color.WHITE)
                 .textSize(Tile.TextSize.BIGGER)
                 .animated(false)
                 .smoothing(true)
                 .decimals(0)
-                .backgroundColor(Color.WHITE)
+                .backgroundColor(Color.TRANSPARENT)
                 .valueColor(rgb(0,216,244))
                 .build();
 
@@ -254,24 +260,24 @@ public class MainController {
     }
 
     /**
-     * Sets up the memory usage tiles for the graphical user interface
+     * Sets up the current memory usage tile as a gauge for the graphical user interface
      */
     private void setUpMemoryTile() {
         this.memoryTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .unit("MB")
-                .maxValue(Runtime.getRuntime().maxMemory() / (1024 * 1024))
-                .gradientStops(new Stop(0, rgb(244,160,0)),
-                        new Stop(0.8, Bright.RED),
-                        new Stop(1.0, Dark.RED))
+                .maxValue(Runtime.getRuntime().maxMemory() / (1024.0 * 1024.0))
+                .gradientStops(new Stop(0, rgb(251,206,66)),
+                        new Stop(0.8, rgb(251,145,66)),
+                        new Stop(1.0, rgb(245,22,118)))
                 .animated(true)
                 .decimals(0)
                 .strokeWithGradient(true)
-                .backgroundColor(Color.WHITE)
-                .valueColor(rgb(244,160,0))
-                .unitColor(rgb(244,160,0))
+                .backgroundColor(Color.TRANSPARENT)
+                .valueColor(rgb(251,237,66))
+                .unitColor(rgb(251,237,66))
                 .barBackgroundColor(rgb(242, 242, 242))
                 .thresholdColor(rgb(128, 84, 1))
-                .needleColor(rgb(244,160,0))
+                .needleColor(rgb(251,206,66))
                 .build();
 
         memBox.getChildren().addAll(buildFlowGridPane(this.memoryTile));
@@ -279,30 +285,34 @@ public class MainController {
     }
 
     /**
-     * Sets up the cpu usage tiles for the graphical user interface
+     * Sets up the current cpu usage tile as a gauge for the graphical user interface
      */
     private void setUpCpuTile() {
         this.cpuTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .unit("%")
                 .maxValue(100)
-                .gradientStops(new Stop(0, rgb(244,160,0)),
-                        new Stop(0.8, Bright.RED),
-                        new Stop(1.0, Dark.RED))
+                .gradientStops(new Stop(0, rgb(251,206,66)),
+                        new Stop(0.8, rgb(251,145,66)),
+                        new Stop(1.0, rgb(245,22,118)))
                 .animated(true)
                 .decimals(0)
                 .strokeWithGradient(true)
-                .backgroundColor(Color.WHITE)
-                .valueColor(rgb(244,160,0))
-                .unitColor(rgb(244,160,0))
+                .backgroundColor(Color.TRANSPARENT)
+                .valueColor(rgb(251,237,66))
+                .unitColor(rgb(251,237,66))
                 .barBackgroundColor(rgb(242, 242, 242))
-                .needleColor(rgb(244,160,0))
+                .needleColor(rgb(251,206,66))
                 .build();
 
         CpuBox.getChildren().addAll(buildFlowGridPane(this.cpuTile));
 
     }
 
-
+    /**
+     * Initialises a 1x1 FlowGridPane to house the inputted Tile
+     * @param tile - desired tile to initialise
+     * @return new FlowGridPane object to contain that tile
+     */
     private FlowGridPane buildFlowGridPane(Tile tile) {
         return new FlowGridPane(1, 1, tile);
     }
@@ -318,39 +328,44 @@ public class MainController {
 
         int processorCount = argsParser.getProcessorCount();
         String[] processors = new String[processorCount];
-
+        // For each processor format a user-friendly string to display on gantt
         for (int i = 0; i < processorCount; i++) {
-            processors[i] = "Processor " + String.valueOf(i+1);
+            processors[i] = "Processor " + (i + 1);
         }
 
         // Init the axis for time (x)
         final NumberAxis timeAxis = new NumberAxis();
         timeAxis.setLabel("");
-        timeAxis.setTickLabelFill(Color.rgb(0,128,0));
+        timeAxis.setTickLabelFill(Color.rgb(251,145,66));
         timeAxis.setMinorTickCount(5);
 
         // Init the axis for processors (y)
         final CategoryAxis processorAxis = new CategoryAxis();
         processorAxis.setLabel("");
-        timeAxis.setTickLabelFill(Color.rgb(0,128,0));
+        processorAxis.setTickLabelFill(Color.WHITE);
         processorAxis.setTickLabelGap(1);
-        processorAxis.setCategories(FXCollections.<String>observableArrayList(Arrays.asList(processors)));
+        processorAxis.setCategories(FXCollections.observableArrayList(Arrays.asList(processors)));
 
         // Setting up chart
-        chart = new GanttChart<Number,String>(timeAxis,processorAxis);
+        chart = new GanttChart<>(timeAxis,processorAxis);
         chart.setLegendVisible(false);
+        chart.setTitle("Current Best Schedule");
         // Make sure height per task is smaller when scheduled on more processors
         chart.setBlockHeight(100.0/processorCount);
         // Styles the appearance of tasks on the chart
         chart.getStylesheets().add(getClass().getResource("/GanttChart.css").toExternalForm());
         chart.setMaxHeight(ganttBox.getPrefHeight());
         ganttBox.getChildren().add(chart);
-        ganttBox.setStyle("-fx-background-color: WHITE");
+        ganttBox.setStyle("-fx-background-color: transparent");
 
     }
 
+    /**
+     * Updates the data in the GanttChart to display the desired schedule to the user
+     * @param bestSchedule - the current best schedule to be displayed
+     */
     private void updateBestScheduleGantt(Schedule bestSchedule) {
-
+        // number of processors the tasks are assigned to
         int processorCount = argsParser.getProcessorCount();
 
         // new array of series to write schedule data onto
