@@ -3,6 +3,7 @@ package benchmarking;
 import lombok.AllArgsConstructor;
 import project1.algorithm.PartialSchedule;
 import project1.algorithm.SequentialDFS;
+import project1.algorithm.TopologicalSort;
 import project1.graph.Graph;
 
 @AllArgsConstructor
@@ -28,5 +29,20 @@ public class BenchMarking {
                   + iterations+ " iterations. \n");
     }
 
+    public void benchmarkingTopologicalSort(int iterations){
+        for (int i=0;i<10;i++){
+            PartialSchedule s = TopologicalSort.getSchedule(g,n);
+        }
+
+        double start=System.nanoTime();
+        for (int i=0;i<iterations;i++){
+            PartialSchedule s= TopologicalSort.getSchedule(g,n);
+        }
+        double end=System.nanoTime();
+        System.out.println("For a graph with "+
+                this.g.getNodes().size()+ " nodes and "+this.n+" processors used for scheduling: \n"+
+                "The average topological sort scheduling time is "+(double)(end-start)/iterations/1000000000+" seconds for "
+                + iterations+ " iterations. \n");
+    }
 
 }
