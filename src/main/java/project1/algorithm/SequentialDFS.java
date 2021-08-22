@@ -29,7 +29,6 @@ public class SequentialDFS {
         System.out.println("Start");
         ThreadAnalytics ta = ThreadAnalytics.getInstance();
 
-        //Schedule ubound=new TopologicalSort().getSchedule(taskGraph,processorCount);
         PartialSchedule ubound= TopologicalSort.getSchedule(taskGraph,processorCount);
         ta.newSchedule(ubound.getFinishTime(),ubound);
         System.out.println(ubound.getFinishTime());
@@ -48,7 +47,6 @@ public class SequentialDFS {
         // Circle the thread pool until we're out of schedules
         int i = 0;
         for (PartialSchedule s : initSchedules.collect(Collectors.toCollection(LinkedList::new))) {
-            //for (Schedule s : initSchedules.collect(Collectors.toCollection(LinkedList::new))) {
             threadPool[i].scheduleStack.push(s);
             i += 1;
             i %= threads;

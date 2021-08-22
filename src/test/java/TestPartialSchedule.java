@@ -51,7 +51,7 @@ public class TestPartialSchedule {
     }
 
     /**
-     * Tests invalid schedule creation for <1 processors
+     * Tests invalid schedule creation for 0 processors
      *
      * @throws IllegalArgumentException The exception expected to be thrown with
      *                                  illegal constructor arguments.

@@ -27,8 +27,7 @@ public class Run {
                 Graph g = Parser.parse(filename);
 
                 PartialSchedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount(), argsParser.getParallelCoreCount());
-                s.printSchedule();
-                System.out.println(s);
+                System.out.println(s.printSchedule());
 
                 String outputFilename = argsParser.getOutputFilename();
                 Parser.saveToFile(g, outputFilename);
