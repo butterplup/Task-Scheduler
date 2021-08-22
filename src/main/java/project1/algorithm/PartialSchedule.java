@@ -70,8 +70,12 @@ public class PartialSchedule {
         // Find nodes that are already scheduled
         TaskScheduled[] alreadyScheduled = this.getScheduledTasks();
 
+
+
         int unscheduledWeight = 0;
         int cloneWeight = 0;
+
+        //Splitting work onto processors can only speed up the algorithm so much so this is an effective heuristic
         for (Node n : schedulingGraph.getNodes()) {
             if (!(alreadyScheduled[n.getId()]!= null)) {
                 unscheduledWeight += n.getWeight();
@@ -124,7 +128,7 @@ public class PartialSchedule {
                     }
                 }
 
-
+                //For any location of a scheduled node with many same level nodes there can only be so many times it can be meaningfully scheduled
                 if(n.getLocation()[p][nodesVisited] > processors*schedulingGraph.getEdges().size()){
                     for(TaskScheduled t : alreadyScheduled){
                         if(t != null && t.getTaskNode().sameLevel(n)){

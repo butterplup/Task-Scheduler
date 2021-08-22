@@ -40,6 +40,8 @@ public class Node {
 
         return criticalPath;
     }
+
+    //Calculates if this node and another node are on the same 'level' with the same parents and children
     public boolean sameLevel(Node other){
         if(other.outgoingEdges.size() != this.outgoingEdges.size() && other.incomingEdges.size() != this.incomingEdges.size()){
             return false;
@@ -61,6 +63,7 @@ public class Node {
 //        System.out.println("true " + this.name + " " + other.getName());
         return true;
     }
+    //Increments the times this node hase been scheduled in a location
     public void incrementAdd(int processor,int topologicalOrder){
         location[processor][topologicalOrder]++;
     }

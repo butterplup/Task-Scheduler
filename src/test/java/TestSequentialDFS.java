@@ -93,16 +93,19 @@ public class TestSequentialDFS {
         PartialSchedule s = run(graph11, 4);
         Assert.assertEquals(227, s.getFinishTime());
     }
+
     @Test
     public synchronized void test2PG12(){
-        PartialSchedule s = run(graph12, 10);
+        PartialSchedule s = run(graph12, 2);
         System.out.println(s.getFinishTime());
     }
+
     @Test
     public synchronized void test2PG13(){
-        PartialSchedule s = run(graph13, 8);
-        System.out.println(s.getFinishTime());
+        PartialSchedule s = run(graph13, 2);
+        Assert.assertEquals(115, s.getFinishTime());
     }
+
     @Test
     public synchronized void test2PG14(){
         PartialSchedule s = run(graph14, 2);
