@@ -38,4 +38,25 @@ public class Node {
 
         return criticalPath;
     }
+    public boolean sameLevel(Node other){
+        if(other.outgoingEdges.size() != this.outgoingEdges.size() && other.incomingEdges.size() != this.incomingEdges.size()){
+            return false;
+        }
+        for(Edge te : this.incomingEdges){
+            for (Edge oe : other.incomingEdges){
+                if(te.getStart()!= oe.getStart()){
+                    return false;
+                }
+            }
+        }
+        for(Edge te : this.outgoingEdges){
+            for (Edge oe : other.outgoingEdges){
+                if(te.getEnd()!= oe.getEnd()){
+                    return false;
+                }
+            }
+        }
+        System.out.println("true " + String.valueOf(this.id) + " " + String.valueOf(other.getId()));
+        return true;
+    }
 }
