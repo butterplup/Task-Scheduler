@@ -10,6 +10,12 @@ import project1.algorithm.TaskScheduled;
 
 import java.util.Arrays;
 
+/**
+ * This class initialises and updates a GanttChart to display a schedule
+ * Output used for rendering in the visualisation. Sets up some basic styles
+ * as well as writing data from TaskScheduled class in a readable format for
+ * the application.
+ */
 public class ScheduleGantt {
 
     //GantChart used to display best schedule

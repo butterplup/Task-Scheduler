@@ -10,6 +10,8 @@ import static javafx.scene.paint.Color.rgb;
 
 /**
  * A static class used for generating the required Tiles used to display system data
+ * It initialises the tiles displaying both the memory usage and cpu usage
+ * as bar gauges and adds minor styling.
  */
 public class SystemTiles {
 

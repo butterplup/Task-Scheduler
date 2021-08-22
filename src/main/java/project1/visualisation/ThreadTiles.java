@@ -7,6 +7,11 @@ import javafx.scene.paint.Color;
 
 import static javafx.scene.paint.Color.rgb;
 
+/**
+ * This class is concerned with the Tiles displaying thread information.
+ * It initialises the tiles displaying both the total generated threads
+ * and the current active threads as smooth area charts and adds minor styling.
+ */
 public class ThreadTiles {
 
     /**
