@@ -90,10 +90,10 @@ public class MainController {
         nodeField.setText(String.valueOf(g.getNodes().size()));
 
         // set up display elements as Tiles
-        memoryTile = SystemTiles.setupMemoryTile();
-        cpuTile = SystemTiles.setupCPUTile();
-        totalThreadsTile = ThreadTiles.setupTotalThreadTile();
-        totalActiveTile = ThreadTiles.setupActiveThreadTile();
+        memoryTile = SystemTiles.setupSystemTile("Current Memory Usage",  -1);
+        cpuTile = SystemTiles.setupSystemTile("Current CPU Usage", 100);
+        totalThreadsTile = ThreadTiles.setupSmoothAreaChartTile("Total Threads Created");
+        totalActiveTile = ThreadTiles.setupSmoothAreaChartTile("Total Threads Active");
         // add display Tiles onto screen
         memBox.getChildren().addAll(buildFlowGridPane(this.memoryTile));
         CpuBox.getChildren().addAll(buildFlowGridPane(this.cpuTile));
