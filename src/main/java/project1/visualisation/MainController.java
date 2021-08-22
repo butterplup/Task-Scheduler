@@ -30,38 +30,18 @@ public class MainController {
     private final int  MAX_ELEMENTS = 500;
     private final int REMOVAL_VALUE = 50;
 
-    @FXML
-    private Text bestScheduleTime;
+    @FXML private Text bestScheduleTime;
+    @FXML private Text TimeText;
+    @FXML private Text StatusText;
+    @FXML private VBox ganttBox;
+    @FXML private HBox totalThreadBox;
+    @FXML private HBox activeThreadsBox;
+    @FXML private TextField inputField;
+    @FXML private TextField nodeField;
+    @FXML private TextField outputField;
 
-    @FXML
-    private Text TimeText;
-
-    @FXML
-    private Text StatusText;
-
-    @FXML
-    private VBox ganttBox;
-
-    @FXML
-    private HBox totalThreadBox;
-
-    @FXML
-    private HBox activeThreadsBox;
-
-    @FXML
-    private TextField inputField;
-
-    @FXML
-    private TextField nodeField;
-
-    @FXML
-    private TextField outputField;
-
-    @FXML
-    private VBox CpuBox;
-
-    @FXML
-    private VBox memBox;
+    @FXML private VBox CpuBox;
+    @FXML private VBox memBox;
 
     //tiles
     private Tile memoryTile;
