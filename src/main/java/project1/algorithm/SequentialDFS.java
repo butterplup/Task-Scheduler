@@ -34,21 +34,11 @@ public class SequentialDFS {
         ta.newSchedule(ubound.getFinishTime(),ubound);
         System.out.println(ubound.getFinishTime());
 
-        /*
-        List<Node> initNodes = new Schedule(processorCount, taskGraph.getNodes()).getSchedulable();
-
-        // Empty schedule
-        Schedule schedule = new Schedule(processorCount, taskGraph.getNodes());
-        Stream<Schedule> initSchedules = initNodes.stream().map(n ->
-                new Schedule(schedule, new TaskScheduled(n, 0, 0))
-        );
-         */
         if (new PartialSchedule(taskGraph,processorCount).expandSchedule(ubound.getFinishTime())==null){
             System.out.println("is null");
         }
 
         Stream<PartialSchedule> initSchedules = new PartialSchedule(taskGraph,processorCount).expandSchedule(ubound.getFinishTime()).stream();
-
 
         DFSThread[] threadPool = new DFSThread[threads];
         for (int i = 0; i < threads; i++) {
@@ -79,7 +69,6 @@ public class SequentialDFS {
             throw new RuntimeException("Threads interrupted!");
         }
 
-        //Schedule best = ta.getBestSchedule();
         PartialSchedule best = ta.getBestSchedule();
 
         if (best == null||best.getFinishTime()==0) {
@@ -90,7 +79,6 @@ public class SequentialDFS {
 
         // Annotate nodes in the task graph with the processor its scheduled on
         for (TaskScheduled t : best.getScheduledTasks()) {
-            //for (TaskScheduled t : best.getCurrentSchedule()) {
             String taskName = t.getTaskNode().getName();
             int processor = t.getProcessor();
             int startTime = t.getStartingTime();
