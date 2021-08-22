@@ -18,7 +18,8 @@ public class ThreadTiles {
      * Sets up the tile to display total thread count history over time
      */
     public static Tile setupTotalThreadTile(){
-        Tile totalThreadsTile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
+
+        return TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
                 .chartData(new ChartData(0), new ChartData(0))
                 .title("Total Threads Created")
                 .textSize(Tile.TextSize.BIGGER)
@@ -30,15 +31,14 @@ public class ThreadTiles {
                 .backgroundColor(Color.TRANSPARENT)
                 .valueColor(rgb(0,216,244))
                 .build();
-
-        return totalThreadsTile;
     }
 
     /**
      * Creates a smooth area chart for the number of active threads running
      */
     public static Tile setupActiveThreadTile() {
-        Tile totalActiveTile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
+
+        return TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
                 .chartData(new ChartData(0), new ChartData(0))
                 .title("Total Threads Active")
                 .textSize(Tile.TextSize.BIGGER)
@@ -50,7 +50,5 @@ public class ThreadTiles {
                 .backgroundColor(Color.TRANSPARENT)
                 .valueColor(rgb(0,216,244))
                 .build();
-
-        return totalActiveTile;
     }
 }
