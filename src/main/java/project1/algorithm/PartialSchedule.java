@@ -71,6 +71,7 @@ public class PartialSchedule {
         TaskScheduled[] alreadyScheduled = this.getScheduledTasks();
 
         int unscheduledWeight = 0;
+        int cloneWeight = 0;
         for (Node n : schedulingGraph.getNodes()) {
             if (!(alreadyScheduled[n.getId()]!= null)) {
                 unscheduledWeight += n.getWeight();
@@ -90,6 +91,13 @@ public class PartialSchedule {
                 if (alreadyScheduled[in.getStart().getId()] == null) {
                     canBeScheduled = false;
                     break;
+                }
+            }
+            if(n.getAdditionTime() > processors*schedulingGraph.getEdges().size()){
+                for(TaskScheduled t : alreadyScheduled){
+                    if(t != null && t.getTaskNode().sameLevel(n)){
+                        cloneWeight+=n.getWeight();
+                    }
                 }
             }
 
@@ -126,11 +134,12 @@ public class PartialSchedule {
                 startTime = Math.max(start, communicationCost);
                 TaskScheduled scheduled = new TaskScheduled(n, startTime, p);
                 PartialSchedule possibility = new PartialSchedule(this, scheduled);
-                int heuristic = Math.max(possibility.getFinishTime()+ scheduled.getTaskNode().getCriticalPath(), unscheduledWeight );
+                int heuristic = Math.max(possibility.getFinishTime()+ n.getCriticalPath(), Math.max(unscheduledWeight, cloneWeight));
 
                 //Only add to Schedule to stack if its finish time<current best "complete" schedule
                 if (heuristic < best) {
                     expanded.add(possibility);
+                    n.incrementAdd();
                 }else{
 
 //                    System.out.println(scheduled.getTaskNode().getCriticalPath() + " c");

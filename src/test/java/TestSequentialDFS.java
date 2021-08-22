@@ -18,6 +18,7 @@ public class TestSequentialDFS {
     private static final Graph graph11 = load("exampleTaskGraphs/Nodes_11_OutTree.dot");
     private static final Graph graph12 = load("exampleTaskGraphs/Fork_Join_Nodes_16_CCR_0.10_WeightType_Random_Heterogeneous-4-4.dot");
     private static final Graph graph13 = load("exampleTaskGraphs/Random_Nodes_21_Density_5.19_CCR_10.08_WeightType_Random_Heterogeneous-4-2.dot");
+    private static final Graph graph14 = load("exampleTaskGraphs/Fork_Nodes_16_CCR_10.00_WeightType_Random_Homogeneous-6.dot");
     private static final Graph graphEmpty = load("graph_empty.dot");
 
     private static Graph load(String resource) {
@@ -93,13 +94,18 @@ public class TestSequentialDFS {
         Assert.assertEquals(227, s.getFinishTime());
     }
     @Test
-    public synchronized void test1PG12(){
-        PartialSchedule s = run(graph12, 1);
+    public synchronized void test2PG12(){
+        PartialSchedule s = run(graph12, 10);
         System.out.println(s.getFinishTime());
     }
     @Test
-    public synchronized void test1PG13(){
-        PartialSchedule s = run(graph13, 1);
+    public synchronized void test2PG13(){
+        PartialSchedule s = run(graph13, 8);
+        System.out.println(s.getFinishTime());
+    }
+    @Test
+    public synchronized void test2PG14(){
+        PartialSchedule s = run(graph14, 2);
         System.out.println(s.getFinishTime());
     }
     @Rule
