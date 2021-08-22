@@ -3,12 +3,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project1.visualisation.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project1.visualisation.MainController">
     <children>
-        <VBox layoutX="7.0" prefHeight="260.0" prefWidth="592.0">
+        <VBox layoutX="-1.0" prefHeight="281.0" prefWidth="700.0" AnchorPane.topAnchor="0.0">
             <children>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
@@ -34,43 +35,48 @@
                 </HBox>
                 <HBox prefHeight="240.0" prefWidth="600.0">
                     <children>
-                        <VBox fx:id="ganttBox" prefHeight="379.0" prefWidth="640.0" />
+                        <VBox fx:id="ganttBox" prefHeight="379.0" prefWidth="640.0" HBox.hgrow="ALWAYS" />
                         <VBox prefHeight="384.0" prefWidth="389.0">
                             <children>
-                                <HBox fx:id="totalThreadBox" prefHeight="214.0" prefWidth="387.0" />
-                                <HBox fx:id="activeThreadsBox" prefHeight="205.0" prefWidth="387.0" />
+                                <HBox fx:id="totalThreadBox" prefHeight="214.0" prefWidth="387.0" VBox.vgrow="ALWAYS" />
+                                <HBox fx:id="activeThreadsBox" prefHeight="205.0" prefWidth="387.0" VBox.vgrow="ALWAYS" />
                             </children>
                         </VBox>
                     </children>
                 </HBox>
             </children>
         </VBox>
-        <HBox layoutY="290.0" prefHeight="105.0" prefWidth="600.0">
+        <HBox layoutY="284.0" prefHeight="168.0" prefWidth="669.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="284.0">
             <children>
                 <VBox prefHeight="105.0" prefWidth="256.0">
                     <children>
+                  <Region prefHeight="21.0" prefWidth="256.0" />
                         <HBox prefHeight="42.0" prefWidth="249.0">
                             <children>
+                        <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Input Graph:" wrappingWidth="80.0" />
-                                <TextField fx:id="inputField" editable="false" prefHeight="25.0" prefWidth="150.0" />
+                                <TextField fx:id="inputField" editable="false" prefHeight="25.0" prefWidth="150.0" HBox.hgrow="NEVER" />
                             </children>
                         </HBox>
                         <HBox prefHeight="44.0" prefWidth="257.0">
                             <children>
+                        <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Output Graph:" wrappingWidth="80.0" />
-                                <TextField fx:id="outputField" editable="false" prefHeight="25.0" prefWidth="150.0" />
+                                <TextField fx:id="outputField" editable="false" prefHeight="25.0" prefWidth="150.0" HBox.hgrow="NEVER" />
                             </children>
                         </HBox>
                         <HBox prefHeight="44.0" prefWidth="249.0">
                             <children>
+                        <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number of processors" wrappingWidth="80.0" />
-                                <TextField fx:id="numProField" editable="false" prefWidth="150.0" />
+                                <TextField fx:id="numProField" editable="false" prefWidth="150.0" HBox.hgrow="NEVER" />
                             </children>
                         </HBox>
                     </children>
                 </VBox>
-                <VBox fx:id="CpuBox" prefHeight="105.0" prefWidth="140.0" />
-                <VBox fx:id="memBox" prefHeight="105.0" prefWidth="140.0" />
+            <Region prefHeight="168.0" prefWidth="10.0" />
+                <VBox fx:id="CpuBox" prefHeight="168.0" prefWidth="185.0" HBox.hgrow="ALWAYS" />
+                <VBox fx:id="memBox" prefHeight="105.0" prefWidth="170.0" HBox.hgrow="ALWAYS" />
             </children>
         </HBox>
     </children>
