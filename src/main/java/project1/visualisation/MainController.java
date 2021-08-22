@@ -26,6 +26,10 @@ import project1.algorithm.Schedule;
 import project1.algorithm.TaskScheduled;
 import project1.algorithm.ThreadAnalytics;
 import com.sun.management.OperatingSystemMXBean;
+import project1.graph.Graph;
+import project1.graph.dotparser.Parser;
+
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.Arrays;
 
@@ -37,7 +41,9 @@ import static javafx.scene.paint.Color.rgb;
  */
 public class MainController {
 
+    //the max number of elemnts it can hold and the number that can be removed at ounce
     private final int  MAX_ELEMENTS = 500;
+    private final int REMOVAL_VALUE = 50;
 
     @FXML
     private Text bestScheduleTime;
@@ -61,10 +67,10 @@ public class MainController {
     private TextField inputField;
 
     @FXML
-    private TextField outputField;
+    private TextField nodeField;
 
     @FXML
-    private TextField numProField;
+    private TextField outputField;
 
     @FXML
     private VBox CpuBox;
@@ -101,7 +107,7 @@ public class MainController {
      * Also begins the event polling loop and the algorithm timer
      */
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
 
         //initialises the fields that will hold all the data for the gui
         threadData = ThreadAnalytics.getInstance();
@@ -111,7 +117,10 @@ public class MainController {
         //setup display text
         inputField.setText(argsParser.getFilename());
         outputField.setText(argsParser.getOutputFilename());
-        numProField.setText(String.valueOf(argsParser.getProcessorCount()));
+
+        //craetes the graph to obtain the number of nodes from it
+        Graph g = Parser.parse(argsParser.getFilename());
+        nodeField.setText(String.valueOf(g.getNodes().size()));
 
         // set up display elements
         setUpMemoryTile();
@@ -200,15 +209,18 @@ public class MainController {
                 bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime())); // will always be an int as is initialised to 999
             }
 
-            //then updates the active thread and total thread counts
-            ObservableList<ChartData> allocData = totalActiveTile.getChartData();
-            ObservableList<ChartData> orderData = totalThreadsTile.getChartData();
+            //removes elements if the quantity becomes too large to prevent slowdown
+            if(totalActiveTile.getChartData().size() > MAX_ELEMENTS){
+                totalActiveTile.getChartData().remove(0, REMOVAL_VALUE);
+            }
+
+            if(totalThreadsTile.getChartData().size() > MAX_ELEMENTS){
+                totalThreadsTile.getChartData().remove(0, REMOVAL_VALUE);
+            }
 
             //then gets the additional data and adds it to the existing data
             totalActiveTile.addChartData(new ChartData(threadData.numThreadsAlive()));
             totalThreadsTile.addChartData(new ChartData(threadData.numThreadsSpawned()));
-
-            //needs to check if the chart data is above the max elements
 
 
         }));
