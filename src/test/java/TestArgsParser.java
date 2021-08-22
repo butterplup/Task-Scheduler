@@ -4,8 +4,15 @@ import project1.ArgsParser;
 
 import java.io.IOException;
 
+/**
+ * Unit Testing for ArgsParser class.
+ */
 public class TestArgsParser {
 
+    /**
+     * Tests the constructor method of ArgsParser with a minimum allowed
+     * number of args.
+     */
     @Test
     public void testValidMandatory() {
         // Test string array with the 2 mandatory args in a valid form
@@ -26,6 +33,10 @@ public class TestArgsParser {
         }
     }
 
+    /**
+     * Tests default value is correctly assigned when it is not parsed
+     * as an input argument to the constructor method.
+     */
     @Test
     public void testDefaultArgs() {
         String[] args = {"filename.dot", "2"};
@@ -47,6 +58,10 @@ public class TestArgsParser {
 
     }
 
+    /**
+     * Tests whether the argsParser is able to recognise the user specified
+     * number of cores to be used for the execution.
+     */
     @Test
     public void testParallelCoreParse() {
         String[] args = {"test.dot", "2", "-p", "4"};
@@ -62,6 +77,10 @@ public class TestArgsParser {
         }
     }
 
+    /**
+     * Tests whether visualisation flag is set correctly when parsed
+     * as an input parameter.
+     */
     @Test
     public void testVisualiseParse() {
         String[] args = {"test.dot", "2", "-v"};
@@ -77,6 +96,10 @@ public class TestArgsParser {
         }
     }
 
+    /**
+     * Tests if the parser is able to recognise and store the name of the output file specified
+     * by the user
+     */
     @Test
     public void testManualOutputName() {
         String[] args = {"test.dot", "2", "-o", "differentName"};
@@ -93,6 +116,10 @@ public class TestArgsParser {
 
     }
 
+    /**
+     * Tests exception is thrown and caught when mandatory arguments
+     * are missing.
+     */
     @Test
     public void testMissingMandatoryArg() {
         // args too small, i.e only 1 arg
@@ -108,6 +135,10 @@ public class TestArgsParser {
         }
     }
 
+    /**
+     * Tests exception throw when the argument for the number of processors
+     * allowed for execution is not given as an integer.
+     */
     @Test
     public void testProcessorsNotInt() {
         // processor count not given as a parsable int
@@ -123,6 +154,10 @@ public class TestArgsParser {
         }
     }
 
+    /**
+     * Tests exception throw when the .dot extension is not included
+     * as part of the filename when it is provided as an command line arg.
+     */
     @Test
     public void testDotExtensionMissing() {
         // the .dot extension missing in filename
@@ -138,6 +173,9 @@ public class TestArgsParser {
         }
     }
 
+    /**
+     * Tests exception throw when user gives an invalid optional argument at the command line.
+     */
     @Test
     public void testUnknownArgSupplied() {
         // unknown arg given
@@ -153,6 +191,10 @@ public class TestArgsParser {
         }
     }
 
+    /**
+     * Test exception thrown when the number of cores specified by the
+     * user is not an integer
+     */
     @Test
     public void testCoreCountNotInt() {
         // core count is not a parsable to an integer
@@ -168,6 +210,9 @@ public class TestArgsParser {
         }
     }
 
+    /**
+     * Test exception throw when optional arg is given but incomplete.
+     */
     @Test
     public void testIncompleteOptionalArg() {
         // optional args -o or -p missing subsequent arg

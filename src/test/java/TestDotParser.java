@@ -7,7 +7,15 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Unit testing the Parser and graph creation.
+ */
 public class TestDotParser {
+
+    /**
+     * Tests parser on an empty graph
+     * @throws IOException IOException will be thrown when the dot file can not be opened.
+     */
     @Test
     public void testEmpty() throws IOException {
         // Pull a graph with no nodes from src/test/resources
@@ -20,6 +28,11 @@ public class TestDotParser {
         Assert.assertEquals(g.getNodes().size(), 0);
     }
 
+    /**
+     * Tests whether parser is able to process a non-empty DAG graph in dot file format
+     * and turn it into a corresponding graph object.
+     * @throws IOException thrown when file can not be opened.
+     */
     @Test
     public void testGraph() throws IOException {
         // Pull a graph with nodes from src/test/resources
@@ -32,6 +45,11 @@ public class TestDotParser {
         Assert.assertEquals(g.getNodes().size(), 7);
     }
 
+    /**
+     * Tests whether parser is able to process a non-empty DAG graph in dot file format
+     * with headers/descriptions and turn it into a corresponding graph object.
+     * @throws IOException thrown when file can not be opened.
+     */
     @Test
     public void testGraphWithDescription() throws IOException {
         // Pull a graph with nodes and a description from src/test/resources
@@ -44,6 +62,11 @@ public class TestDotParser {
         Assert.assertEquals(g.getNodes().size(), 10);
     }
 
+    /**
+     * Tests whether parser is able to process a non-empty DAG graph with no names
+     * and turn it into a corresponding graph object.
+     * @throws IOException thrown when file can not be opened.
+     */
     @Test
     public void testGraphWithNoName() throws IOException {
         // Pull a graph with nodes and no name from src/test/resources
@@ -56,6 +79,11 @@ public class TestDotParser {
         Assert.assertEquals(g.getNodes().size(), 7);
     }
 
+    /**
+     * Tests whether parser is able to save graph object to dot file
+     * and can convert this saved dot file back into a graph object.
+     * @throws IOException thrown when file can not be opened.
+     */
     @Test
     public void testOutputFile() throws IOException {
         // Pull a graph with nodes from src/test/resources
@@ -79,6 +107,11 @@ public class TestDotParser {
         file.delete();
     }
 
+    /**
+     * Tests whether parser is able to process a non-empty DAG graph when the name
+     * of the nodes are letters and turn it into a corresponding graph object.
+     * @throws IOException thrown when file can not be opened.
+     */
     @Test
     public void testGraphWithNodesThatAreLetters() throws IOException {
         // Pull a graph that contains nodes that are letters from src/test/resources
@@ -91,6 +124,11 @@ public class TestDotParser {
         Assert.assertEquals(g.getNodes().size(), 7);
     }
 
+    /**
+     * Tests the getTotalTasksCount() function returns the expected number
+     * of nodes.
+     * @throws IOException thrown when file can not be opened.
+     */
     @Test
     public void testGraphFunctions() throws IOException {
         // Pull a graph with nodes from src/test/resources
