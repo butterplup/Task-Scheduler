@@ -38,6 +38,9 @@ java -jar scheduler.jar INPUT.dot P [OPTION]
 # -v        Enable search visualisation
 # -o OUTPUT Output filename (Default is INPUT−output.dot)
 ```
+Examples:
+* ```java -jar scheduler.jar INPUT.dot 2 -o MYOUTPUT.dot```: Run scheduler.jar to schedule INPUT.dot to 2 processors, and output to MYOUTPUT.dot
+* ```java -jar schedular.jar INPUT.dot 4 -p 2 -v```: Run scheduler.jar on 2 threads in parallel to schedule INPUT.dot to 4 processors, with search visualisation enabled
 
 ## Contributors
 * [Johnathan](https://github.com/johnathan-coe)
