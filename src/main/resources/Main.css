@@ -11,7 +11,7 @@
 
 .main-container {
     -fx-background-image: url("future-background.png");
-    -fx-background-size: 700 520;
+    -fx-background-size: 700 500;
     -fx-background-position: center center;
 }
 
