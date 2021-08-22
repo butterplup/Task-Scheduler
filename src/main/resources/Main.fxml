@@ -68,7 +68,7 @@
                         <HBox prefHeight="44.0" prefWidth="249.0">
                             <children>
                         <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Number of processors" wrappingWidth="80.0" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Number of Processors:" wrappingWidth="80.0" />
                                 <TextField fx:id="numProField" editable="false" prefWidth="150.0" styleClass="source-text" HBox.hgrow="NEVER" />
                             </children>
                         </HBox>

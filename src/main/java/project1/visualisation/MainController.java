@@ -165,7 +165,6 @@ public class MainController {
         //timeline that adds a new keyframe every 50 milliseconds
         Timeline autoUpdater = new Timeline(new KeyFrame(Duration.millis(50), event -> {
 
-
             //checks if the algo is done, then runs the update one more time after its finished
             if(threadData.isFinished()) {
 
@@ -181,7 +180,7 @@ public class MainController {
                 if (!runAgain) {
                     return;
                 }
-                //cahnges the value of the runagain boolean
+                // since it has run once, set to false
                 runAgain = false;
             }
 
@@ -345,7 +344,7 @@ public class MainController {
         // Init the axis for time (x)
         final NumberAxis timeAxis = new NumberAxis();
         timeAxis.setLabel("");
-        timeAxis.setTickLabelFill(Color.rgb(251,145,66));
+        timeAxis.setTickLabelFill(Color.WHITE);
         timeAxis.setMinorTickCount(5);
 
         // Init the axis for processors (y)
