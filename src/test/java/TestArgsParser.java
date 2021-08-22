@@ -23,7 +23,7 @@ public class TestArgsParser {
 
         // Attempt to construct argsParser obj with minimum args
         try {
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
             // Two mandatory arguments successfully parsed
             Assert.assertEquals(expectedFilename, argsParser.getInputFilename());
             Assert.assertEquals(expectedNum, argsParser.getProcessorCount());
@@ -46,7 +46,7 @@ public class TestArgsParser {
         String expectedOutputName = "filename-output.dot";
 
         try {
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
             // Check that default values are properly assigned
             Assert.assertEquals(expectedNum, argsParser.getParallelCoreCount());
             Assert.assertEquals(expectedOutputName, argsParser.getOutputFilename());
@@ -68,7 +68,7 @@ public class TestArgsParser {
         int expectedCoreCount = 4;
 
         try {
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
             // Checks that core count was recognised and parsed properly
             Assert.assertEquals(expectedCoreCount, argsParser.getParallelCoreCount());
         } catch (IOException e) {
@@ -87,7 +87,7 @@ public class TestArgsParser {
         boolean expectedVisualise = true;
 
         try {
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
             // Checks that visualisation flag was recognised and set appropriately
             Assert.assertEquals(expectedVisualise, argsParser.isVisualise());
         } catch (IOException e) {
@@ -106,7 +106,7 @@ public class TestArgsParser {
         String expectedOutputFilename = "differentName.dot";
 
         try {
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
             // Checks that output filename flag was recognised and new name was set appropriately
             Assert.assertEquals(expectedOutputFilename, argsParser.getOutputFilename());
         } catch (IOException e) {
@@ -127,7 +127,7 @@ public class TestArgsParser {
         String expectedMessage = "Mandatory arguments missing. Usage: java -jar scheduler.jar INPUT.dot P [OPTION]. See README for more OPTION choices.";
 
         try {
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
             Assert.fail("An IOException should be thrown");
 
         } catch (IOException e) {
@@ -146,7 +146,7 @@ public class TestArgsParser {
         String expectedMessage = "Processor count P not given as an integer";
 
         try {
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
             Assert.fail("An IOException should be thrown");
 
         } catch (IOException e) {
@@ -165,7 +165,7 @@ public class TestArgsParser {
         String expectedMessage = "DOT_FILE missing .dot extension in command line argument";
 
         try {
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
             Assert.fail("An IOException should be thrown");
 
         } catch (IOException e) {
@@ -183,7 +183,7 @@ public class TestArgsParser {
         String expectedMessage = "Supplied argument does not match any known optional args";
 
         try {
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
             Assert.fail("An IOException should be thrown");
 
         } catch (IOException e) {
@@ -202,7 +202,7 @@ public class TestArgsParser {
         String expectedMessage = "Parallel core count (for -p) not given as an integer";
 
         try {
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
             Assert.fail("An IOException should be thrown");
 
         } catch (IOException e) {
@@ -220,7 +220,7 @@ public class TestArgsParser {
         String expectedMessage = "No arg given following at least one optional arg -p or -o";
 
         try {
-            ArgsParser argsParser = new ArgsParser(args);
+            ArgsParser argsParser = ArgsParser.getInstance(args);
             Assert.fail("An IOException should be thrown");
 
         } catch (IOException e) {

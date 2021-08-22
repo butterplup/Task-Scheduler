@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import project1.algorithm.Schedule;
+import project1.algorithm.PartialSchedule;
 import project1.algorithm.SequentialDFS;
 import project1.graph.Graph;
 import project1.graph.dotparser.Parser;
@@ -34,14 +34,14 @@ public class Visualiser extends Application {
         // Start a new thread to run the algorithm on
         new Thread(() -> {
             ArgsParser argsParser = ArgsParser.getInstance();
-            String filename = argsParser.getFilename();
+            String filename = argsParser.getInputFilename();
             Graph g = null;
 
             try {
                 // Attempt to parse in a file with the given filename
                 g = Parser.parse(filename);
                 // Run the algorithm on this graph
-                Schedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount());
+                PartialSchedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount(), argsParser.getParallelCoreCount());
                 s.printSchedule();
                 // Save this optimal schedule to a file
                 String outputFilename = argsParser.getOutputFilename();

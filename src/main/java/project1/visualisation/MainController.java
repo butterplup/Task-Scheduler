@@ -75,7 +75,7 @@ public class MainController {
     public void initialize() throws IOException {
 
         //setup display text to remove dir name
-        String filename = argsParser.getFilename();
+        String filename = argsParser.getInputFilename();
         String outputName = argsParser.getOutputFilename();
         try { // trys to remove dirs if present in string, if none then throws error, but is handled anyway
             filename = filename.substring(filename.lastIndexOf("/") + 1);
@@ -86,7 +86,7 @@ public class MainController {
         }
 
         //creates the graph to obtain the number of nodes from it
-        Graph g = Parser.parse(argsParser.getFilename());
+        Graph g = Parser.parse(argsParser.getInputFilename());
         nodeField.setText(String.valueOf(g.getNodes().size()));
 
         // set up display elements as Tiles

@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import project1.algorithm.PartialSchedule;
 import project1.algorithm.SequentialDFS;
+import project1.algorithm.ThreadAnalytics;
 import project1.graph.dotparser.Parser;
 import project1.graph.Graph;
 
@@ -43,6 +44,7 @@ public class TestSequentialDFS {
      * @return An optimal schedule found by the algorithm
      */
     private PartialSchedule run(Graph g, int processors) {
+        ThreadAnalytics.getInstance(4);
         return SequentialDFS.generateOptimalSchedule(g, processors, 4);
     }
 

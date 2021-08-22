@@ -1,5 +1,5 @@
 package project1;
-import project1.algorithm.Schedule;
+import project1.algorithm.PartialSchedule;
 import project1.algorithm.SequentialDFS;
 import project1.algorithm.ThreadAnalytics;
 import project1.graph.dotparser.Parser;
@@ -23,10 +23,10 @@ public class Run {
                 Visualiser.Main(args);
 
             } else {
-                String filename = argsParser.getFilename();
+                String filename = argsParser.getInputFilename();
                 Graph g = Parser.parse(filename);
 
-                Schedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount());
+                PartialSchedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount(), argsParser.getParallelCoreCount());
                 s.printSchedule();
 
                 String outputFilename = argsParser.getOutputFilename();

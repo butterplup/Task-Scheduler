@@ -5,7 +5,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.paint.Color;
-import project1.algorithm.Schedule;
+import project1.algorithm.PartialSchedule;
 import project1.algorithm.TaskScheduled;
 
 import java.util.Arrays;
@@ -74,7 +74,7 @@ public class ScheduleGantt {
      * Updates the data in the GanttChart to display the desired schedule to the user
      * @param bestSchedule - the current best schedule to be displayed
      */
-    public GanttChart<Number,String> updateBestScheduleGantt(Schedule bestSchedule) {
+    public GanttChart<Number,String> updateBestScheduleGantt(PartialSchedule bestSchedule) {
 
         // new array of series to write schedule data onto
         XYChart.Series<Number,String>[] seriesArray = new XYChart.Series[processorCount];
@@ -84,7 +84,7 @@ public class ScheduleGantt {
         }
 
         // for every task in schedule, write its data onto the specific series
-        for (TaskScheduled taskScheduled: bestSchedule.getCurrentSchedule()){
+        for (TaskScheduled taskScheduled: bestSchedule.getScheduledTasks()){
             // Get the processor which this task is scheduled on
             int processorForTask = taskScheduled.getProcessor();
             int displayProcessor = processorForTask + 1;
