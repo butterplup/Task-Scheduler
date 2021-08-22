@@ -14,8 +14,6 @@ import lombok.Setter;
 public class ThreadAnalytics {
     private static ThreadAnalytics instance;
 
-    // Tracks whether the algorithm has finished running
-    @Getter @Setter private boolean isFinished = false;
     // Track the current number of threads running
     private final AtomicInteger threadsAlive = new AtomicInteger();
     // Track the number of thread starts over the lifetime of this object

@@ -98,9 +98,10 @@ public class MainController {
     //GantChart used to display best schedule
     private GanttChart<Number,String> chart;
 
-    private ThreadAnalytics threadData; // stores info on best schedule and threads
-    private java.lang.management.OperatingSystemMXBean osBean;
-    private ArgsParser argsParser; // ArgsParser object stores user input data
+    //initialises the fields that will hold all the data for the gui
+    private final ThreadAnalytics threadData = ThreadAnalytics.getInstance(); // stores info on best schedule and threads
+    private final java.lang.management.OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+    private final ArgsParser argsParser = ArgsParser.getInstance(); // ArgsParser object stores user input data
 
     /**
      * Called following object construction to set up FXML fields and their initial state
@@ -109,16 +110,18 @@ public class MainController {
     @FXML
     public void initialize() throws IOException {
 
-        //initialises the fields that will hold all the data for the gui
-        threadData = ThreadAnalytics.getInstance();
-        argsParser = ArgsParser.getInstance();
-        osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+        //setup display text to remove dir name
+        try {
+            String filename = argsParser.getFilename().substring(argsParser.getFilename().lastIndexOf("/") + 1);
+            String outputName = argsParser.getOutputFilename().substring(argsParser.getOutputFilename().lastIndexOf("/") + 1);
+            inputField.setText(filename);
+            outputField.setText(outputName);
+        } catch (IndexOutOfBoundsException e) { // occurs when no directory structure in filename already
+            inputField.setText(argsParser.getFilename()); // so just uses the default input
+            outputField.setText(argsParser.getOutputFilename());
+        }
 
-        //setup display text
-        inputField.setText(argsParser.getFilename());
-        outputField.setText(argsParser.getOutputFilename());
-
-        //craetes the graph to obtain the number of nodes from it
+        //creates the graph to obtain the number of nodes from it
         Graph g = Parser.parse(argsParser.getFilename());
         nodeField.setText(String.valueOf(g.getNodes().size()));
 
@@ -131,10 +134,6 @@ public class MainController {
 
         // start polling
         startPolling();
-
-        // initialise the tile values so they function properly
-        memoryTile.setValue(0);
-        cpuTile.setValue(0);
 
         // begin timer
         startTimer();
@@ -175,7 +174,7 @@ public class MainController {
         Timeline autoUpdater = new Timeline(new KeyFrame(Duration.millis(50), event -> {
 
             //checks if the algo is done, then runs the update one more time after its finished
-            if(threadData.isFinished()) {
+            if(threadData.numThreadsAlive() == 0) {
 
                 //stops the timer from running as the algorithm is finished
                 stopTimer();
@@ -296,6 +295,8 @@ public class MainController {
                 .needleColor(rgb(251,206,66))
                 .build();
 
+        // Initialised to 0 before polled data is received
+        memoryTile.setValue(0);
         memBox.getChildren().addAll(buildFlowGridPane(this.memoryTile));
 
     }
@@ -324,6 +325,8 @@ public class MainController {
                 .needleColor(rgb(251,206,66))
                 .build();
 
+        // Initialises to a 0 value to start before polled data received
+        cpuTile.setValue(0);
         CpuBox.getChildren().addAll(buildFlowGridPane(this.cpuTile));
 
     }

@@ -56,8 +56,6 @@ public class SequentialDFS {
         if (best == null) {
             throw new RuntimeException("No schedules generated!");
         }
-        // Inform ThreadAnalytics algorithm is finished with a schedule found to update UI.
-        ta.setFinished(true);
 
         System.out.printf("Thread starts: %d%n", ta.numThreadsSpawned());
 
