@@ -309,7 +309,6 @@ public class MainController {
                 .backgroundColor(Color.TRANSPARENT)
                 .valueColor(rgb(251,237,66))
                 .unitColor(rgb(251,237,66))
-                .barBackgroundColor(rgb(242, 242, 242))
                 .needleColor(rgb(251,206,66))
                 .build();
 
