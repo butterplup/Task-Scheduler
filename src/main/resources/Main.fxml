@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="669.0" styleClass="main-container" stylesheets="@Main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project1.visualisation.MainController">
@@ -15,20 +16,38 @@
                     <children>
                         <VBox alignment="CENTER" prefHeight="60.0" prefWidth="223.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Best Time" />
-                                <Text fx:id="bestScheduleTime" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Best Time">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Text>
+                                <Text fx:id="bestScheduleTime" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Text>
                             </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="60.0" prefWidth="223.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Status" textAlignment="CENTER" wrappingWidth="105.662109375" />
-                                <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="running-status" text="Running" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Status" textAlignment="CENTER" wrappingWidth="105.662109375">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Text>
+                                <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="running-status" text="Running">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Text>
                             </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="60.0" prefWidth="223.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Time Elapsed" textAlignment="CENTER" wrappingWidth="105.662109375" />
-                                <Text fx:id="TimeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Time Elapsed" textAlignment="CENTER" wrappingWidth="105.662109375">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Text>
+                                <Text fx:id="TimeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Text>
                             </children>
                         </VBox>
                     </children>
