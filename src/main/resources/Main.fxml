@@ -88,14 +88,14 @@
                      <children>
                         <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Number of nodes:" textAlignment="CENTER" wrappingWidth="80.0" />
-                        <TextField fx:id="inputField1" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" />
+                        <TextField fx:id="nodeField" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="42.0" prefWidth="249.0">
                      <children>
                         <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Number of edges:" textAlignment="CENTER" wrappingWidth="80.0" />
-                        <TextField fx:id="inputField11" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" />
+                        <TextField fx:id="edgeField" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" />
                      </children>
                   </HBox>
                     </children>
