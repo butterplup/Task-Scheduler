@@ -50,22 +50,22 @@
             <children>
                 <VBox prefHeight="105.0" prefWidth="256.0">
                     <children>
-                  <Region prefHeight="21.0" prefWidth="256.0" />
-                        <HBox prefHeight="42.0" prefWidth="249.0">
+                  <Region prefHeight="9.0" prefWidth="256.0" />
+                        <HBox alignment="CENTER" prefHeight="42.0" prefWidth="249.0">
                             <children>
                         <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Input Graph:" wrappingWidth="80.0" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Input Graph:" textAlignment="CENTER" wrappingWidth="80.0" />
                         <TextField fx:id="inputField" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" />
                             </children>
                         </HBox>
-                        <HBox prefHeight="44.0" prefWidth="257.0">
+                        <HBox alignment="CENTER" prefHeight="44.0" prefWidth="257.0">
                             <children>
                         <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Output Graph:" wrappingWidth="80.0" />
                                 <TextField fx:id="outputField" editable="false" prefHeight="25.0" prefWidth="150.0" styleClass="source-text" HBox.hgrow="NEVER" />
                             </children>
                         </HBox>
-                        <HBox prefHeight="44.0" prefWidth="249.0">
+                        <HBox alignment="CENTER_RIGHT" prefHeight="44.0" prefWidth="249.0">
                             <children>
                         <Region prefHeight="34.0" prefWidth="33.0" HBox.hgrow="NEVER" />
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Number of Processors:" wrappingWidth="80.0" />
