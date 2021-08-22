@@ -34,3 +34,14 @@
 .running-status {
     -fx-fill: crimson;
 }
+
+.text-field {
+    -fx-background-color: transparent, rgba(255, 255, 255, .8);
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-background-radius: 2;
+    -fx-fill: white;
+}
+
+.text-field:focused {
+    -fx-background-color: -fx-focus-color, rgba(255, 255, 255, .9);
+}

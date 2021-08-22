@@ -346,6 +346,7 @@ public class MainController {
         timeAxis.setLabel("");
         timeAxis.setTickLabelFill(Color.WHITE);
         timeAxis.setMinorTickCount(5);
+        timeAxis.setMinorTickVisible(false);
 
         // Init the axis for processors (y)
         final CategoryAxis processorAxis = new CategoryAxis();
