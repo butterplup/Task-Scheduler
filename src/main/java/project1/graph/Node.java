@@ -15,6 +15,7 @@ public class Node {
     @Getter @Setter private int processor;
     @Getter @Setter private int start;
     @Getter @Setter private int id = 0;
+    private int level;
 
     // Incoming and outgoing edges, set when an edge is added to the graph
     @Getter private final List<Edge> incomingEdges = new ArrayList<>();
@@ -56,7 +57,7 @@ public class Node {
                 }
             }
         }
-        System.out.println("true " + this.name + " " + other.getName());
+//        System.out.println("true " + this.name + " " + other.getName());
         return true;
     }
 }

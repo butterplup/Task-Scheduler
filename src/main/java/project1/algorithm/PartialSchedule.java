@@ -70,17 +70,18 @@ public class PartialSchedule {
         // Find nodes that are already scheduled
         TaskScheduled[] alreadyScheduled = this.getScheduledTasks();
 
+        int unscheduledWeight = 0;
+        for (Node n : schedulingGraph.getNodes()) {
+            if (!(alreadyScheduled[n.getId()]!= null)) {
+                unscheduledWeight += n.getWeight();
+            }
+        }
+        unscheduledWeight = unscheduledWeight/processors;
         // Node hasn't been Scheduled
         for (Node n : schedulingGraph.getNodes()) {
             //cannot be scheduled if it has been scheduled already
             if (alreadyScheduled[n.getId()] != null) {
                 continue;
-            }else{
-                for(int i = 0; i < alreadyScheduled.length; i++){
-                    if(alreadyScheduled[i]!= null && alreadyScheduled[i].getTaskNode().sameLevel(n) ){
-
-                    }
-                }
             }
 
             // Check that all dependencies are scheduled
@@ -125,9 +126,10 @@ public class PartialSchedule {
                 startTime = Math.max(start, communicationCost);
                 TaskScheduled scheduled = new TaskScheduled(n, startTime, p);
                 PartialSchedule possibility = new PartialSchedule(this, scheduled);
+                int heuristic = Math.max(possibility.getFinishTime()+ scheduled.getTaskNode().getCriticalPath(), unscheduledWeight );
 
                 //Only add to Schedule to stack if its finish time<current best "complete" schedule
-                if (possibility.getFinishTime() + scheduled.getTaskNode().getCriticalPath() < best) {
+                if (heuristic < best) {
                     expanded.add(possibility);
                 }else{
 
