@@ -16,7 +16,7 @@ public class TestSequentialDFS {
     private static final Graph graph9 = load("exampleTaskGraphs/Nodes_9_SeriesParallel.dot");
     private static final Graph graph10 = load("exampleTaskGraphs/Nodes_10_Random.dot");
     private static final Graph graph11 = load("exampleTaskGraphs/Nodes_11_OutTree.dot");
-    private static final Graph graph16 = load("exampleTaskGraphs/16_Node_A.dot");
+    private static final Graph testGraph = load("output/Fork_Join_Nodes_16_CCR_0.10_WeightType_Random_Heterogeneous-4-4.dot");
     private static final Graph graphEmpty = load("graph_empty.dot");
 
     private static Graph load(String resource) {
@@ -93,7 +93,8 @@ public class TestSequentialDFS {
     }
     @Test
     public synchronized void testNew(){
-        PartialSchedule s = run(graph16, 2);
+        PartialSchedule s = run(testGraph, 1);
+        System.out.println(s.getFinishTime());
     }
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();

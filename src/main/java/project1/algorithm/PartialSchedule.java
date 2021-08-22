@@ -19,6 +19,8 @@ public class PartialSchedule {
     @Getter private static Graph schedulingGraph;
     private final int nodesVisited;
     int finishTime;
+    private LinkedList<PartialSchedule>  identicalP;
+    private LinkedList<Node>  identicalN;
     private PartialSchedule prev;
     private TaskScheduled ts;
     private int[] processorInfo;
@@ -123,6 +125,11 @@ public class PartialSchedule {
                 //Only add to Schedule to stack if its finish time<current best "complete" schedule
                 if (possibility.getFinishTime() + scheduled.getTaskNode().getCriticalPath() < best) {
                     expanded.add(possibility);
+                }else if(possibility.getFinishTime() + scheduled.getTaskNode().getCriticalPath() == best){
+
+//                    System.out.println(scheduled.getTaskNode().getCriticalPath() + " c");
+//                    System.out.println(possibility.getFinishTime() + " p");
+//                   System.out.println(best + " b");
                 }
             }
         }
