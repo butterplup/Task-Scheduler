@@ -56,7 +56,7 @@ public class Node {
                 }
             }
         }
-        System.out.println("true " + String.valueOf(this.id) + " " + String.valueOf(other.getId()));
+        System.out.println("true " + this.name + " " + other.getName());
         return true;
     }
 }
