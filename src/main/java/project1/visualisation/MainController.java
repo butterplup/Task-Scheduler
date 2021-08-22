@@ -143,7 +143,7 @@ public class MainController {
 
             //gets the cpu usage over the entire system
             double cpuUsage = osBean.getSystemLoadAverage();
-            cpuTile.setValue(cpuUsage);
+            cpuTile.setValue(cpuUsage * 10d);
 
             //if a best schedule exists, display on screen
             if(threadData.getBestSchedule() != null){
