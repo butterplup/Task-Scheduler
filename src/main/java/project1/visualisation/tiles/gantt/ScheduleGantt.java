@@ -69,32 +69,34 @@ public class ScheduleGantt extends VTile {
     public void update() {
         PartialSchedule bestSchedule = ta.getBestSchedule();
 
-        if (bestSchedule != null) {
-            // new array of series to write schedule data onto
-            XYChart.Series<Number, String>[] seriesArray = new XYChart.Series[processorCount];
-            // init series objs
-            for (int i = 0; i < processorCount; i++) {
-                seriesArray[i] = new XYChart.Series<>();
-            }
-
-            // for every task in schedule, write its data onto the specific series
-            for (TaskScheduled taskScheduled : bestSchedule.getScheduledTasks()) {
-                // Get the processor which this task is scheduled on
-                int processorForTask = taskScheduled.getProcessor();
-                int displayProcessor = processorForTask + 1;
-
-                XYChart.Data newTaskData = new XYChart.Data(taskScheduled.getStartingTime(),
-                        "Processor " + displayProcessor,
-                        new GanttChart.ExtraData(taskScheduled, "task-styles"));
-                // Add this task to its respective processor
-                seriesArray[processorForTask].getData().add(newTaskData);
-
-            }
-
-            // clear out the old data and add new schedule
-            chart.getData().clear();
-            chart.getData().addAll(seriesArray);
+        if (bestSchedule == null) {
+            return;
         }
+
+        // new array of series to write schedule data onto
+        XYChart.Series<Number, String>[] seriesArray = new XYChart.Series[processorCount];
+        // init series objs
+        for (int i = 0; i < processorCount; i++) {
+            seriesArray[i] = new XYChart.Series<>();
+        }
+
+        // for every task in schedule, write its data onto the specific series
+        for (TaskScheduled taskScheduled : bestSchedule.getScheduledTasks()) {
+            // Get the processor which this task is scheduled on
+            int processorForTask = taskScheduled.getProcessor();
+            int displayProcessor = processorForTask + 1;
+
+            XYChart.Data newTaskData = new XYChart.Data(taskScheduled.getStartingTime(),
+                    "Processor " + displayProcessor,
+                    new GanttChart.ExtraData(taskScheduled, "task-styles"));
+            // Add this task to its respective processor
+            seriesArray[processorForTask].getData().add(newTaskData);
+
+        }
+
+        // clear out the old data and add new schedule
+        chart.getData().clear();
+        chart.getData().addAll(seriesArray);
     }
 
     public Tile getTile() {
