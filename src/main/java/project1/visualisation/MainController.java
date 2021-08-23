@@ -42,8 +42,6 @@ public class MainController {
 
     // Tiles
     private List<VTile> tiles;
-    private ScheduleGantt scheduleGantt;
-
     private long startTime;
     private final ThreadAnalytics threadData = ThreadAnalytics.getInstance();
     private Timeline autoUpdater;
@@ -54,8 +52,7 @@ public class MainController {
      */
     @FXML
     public void initialize() throws IOException {
-        tiles = new ArrayList<>();
-        ArgsParser argsParser = ArgsParser.getInstance(); // ArgsParser object stores user input data
+        ArgsParser argsParser = ArgsParser.getInstance();
 
         // Strip directory info from file path display
         inputField.setText(new File(argsParser.getInputFilename()).getName());
@@ -65,7 +62,7 @@ public class MainController {
         Graph g = Parser.parse(argsParser.getInputFilename());
         nodeField.setText(String.valueOf(g.getNodes().size()));
 
-        // set up display elements as tiles
+        tiles = new ArrayList<>();
         tiles.add(
                 new SystemTile(memBox,
                         "Current Memory Usage",
@@ -137,7 +134,7 @@ public class MainController {
         // Update tiles
         tiles.forEach(VTile::update);
 
-        // If a best schedule exists, display it
+        // Display best schedule time
         if (threadData.getBestSchedule() != null) {
             bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime()));
         }
