@@ -1,4 +1,4 @@
-package project1.visualisation.Tiles;
+package project1.visualisation.tiles;
 
 import javafx.scene.layout.Pane;
 
@@ -14,7 +14,7 @@ public class CPUTile extends BarGaugeTile {
 
     @Override
     public void update() {
-        //gets the cpu usage over the entire system
+        // gets the cpu usage over the entire system
         double cpuUsage = osBean.getSystemLoadAverage();
         getTile().setValue(cpuUsage * 10d);
     }

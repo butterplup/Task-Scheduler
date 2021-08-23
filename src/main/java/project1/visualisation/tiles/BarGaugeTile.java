@@ -1,4 +1,4 @@
-package project1.visualisation.Tiles;
+package project1.visualisation.tiles;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
@@ -11,7 +11,7 @@ import lombok.Getter;
 import static javafx.scene.paint.Color.rgb;
 
 /**
- * A static class used for generating the required Tiles used to display system data
+ * A static class used for generating the required tiles used to display system data
  * It initialises the tiles displaying both the memory usage and cpu usage
  * as bar gauges and adds minor styling.
  */

@@ -1,4 +1,4 @@
-package project1.visualisation.Tiles;
+package project1.visualisation.tiles;
 
 import eu.hansolo.tilesfx.chart.ChartData;
 import javafx.scene.layout.Pane;

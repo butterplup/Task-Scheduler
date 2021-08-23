@@ -1,4 +1,4 @@
-package project1.visualisation.Tiles;
+package project1.visualisation.tiles;
 
 import eu.hansolo.tilesfx.chart.ChartData;
 import javafx.scene.layout.Pane;
@@ -15,7 +15,6 @@ public class TotalThreadsTile extends AreaChartTile {
     @Override
     public void update() {
         super.update();
-
         getTile().addChartData(new ChartData(ta.numThreadsSpawned()));
     }
 }

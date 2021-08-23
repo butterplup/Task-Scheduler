@@ -1,4 +1,4 @@
-package project1.visualisation.Tiles;
+package project1.visualisation.tiles;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
@@ -10,7 +10,7 @@ import lombok.Getter;
 import static javafx.scene.paint.Color.rgb;
 
 /**
- * This class is concerned with the Tiles displaying thread information.
+ * This class is concerned with the tiles displaying thread information.
  * It initialises the tiles displaying both the total generated threads
  * and the current active threads as smooth area charts and adds minor styling.
  */

@@ -1,7 +1,5 @@
 package project1.visualisation;
 
-import eu.hansolo.tilesfx.Tile;
-import eu.hansolo.tilesfx.chart.ChartData;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,12 +9,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import eu.hansolo.tilesfx.tools.FlowGridPane;
 import project1.ArgsParser;
 import project1.algorithm.ThreadAnalytics;
 import project1.graph.Graph;
 import project1.graph.dotparser.Parser;
-import project1.visualisation.Tiles.*;
+import project1.visualisation.tiles.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +37,7 @@ public class MainController {
     @FXML private VBox CpuBox, memBox;
     @FXML private HBox totalThreadBox, activeThreadsBox;
 
-    // Tiles
+    // tiles
     private List<VTile> tiles;
     private ScheduleGantt scheduleGantt;
 
@@ -67,7 +64,7 @@ public class MainController {
         Graph g = Parser.parse(argsParser.getInputFilename());
         nodeField.setText(String.valueOf(g.getNodes().size()));
 
-        // set up display elements as Tiles
+        // set up display elements as tiles
         tiles.add(new MemTile(memBox));
         tiles.add(new CPUTile(CpuBox));
         tiles.add(new TotalThreadsTile(totalThreadBox, threadData));
