@@ -8,7 +8,6 @@ import java.util.List;
 
 public class DFSThread extends Thread {
     private final Graph taskGraph;
-    //public Deque<Schedule> scheduleStack;
     public Deque<PartialSchedule> scheduleStack;
 
     public DFSThread(Graph taskGraph) {

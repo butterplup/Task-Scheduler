@@ -14,7 +14,6 @@ import java.util.List;
  */
 @Getter
 public class PartialSchedule {
-    // Global vars
     @Getter private static int processors;
     @Getter private static Graph schedulingGraph;
     private final int nodesVisited;
@@ -40,7 +39,7 @@ public class PartialSchedule {
         this.nodesVisited = 0;
         this.finishTime = 0;
 
-        // Fields that we can persist across schedules (improves perf.)
+        // Fields that we can persist across schedules (improves performance)
         processors = p;
         schedulingGraph = g;
     }
@@ -72,7 +71,7 @@ public class PartialSchedule {
 
         // Node hasn't been Scheduled
         for (Node n : schedulingGraph.getNodes()) {
-            //cannot be scheduled if it has been scheduled already
+            // Cannot be scheduled if it has been scheduled already
             if (alreadyScheduled[n.getId()] != null) {
                 continue;
             }
@@ -120,7 +119,7 @@ public class PartialSchedule {
                 TaskScheduled scheduled = new TaskScheduled(n, startTime, p);
                 PartialSchedule possibility = new PartialSchedule(this, scheduled);
 
-                //Only add to Schedule to stack if its finish time<current best "complete" schedule
+                // Only add to Schedule to stack if its finish time<current best "complete" schedule
                 if (possibility.getFinishTime() + scheduled.getTaskNode().getCriticalPath() < best) {
                     expanded.add(possibility);
                 }
@@ -132,7 +131,6 @@ public class PartialSchedule {
 
     /**
      * Get all scheduled tasks
-     *
      * @return Array of TaskScheduled, indexed by Node ID
      */
     public TaskScheduled[] getScheduledTasks() {
@@ -183,18 +181,18 @@ public class PartialSchedule {
     }
 
     /**
-     * Prints out the current schedule
+     * Prints the current schedule and returns a String containing the formatted schedule
+     * @return The formatted schedule
      */
     public String printSchedule() {
         TaskScheduled[] tasks = this.getScheduledTasks();
-        StringBuilder s=new StringBuilder();
+        StringBuilder s = new StringBuilder();
         for (TaskScheduled t : tasks) {
             if (t != null) {
                 s.append(t.getTaskNode().getName() + " is scheduled to Processor " + t.getProcessor() +
                         " Starting at time " + t.getStartingTime()+"\n");
             }
         }
-        //System.out.println(s.toString());
         return s.toString();
     }
 }
