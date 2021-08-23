@@ -32,7 +32,7 @@
                            <font>
                               <Font size="14.0" />
                            </font></Text>
-                                <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="running-status" text="Running">
+                                <Text fx:id="statusText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="running-status" text="Running">
                            <font>
                               <Font size="13.0" />
                            </font></Text>
@@ -44,7 +44,7 @@
                            <font>
                               <Font size="14.0" />
                            </font></Text>
-                                <Text fx:id="TimeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
+                                <Text fx:id="timeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
                            <font>
                               <Font size="13.0" />
                            </font></Text>
@@ -94,7 +94,7 @@
                     </children>
                 </VBox>
             <Region prefHeight="168.0" prefWidth="10.0" />
-                <VBox fx:id="CpuBox" prefHeight="168.0" prefWidth="185.0" HBox.hgrow="ALWAYS" />
+                <VBox fx:id="cpuBox" prefHeight="168.0" prefWidth="185.0" HBox.hgrow="ALWAYS" />
                 <VBox fx:id="memBox" prefHeight="105.0" prefWidth="170.0" HBox.hgrow="ALWAYS" />
             </children>
         </HBox>
