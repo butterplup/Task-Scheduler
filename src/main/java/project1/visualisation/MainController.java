@@ -28,19 +28,13 @@ import java.util.List;
  * It updates the visualised elements of the algorithm as it is calculated
  */
 public class MainController {
-    @FXML private Text bestScheduleTime;
-    @FXML private Text TimeText;
-    @FXML private Text StatusText;
-    @FXML private TextField inputField;
-    @FXML private TextField nodeField;
-    @FXML private TextField outputField;
+    @FXML private Text bestScheduleTime, TimeText, StatusText;
+    @FXML private TextField inputField, nodeField, outputField;
 
     // Boxes for charts
-    @FXML private VBox ganttBox;
-    @FXML private VBox CpuBox, memBox;
+    @FXML private VBox ganttBox, CpuBox, memBox;
     @FXML private HBox totalThreadBox, activeThreadsBox;
 
-    // Tiles
     private List<VTile> tiles;
     private long startTime;
     private final ThreadAnalytics threadData = ThreadAnalytics.getInstance();
