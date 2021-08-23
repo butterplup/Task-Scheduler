@@ -2,9 +2,11 @@ package project1.visualisation.Tiles;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Stop;
 import javafx.scene.text.TextAlignment;
+import lombok.Getter;
 
 import static javafx.scene.paint.Color.rgb;
 
@@ -13,8 +15,8 @@ import static javafx.scene.paint.Color.rgb;
  * It initialises the tiles displaying both the memory usage and cpu usage
  * as bar gauges and adds minor styling.
  */
-public abstract class SystemTile {
-    public Tile tile;
+public abstract class BarGaugeTile extends VTile {
+    @Getter private final Tile tile;
 
     /**
      * Set up a tile to display a system stat
@@ -22,7 +24,7 @@ public abstract class SystemTile {
      * @param maxValue The maximum value of the tile (-1 if no specified max)
      * @return The built Tile, to be displayed.
      */
-    public SystemTile(String title, int maxValue) {
+    public BarGaugeTile(Pane parent, String title, int maxValue) {
         TileBuilder tileBuilder = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .title(title)
                 .textSize(Tile.TextSize.BIGGER)
@@ -48,8 +50,8 @@ public abstract class SystemTile {
 
         Tile builtTile = tileBuilder.build();
         builtTile.setValue(0);
-        tile = builtTile;
-    }
 
-    public abstract void update();
+        tile = builtTile;
+        addTo(parent);
+    }
 }

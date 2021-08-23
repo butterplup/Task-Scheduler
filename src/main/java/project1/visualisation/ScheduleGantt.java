@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import project1.algorithm.PartialSchedule;
 import project1.algorithm.TaskScheduled;
@@ -17,24 +18,12 @@ import java.util.Arrays;
  * the application.
  */
 public class ScheduleGantt {
-
     //GantChart used to display best schedule
-    private GanttChart<Number,String> chart;
-    private double height;
-    private int processorCount;
+    private final GanttChart<Number,String> chart;
+    private final int processorCount;
 
-    public ScheduleGantt(double height, int processorCount) {
-        this.height = height;
+    public ScheduleGantt(Pane parent, double height, int processorCount) {
         this.processorCount = processorCount;
-
-    }
-
-    /**
-     * Initialises the blank Gantt chart to be used for displaying the current best schedule. Heavy inspiration taken
-     * from Roland, author of GanttChart.java, in terms of proper usage of the class. Proper reference can be found in
-     * that class.
-     */
-    public GanttChart<Number,String> setupBestScheduleGantt() {
 
         String[] processors = new String[processorCount];
         // For each processor format a user-friendly string to display on gantt
@@ -66,15 +55,14 @@ public class ScheduleGantt {
         chart.getStylesheets().add(getClass().getResource("/GanttChart.css").toExternalForm());
         chart.setMaxHeight(height);
 
-        return chart;
-
+        parent.getChildren().add(chart);
     }
 
     /**
      * Updates the data in the GanttChart to display the desired schedule to the user
      * @param bestSchedule - the current best schedule to be displayed
      */
-    public GanttChart<Number,String> updateBestScheduleGantt(PartialSchedule bestSchedule) {
+    public GanttChart<Number,String> update(PartialSchedule bestSchedule) {
 
         // new array of series to write schedule data onto
         XYChart.Series<Number,String>[] seriesArray = new XYChart.Series[processorCount];
@@ -99,9 +87,7 @@ public class ScheduleGantt {
 
         // clear out the old data and add new schedule
         chart.getData().clear();
-        for (XYChart.Series<Number,String> series: seriesArray){
-            chart.getData().add(series);
-        }
+        chart.getData().addAll(seriesArray);
 
         return chart;
     }
