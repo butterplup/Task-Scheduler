@@ -1,4 +1,4 @@
-package project1.visualisation;
+package project1.visualisation.tiles.gantt;
 
 import javafx.collections.FXCollections;
 import javafx.scene.chart.CategoryAxis;
@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import project1.algorithm.PartialSchedule;
 import project1.algorithm.TaskScheduled;
+import project1.visualisation.tiles.gantt.GanttChart;
 
 import java.util.Arrays;
 
@@ -62,7 +63,7 @@ public class ScheduleGantt {
      * Updates the data in the GanttChart to display the desired schedule to the user
      * @param bestSchedule - the current best schedule to be displayed
      */
-    public GanttChart<Number,String> update(PartialSchedule bestSchedule) {
+    public void update(PartialSchedule bestSchedule) {
 
         // new array of series to write schedule data onto
         XYChart.Series<Number,String>[] seriesArray = new XYChart.Series[processorCount];
@@ -88,7 +89,5 @@ public class ScheduleGantt {
         // clear out the old data and add new schedule
         chart.getData().clear();
         chart.getData().addAll(seriesArray);
-
-        return chart;
     }
 }

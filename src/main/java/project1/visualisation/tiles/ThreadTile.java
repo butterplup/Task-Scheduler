@@ -7,6 +7,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 
+import java.util.function.IntSupplier;
+
 import static javafx.scene.paint.Color.rgb;
 
 /**
@@ -14,15 +16,15 @@ import static javafx.scene.paint.Color.rgb;
  * It initialises the tiles displaying both the total generated threads
  * and the current active threads as smooth area charts and adds minor styling.
  */
-public abstract class AreaChartTile extends VTile {
+public class ThreadTile extends VTile {
     @Getter private final Tile tile;
+    private final IntSupplier data;
 
     /**
      * Set up a tile to display a Smooth Area Chart.
      * @param title The title of the tile.
-     * @return The built Tile, to be displayed.
      */
-    public AreaChartTile(Pane parent, String title) {
+    public ThreadTile(Pane parent, String title, IntSupplier update) {
         tile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
                 .chartData(new ChartData(0), new ChartData(0))
                 .title(title)
@@ -36,6 +38,7 @@ public abstract class AreaChartTile extends VTile {
                 .valueColor(rgb(0,216,244))
                 .build();
 
+        this.data = update;
         addTo(parent);
     }
 
@@ -46,5 +49,7 @@ public abstract class AreaChartTile extends VTile {
             int REMOVAL_VALUE = 50;
             getTile().getChartData().remove(0, REMOVAL_VALUE);
         }
+
+        getTile().addChartData(new ChartData(data.getAsInt()));
     }
 }

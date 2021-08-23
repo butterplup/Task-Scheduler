@@ -1,4 +1,4 @@
-package project1.visualisation;
+package project1.visualisation.tiles.gantt;
 
 import java.util.ArrayList;
 import java.util.Iterator;

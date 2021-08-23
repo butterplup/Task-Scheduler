@@ -14,9 +14,12 @@ import project1.algorithm.ThreadAnalytics;
 import project1.graph.Graph;
 import project1.graph.dotparser.Parser;
 import project1.visualisation.tiles.*;
+import project1.visualisation.tiles.gantt.ScheduleGantt;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,10 +66,32 @@ public class MainController {
         nodeField.setText(String.valueOf(g.getNodes().size()));
 
         // set up display elements as tiles
-        tiles.add(new MemTile(memBox));
-        tiles.add(new CPUTile(CpuBox));
-        tiles.add(new TotalThreadsTile(totalThreadBox, threadData));
-        tiles.add(new TotalActiveTile(activeThreadsBox, threadData));
+        tiles.add(
+                new SystemTile(memBox,
+                        "Current Memory Usage",
+                        "MB",
+                        (int) (Runtime.getRuntime().maxMemory() / (1024.0 * 1024.0)),
+                        () -> ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/(1000000d)))
+        );
+
+        OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+        tiles.add(
+                new SystemTile(CpuBox,
+                        "Current CPU Usage",
+                        "%",
+                        100,
+                        () -> osBean.getSystemLoadAverage() * 10d)
+        );
+
+        tiles.add(
+                new ThreadTile(totalThreadBox,
+                        "Total Threads Created",
+                        threadData::numThreadsSpawned));
+
+        tiles.add(
+                new ThreadTile(activeThreadsBox,
+                        "Active Threads",
+                        threadData::numThreadsAlive));
 
         // Set up best schedule gantt graph
         scheduleGantt = new ScheduleGantt(ganttBox, ganttBox.getPrefHeight(), argsParser.getProcessorCount());

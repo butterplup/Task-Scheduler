@@ -8,6 +8,8 @@ import javafx.scene.paint.Stop;
 import javafx.scene.text.TextAlignment;
 import lombok.Getter;
 
+import java.util.function.DoubleSupplier;
+
 import static javafx.scene.paint.Color.rgb;
 
 /**
@@ -15,8 +17,9 @@ import static javafx.scene.paint.Color.rgb;
  * It initialises the tiles displaying both the memory usage and cpu usage
  * as bar gauges and adds minor styling.
  */
-public abstract class BarGaugeTile extends VTile {
+public class SystemTile extends VTile {
     @Getter private final Tile tile;
+    private final DoubleSupplier data;
 
     /**
      * Set up a tile to display a system stat
@@ -24,7 +27,7 @@ public abstract class BarGaugeTile extends VTile {
      * @param maxValue The maximum value of the tile (-1 if no specified max)
      * @return The built Tile, to be displayed.
      */
-    public BarGaugeTile(Pane parent, String title, String unit, int maxValue) {
+    public SystemTile(Pane parent, String title, String unit, int maxValue, DoubleSupplier update) {
         TileBuilder tileBuilder = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .title(title)
                 .textSize(Tile.TextSize.BIGGER)
@@ -51,7 +54,13 @@ public abstract class BarGaugeTile extends VTile {
         Tile builtTile = tileBuilder.build();
         builtTile.setValue(0);
 
-        tile = builtTile;
+        this.data = update;
+        this.tile = builtTile;
         addTo(parent);
+    }
+
+    @Override
+    public void update() {
+        getTile().setValue(data.getAsDouble());
     }
 }

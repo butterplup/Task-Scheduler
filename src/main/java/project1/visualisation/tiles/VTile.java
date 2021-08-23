@@ -9,7 +9,7 @@ public abstract class VTile {
     public abstract Tile getTile();
 
     /**
-     * Initialises a 1x1 FlowGridPane to house the inputted Tile
+     * Initialises a 1x1 FlowGridPane to house Tile
      * @param p - Add the tile to the parent
      */
     protected void addTo(Pane p) {
