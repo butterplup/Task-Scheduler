@@ -32,27 +32,7 @@ public class Visualiser extends Application {
         primaryStage.setTitle("Team 2: Electric Boogaloo");
 
         // Start a new thread to run the algorithm on
-        new Thread(() -> {
-            ArgsParser argsParser = ArgsParser.getInstance();
-            String filename = argsParser.getInputFilename();
-            Graph g = null;
-
-            try {
-                // Attempt to parse in a file with the given filename
-                g = Parser.parse(filename);
-                // Run the algorithm on this graph
-                PartialSchedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount(), argsParser.getParallelCoreCount());
-                s.printSchedule();
-                // Save this optimal schedule to a file
-                String outputFilename = argsParser.getOutputFilename();
-                Parser.saveToFile(g, outputFilename);
-            // Occurs when input is not found, or output file already exists
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-                System.exit(0);
-            }
-        }).start();
-
+        new Thread(new Run()).start();
         primaryStage.show();
     }
 

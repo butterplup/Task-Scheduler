@@ -10,35 +10,59 @@ import java.io.IOException;
 /**
  * Entry point for the application
  */
-public class Run {
+public class Run implements Runnable {
     public static void main(String[] args) throws IOException {
+        /* Initialise singletons
+            - ArgsParser
+            - ThreadAnalytics
+         */
+
+        ArgsParser argsParser;
         try {
-            // Parses and stores arguments in an object
-            ArgsParser argsParser = ArgsParser.getInstance(args);
-            // Initialises ThreadAnalytics for the desired core count
-            ThreadAnalytics.getInstance(argsParser.getParallelCoreCount());
-
-            if (argsParser.isVisualise()) {
-                //needs to start a new thread and start the visualisation
-                Visualiser.Main(args);
-
-            } else {
-                String filename = argsParser.getInputFilename();
-                Graph g = Parser.parse(filename);
-
-                PartialSchedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount(), argsParser.getParallelCoreCount());
-                System.out.println(s.printSchedule());
-
-                String outputFilename = argsParser.getOutputFilename();
-                Parser.saveToFile(g, outputFilename);
-            }
+            argsParser = ArgsParser.getInstance(args);
         } catch (IOException e) {
-            // Relays message of specific error as identified in the ArgsParser class
             System.out.println(e.getMessage());
-            // General usage message to inform user when they have not followed it
             System.out.printf("Usage: java -jar project1.jar DOT_FILE P [OPTIONAL args]%n ");
             throw new IOException(e);
         }
 
+        ThreadAnalytics.getInstance(argsParser.getParallelCoreCount());
+
+        if (argsParser.isVisualise()) {
+            // Hand off to visualisation to create a new thread
+            Visualiser.Main(args);
+        } else {
+            // Run in main thread
+            new Run().run();
+        }
+    }
+
+    @Override
+    public void run() {
+        ArgsParser argsParser = ArgsParser.getInstance();
+        String filename = argsParser.getInputFilename();
+
+        Graph g;
+        try {
+            g = Parser.parse(filename);
+        } catch (IOException e) {
+            // Failure loading file, exit code 1
+            e.printStackTrace();
+            System.exit(1);
+            return;
+        }
+
+        PartialSchedule s = SequentialDFS.generateOptimalSchedule(g, argsParser.getProcessorCount(), argsParser.getParallelCoreCount());
+        System.out.println(s.printSchedule());
+
+        String outputFilename = argsParser.getOutputFilename();
+
+        try {
+            Parser.saveToFile(g, outputFilename);
+        } catch (IOException e) {
+            // Failure saving file, exit code 2
+            e.printStackTrace();
+            System.exit(2);
+        }
     }
 }
