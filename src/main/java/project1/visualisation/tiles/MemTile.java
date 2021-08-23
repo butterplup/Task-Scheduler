@@ -4,7 +4,7 @@ import javafx.scene.layout.Pane;
 
 public class MemTile extends BarGaugeTile {
     public MemTile(Pane parent) {
-        super(parent, "Current Memory Usage",  -1);
+        super(parent, "Current Memory Usage", "MB", (int) (Runtime.getRuntime().maxMemory() / (1024.0 * 1024.0)));
     }
 
     @Override

@@ -9,7 +9,7 @@ public class CPUTile extends BarGaugeTile {
     private final OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
 
     public CPUTile(Pane parent) {
-        super(parent,"Current CPU Usage", 100);
+        super(parent,"Current CPU Usage", "%", 100);
     }
 
     @Override

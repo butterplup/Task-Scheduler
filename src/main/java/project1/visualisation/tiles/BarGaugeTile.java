@@ -24,13 +24,13 @@ public abstract class BarGaugeTile extends VTile {
      * @param maxValue The maximum value of the tile (-1 if no specified max)
      * @return The built Tile, to be displayed.
      */
-    public BarGaugeTile(Pane parent, String title, int maxValue) {
+    public BarGaugeTile(Pane parent, String title, String unit, int maxValue) {
         TileBuilder tileBuilder = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .title(title)
                 .textSize(Tile.TextSize.BIGGER)
                 .titleColor(rgb(255,255,255))
                 .titleAlignment(TextAlignment.CENTER)
-                .unit("%")
+                .unit(unit)
                 .gradientStops(new Stop(0, rgb(251,206,66)),
                         new Stop(0.8, rgb(251,145,66)),
                         new Stop(1.0, rgb(245,22,118)))
