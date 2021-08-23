@@ -1,5 +1,6 @@
 package project1.visualisation.tiles.gantt;
 
+import eu.hansolo.tilesfx.Tile;
 import javafx.collections.FXCollections;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -8,7 +9,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import project1.algorithm.PartialSchedule;
 import project1.algorithm.TaskScheduled;
-import project1.visualisation.tiles.gantt.GanttChart;
+import project1.algorithm.ThreadAnalytics;
+import project1.visualisation.tiles.VTile;
 
 import java.util.Arrays;
 
@@ -18,13 +20,15 @@ import java.util.Arrays;
  * as well as writing data from TaskScheduled class in a readable format for
  * the application.
  */
-public class ScheduleGantt {
+public class ScheduleGantt extends VTile {
     //GantChart used to display best schedule
     private final GanttChart<Number,String> chart;
     private final int processorCount;
+    private final ThreadAnalytics ta;
 
-    public ScheduleGantt(Pane parent, double height, int processorCount) {
+    public ScheduleGantt(Pane parent, double height, int processorCount, ThreadAnalytics ta) {
         this.processorCount = processorCount;
+        this.ta = ta;
 
         String[] processors = new String[processorCount];
         // For each processor format a user-friendly string to display on gantt
@@ -60,34 +64,40 @@ public class ScheduleGantt {
     }
 
     /**
-     * Updates the data in the GanttChart to display the desired schedule to the user
-     * @param bestSchedule - the current best schedule to be displayed
+     * Updates the data in the GanttChart to display the best schedule
      */
-    public void update(PartialSchedule bestSchedule) {
+    public void update() {
+        PartialSchedule bestSchedule = ta.getBestSchedule();
 
-        // new array of series to write schedule data onto
-        XYChart.Series<Number,String>[] seriesArray = new XYChart.Series[processorCount];
-        // init series objs
-        for (int i = 0; i < processorCount; i++){
-            seriesArray[i] = new XYChart.Series<>();
+        if (bestSchedule != null) {
+            // new array of series to write schedule data onto
+            XYChart.Series<Number, String>[] seriesArray = new XYChart.Series[processorCount];
+            // init series objs
+            for (int i = 0; i < processorCount; i++) {
+                seriesArray[i] = new XYChart.Series<>();
+            }
+
+            // for every task in schedule, write its data onto the specific series
+            for (TaskScheduled taskScheduled : bestSchedule.getScheduledTasks()) {
+                // Get the processor which this task is scheduled on
+                int processorForTask = taskScheduled.getProcessor();
+                int displayProcessor = processorForTask + 1;
+
+                XYChart.Data newTaskData = new XYChart.Data(taskScheduled.getStartingTime(),
+                        "Processor " + displayProcessor,
+                        new GanttChart.ExtraData(taskScheduled, "task-styles"));
+                // Add this task to its respective processor
+                seriesArray[processorForTask].getData().add(newTaskData);
+
+            }
+
+            // clear out the old data and add new schedule
+            chart.getData().clear();
+            chart.getData().addAll(seriesArray);
         }
+    }
 
-        // for every task in schedule, write its data onto the specific series
-        for (TaskScheduled taskScheduled: bestSchedule.getScheduledTasks()){
-            // Get the processor which this task is scheduled on
-            int processorForTask = taskScheduled.getProcessor();
-            int displayProcessor = processorForTask + 1;
-
-            XYChart.Data newTaskData = new XYChart.Data(taskScheduled.getStartingTime(),
-                    "Processor "+ displayProcessor,
-                    new GanttChart.ExtraData(taskScheduled, "task-styles"));
-            // Add this task to its respective processor
-            seriesArray[processorForTask].getData().add(newTaskData);
-
-        }
-
-        // clear out the old data and add new schedule
-        chart.getData().clear();
-        chart.getData().addAll(seriesArray);
+    public Tile getTile() {
+        return null;
     }
 }

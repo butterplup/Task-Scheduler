@@ -94,7 +94,12 @@ public class MainController {
                         threadData::numThreadsAlive));
 
         // Set up best schedule gantt graph
-        scheduleGantt = new ScheduleGantt(ganttBox, ganttBox.getPrefHeight(), argsParser.getProcessorCount());
+        tiles.add(
+                new ScheduleGantt(ganttBox,
+                        ganttBox.getPrefHeight(),
+                        argsParser.getProcessorCount(),
+                        threadData));
+
         ganttBox.setStyle("-fx-background-color: transparent");
 
         // start polling
@@ -134,7 +139,6 @@ public class MainController {
 
         // If a best schedule exists, display it
         if (threadData.getBestSchedule() != null) {
-            scheduleGantt.update(threadData.getBestSchedule());
             bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime()));
         }
     }
