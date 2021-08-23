@@ -37,15 +37,13 @@ public class MainController {
     @FXML private VBox CpuBox, memBox;
     @FXML private HBox totalThreadBox, activeThreadsBox;
 
-    // tiles
+    // Tiles
     private List<VTile> tiles;
     private ScheduleGantt scheduleGantt;
 
-    //boolean to determine if the updater needs to trigger again
-    private boolean runAgain = true;
-
-    //initialises the fields that will hold all the data for the gui
-    private final ThreadAnalytics threadData = ThreadAnalytics.getInstance(); // stores info on best schedule and threads
+    private long startTime;
+    private final ThreadAnalytics threadData = ThreadAnalytics.getInstance();
+    private Timeline autoUpdater;
 
     /**
      * Called following object construction to set up FXML fields and their initial state
@@ -82,47 +80,37 @@ public class MainController {
      * Called following proper initialisation of all screen elements to continuously update the data for the user
      */
     private void startPolling() {
-        long startTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
 
-        // timeline that adds a new keyframe every 50 milliseconds
-        Timeline autoUpdater = new Timeline(new KeyFrame(Duration.millis(50), event -> {
-            // Update timer
-            long currentTime = System.currentTimeMillis();
-            int roundedTime = (int) ((currentTime-startTime)/1000);
-            TimeText.setText(String.valueOf(roundedTime));
-
-            // checks if the algo is done, then runs the update one more time after its finished
-            if (threadData.numThreadsAlive() == 0) {
-                //if the threadData is finished set the running text to be done
-                StatusText.setStyle("-fx-fill: rgb(15,150,100)");
-                StatusText.setText("Done");
-
-                // checks if event loop has run once more following algorithm finishing
-                // so idle cpu and mem loads and optimal schedule are updated on GUI
-                if (!runAgain) {
-                    return;
-                }
-
-                // since it has run once, set to false
-                runAgain = false;
-            }
-
-            // Update tiles
-            for (VTile v : tiles) {
-                v.update();
-            }
-
-            //if a best schedule exists, display on screen
-            if(threadData.getBestSchedule() != null){
-                // updateBestScheduleGantt(threadData.getBestSchedule());
-                scheduleGantt.update(threadData.getBestSchedule());
-                // sets the current best time to the the string of the global best time (int)
-                bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime())); // will always be an int as is initialised to 999
-            }
-        }));
-
-        //sets the cycle count to be indefinite so it never stops then starts the auto-updater
+        // Trigger update every 50ms
+        autoUpdater = new Timeline(new KeyFrame(Duration.millis(50), event -> update()));
         autoUpdater.setCycleCount(Animation.INDEFINITE);
         autoUpdater.play();
+    }
+
+    private void update() {
+        // Update timer
+        long currentTime = System.currentTimeMillis();
+        int roundedTime = (int) ((currentTime-startTime)/1000);
+        TimeText.setText(String.valueOf(roundedTime));
+
+        // checks if the algo is done, then runs the update one more time after its finished
+        if (threadData.numThreadsAlive() == 0) {
+            //if the threadData is finished set the running text to be done
+            StatusText.setStyle("-fx-fill: rgb(15,150,100)");
+            StatusText.setText("Done");
+
+            // Run once more, then stop updating
+            autoUpdater.stop();
+        }
+
+        // Update tiles
+        tiles.forEach(VTile::update);
+
+        // If a best schedule exists, display it
+        if (threadData.getBestSchedule() != null) {
+            scheduleGantt.update(threadData.getBestSchedule());
+            bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime()));
+        }
     }
 }
