@@ -17,6 +17,12 @@ import project1.algorithm.ThreadAnalytics;
 import com.sun.management.OperatingSystemMXBean;
 import project1.graph.Graph;
 import project1.graph.dotparser.Parser;
+import project1.visualisation.Tiles.CPUTile;
+import project1.visualisation.Tiles.MemTile;
+import project1.visualisation.Tiles.SystemTile;
+import project1.visualisation.Tiles.ThreadTiles;
+
+import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
@@ -44,8 +50,8 @@ public class MainController {
     @FXML private VBox memBox;
 
     //tiles
-    private Tile memoryTile;
-    private Tile cpuTile;
+    private SystemTile memoryTile;
+    private SystemTile cpuTile;
     private Tile totalThreadsTile;
     private Tile totalActiveTile;
 
@@ -64,7 +70,6 @@ public class MainController {
 
     //initialises the fields that will hold all the data for the gui
     private final ThreadAnalytics threadData = ThreadAnalytics.getInstance(); // stores info on best schedule and threads
-    private final java.lang.management.OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
     private final ArgsParser argsParser = ArgsParser.getInstance(); // ArgsParser object stores user input data
 
     /**
@@ -73,32 +78,27 @@ public class MainController {
      */
     @FXML
     public void initialize() throws IOException {
+        // Strip directory info from file path display
+        inputField.setText(new File(argsParser.getInputFilename()).getName());
+        outputField.setText(new File(argsParser.getOutputFilename()).getName());
 
-        //setup display text to remove dir name
-        String filename = argsParser.getInputFilename();
-        String outputName = argsParser.getOutputFilename();
-        try { // trys to remove dirs if present in string, if none then throws error, but is handled anyway
-            filename = filename.substring(filename.lastIndexOf("/") + 1);
-            outputName = outputName.substring(outputName.lastIndexOf("/") + 1);
-        } finally {
-            inputField.setText(filename);
-            outputField.setText(outputName);
-        }
-
-        //creates the graph to obtain the number of nodes from it
+        // creates the graph to obtain the number of nodes from it
         Graph g = Parser.parse(argsParser.getInputFilename());
         nodeField.setText(String.valueOf(g.getNodes().size()));
 
         // set up display elements as Tiles
-        memoryTile = SystemTiles.setupSystemTile("Current Memory Usage",  -1);
-        cpuTile = SystemTiles.setupSystemTile("Current CPU Usage", 100);
+        memoryTile = new MemTile();
+        cpuTile = new CPUTile();
+
         totalThreadsTile = ThreadTiles.setupSmoothAreaChartTile("Total Threads Created");
         totalActiveTile = ThreadTiles.setupSmoothAreaChartTile("Total Threads Active");
+
         // add display Tiles onto screen
-        memBox.getChildren().addAll(buildFlowGridPane(this.memoryTile));
-        CpuBox.getChildren().addAll(buildFlowGridPane(this.cpuTile));
-        totalThreadBox.getChildren().addAll(buildFlowGridPane(this.totalThreadsTile));
-        activeThreadsBox.getChildren().addAll(buildFlowGridPane(this.totalActiveTile));
+        memBox.getChildren().add(buildFlowGridPane(this.memoryTile.tile));
+        CpuBox.getChildren().add(buildFlowGridPane(this.cpuTile.tile));
+        totalThreadBox.getChildren().add(buildFlowGridPane(this.totalThreadsTile));
+        activeThreadsBox.getChildren().add(buildFlowGridPane(this.totalActiveTile));
+
         // Set up best schedule gantt graph
         scheduleGantt = new ScheduleGantt(ganttBox.getPrefHeight(), argsParser.getProcessorCount());
         chart = scheduleGantt.setupBestScheduleGantt();
@@ -137,13 +137,9 @@ public class MainController {
                 runAgain = false;
             }
 
-            //updates the memory in the memory tile
-            double memoryUsage = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/(1000000d);
-            memoryTile.setValue(memoryUsage);
-
-            //gets the cpu usage over the entire system
-            double cpuUsage = osBean.getSystemLoadAverage();
-            cpuTile.setValue(cpuUsage * 10d);
+            // Update tiles
+            cpuTile.update();
+            memoryTile.update();
 
             //if a best schedule exists, display on screen
             if(threadData.getBestSchedule() != null){
@@ -206,5 +202,4 @@ public class MainController {
     private void stopTimer(){
         timerHandler.stop();
     }
-
 }

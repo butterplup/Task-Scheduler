@@ -1,4 +1,4 @@
-package project1.visualisation;
+package project1.visualisation.Tiles;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;

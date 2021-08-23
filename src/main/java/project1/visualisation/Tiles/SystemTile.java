@@ -1,4 +1,4 @@
-package project1.visualisation;
+package project1.visualisation.Tiles;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
@@ -13,15 +13,17 @@ import static javafx.scene.paint.Color.rgb;
  * It initialises the tiles displaying both the memory usage and cpu usage
  * as bar gauges and adds minor styling.
  */
-public class SystemTiles {
+public abstract class SystemTile {
+    public Tile tile;
+
     /**
      * Set up a tile to display a system stat
      * @param title The title of the tile.
      * @param maxValue The maximum value of the tile (-1 if no specified max)
      * @return The built Tile, to be displayed.
      */
-    public static Tile setupSystemTile(String title, int maxValue) {
-        TileBuilder systemTile = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
+    public SystemTile(String title, int maxValue) {
+        TileBuilder tileBuilder = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .title(title)
                 .textSize(Tile.TextSize.BIGGER)
                 .titleColor(rgb(255,255,255))
@@ -41,12 +43,13 @@ public class SystemTiles {
                 ;
 
         if (maxValue != -1) {
-            systemTile.maxValue(maxValue);
+            tileBuilder.maxValue(maxValue);
         }
 
-        Tile builtTile = systemTile.build();
-        // Initialises to a 0 value to start before polled data received
+        Tile builtTile = tileBuilder.build();
         builtTile.setValue(0);
-        return builtTile;
+        tile = builtTile;
     }
+
+    public abstract void update();
 }
