@@ -20,6 +20,7 @@ import static javafx.scene.paint.Color.rgb;
 public class SystemTile extends VTile {
     @Getter private final Tile tile;
     private final DoubleSupplier data;
+    private final boolean percentage;
 
     /**
      * Set up a tile to display a system stat
@@ -28,6 +29,8 @@ public class SystemTile extends VTile {
      * @return The built Tile, to be displayed.
      */
     public SystemTile(Pane parent, String title, String unit, int maxValue, DoubleSupplier update) {
+        percentage = unit.equals("%");
+
         TileBuilder tileBuilder = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)
                 .title(title)
                 .textSize(Tile.TextSize.BIGGER)
@@ -61,6 +64,8 @@ public class SystemTile extends VTile {
 
     @Override
     public void update() {
-        getTile().setValue(data.getAsDouble());
+        getTile().setValue(
+                data.getAsDouble() * (percentage ? 100 : 1)
+        );
     }
 }

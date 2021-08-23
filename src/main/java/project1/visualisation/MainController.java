@@ -17,7 +17,7 @@ import project1.visualisation.tiles.gantt.ScheduleGantt;
 import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
+import com.sun.management.OperatingSystemMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +65,7 @@ public class MainController {
                         "Current CPU Usage",
                         "%",
                         100,
-                        () -> osBean.getSystemLoadAverage() * 10d)
+                        osBean::getProcessCpuLoad)
         );
 
         tiles.add(
