@@ -21,11 +21,18 @@ import java.util.Arrays;
  * the application.
  */
 public class ScheduleGantt extends VTile {
-    //GantChart used to display best schedule
+    // GanttChart used to display best schedule
     private final GanttChart<Number,String> chart;
     private final int processorCount;
     private final ThreadAnalytics ta;
 
+    /**
+     * Constructor for an object that initialises and updates a GanttChart object
+     * @param parent The parent pane to render the Gantt Chart on
+     * @param height Height of the Gantt Chart
+     * @param processorCount Number of processor "rows" to display
+     * @param ta ThreadAnalytics to obtain schedule data from
+     */
     public ScheduleGantt(Pane parent, double height, int processorCount, ThreadAnalytics ta) {
         this.processorCount = processorCount;
         this.ta = ta;
@@ -68,11 +75,9 @@ public class ScheduleGantt extends VTile {
      */
     public void update() {
         PartialSchedule bestSchedule = ta.getBestSchedule();
-
         if (bestSchedule == null) {
             return;
         }
-
         // new array of series to write schedule data onto
         XYChart.Series<Number, String>[] seriesArray = new XYChart.Series[processorCount];
         // init series objs

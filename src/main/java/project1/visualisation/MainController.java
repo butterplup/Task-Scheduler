@@ -11,8 +11,6 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import project1.ArgsParser;
 import project1.algorithm.ThreadAnalytics;
-import project1.graph.Graph;
-import project1.graph.dotparser.Parser;
 import project1.visualisation.tiles.*;
 import project1.visualisation.tiles.gantt.ScheduleGantt;
 
@@ -28,11 +26,11 @@ import java.util.List;
  * It updates the visualised elements of the algorithm as it is calculated
  */
 public class MainController {
-    @FXML private Text bestScheduleTime, TimeText, StatusText;
+    @FXML private Text bestScheduleTime, timeText, statusText;
     @FXML private TextField inputField, nodeField, outputField;
 
     // Boxes for charts
-    @FXML private VBox ganttBox, CpuBox, memBox;
+    @FXML private VBox ganttBox, cpuBox, memBox;
     @FXML private HBox totalThreadBox, activeThreadsBox;
 
     private List<VTile> tiles;
@@ -63,7 +61,7 @@ public class MainController {
 
         OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
         tiles.add(
-                new SystemTile(CpuBox,
+                new SystemTile(cpuBox,
                         "Current CPU Usage",
                         "%",
                         100,
@@ -109,13 +107,13 @@ public class MainController {
         // Update timer
         long currentTime = System.currentTimeMillis();
         int roundedTime = (int) ((currentTime-startTime)/1000);
-        TimeText.setText(String.valueOf(roundedTime));
+        timeText.setText(String.valueOf(roundedTime));
 
         // checks if the algo is done, then runs the update one more time after its finished
         if (threadData.numThreadsAlive() == 0) {
             //if the threadData is finished set the running text to be done
-            StatusText.setStyle("-fx-fill: rgb(15,150,100)");
-            StatusText.setText("Done");
+            statusText.setStyle("-fx-fill: rgb(15,150,100)");
+            statusText.setText("Done");
 
             // Run once more, then stop updating
             autoUpdater.stop();
