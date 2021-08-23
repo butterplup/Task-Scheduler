@@ -58,10 +58,6 @@ public class MainController {
         inputField.setText(new File(argsParser.getInputFilename()).getName());
         outputField.setText(new File(argsParser.getOutputFilename()).getName());
 
-        // creates the graph to obtain the number of nodes from it
-        Graph g = Parser.parse(argsParser.getInputFilename());
-        nodeField.setText(String.valueOf(g.getNodes().size()));
-
         tiles = new ArrayList<>();
         tiles.add(
                 new SystemTile(memBox,
@@ -137,6 +133,7 @@ public class MainController {
         // Display best schedule time
         if (threadData.getBestSchedule() != null) {
             bestScheduleTime.setText(String.valueOf(threadData.getGlobalBestTime()));
+            nodeField.setText(Integer.toString(threadData.getBestSchedule().getNodesVisited()));
         }
     }
 }
