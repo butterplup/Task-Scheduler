@@ -12,7 +12,9 @@ import project1.algorithm.TaskScheduled;
 import project1.algorithm.ThreadAnalytics;
 import project1.visualisation.tiles.VTile;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * This class initialises and updates a GanttChart to display a schedule
@@ -37,11 +39,10 @@ public class ScheduleGantt extends VTile {
         this.processorCount = processorCount;
         this.ta = ta;
 
-        String[] processors = new String[processorCount];
-        // For each processor format a user-friendly string to display on gantt
-        for (int i = 0; i < processorCount; i++) {
-            processors[i] = "Processor " + (i + 1);
-        }
+        List<String> processors = new ArrayList<>();
+        IntStream.range(0, processorCount).forEach(
+                (n) -> processors.add("Processor " + (n + 1)) // First processor is processor 1
+        );
 
         // Init the axis for time (x)
         final NumberAxis timeAxis = new NumberAxis();
@@ -55,7 +56,7 @@ public class ScheduleGantt extends VTile {
         processorAxis.setLabel("");
         processorAxis.setTickLabelFill(Color.WHITE);
         processorAxis.setTickLabelGap(1);
-        processorAxis.setCategories(FXCollections.observableArrayList(Arrays.asList(processors)));
+        processorAxis.setCategories(FXCollections.observableArrayList(processors));
 
         // Setting up chart
         chart = new GanttChart<>(timeAxis,processorAxis);
@@ -78,30 +79,32 @@ public class ScheduleGantt extends VTile {
         if (bestSchedule == null) {
             return;
         }
-        // new array of series to write schedule data onto
-        XYChart.Series<Number, String>[] seriesArray = new XYChart.Series[processorCount];
-        // init series objs
-        for (int i = 0; i < processorCount; i++) {
-            seriesArray[i] = new XYChart.Series<>();
-        }
 
-        // for every task in schedule, write its data onto the specific series
+        // Create n Series
+        List<XYChart.Series<Number, String>> seriesList = new ArrayList<>();
+        IntStream.range(0, processorCount).forEach(
+                (n) -> seriesList.add(new XYChart.Series<>())
+        );
+
+        // For every task in schedule, write its data to the relevant series
         for (TaskScheduled taskScheduled : bestSchedule.getScheduledTasks()) {
             // Get the processor which this task is scheduled on
-            int processorForTask = taskScheduled.getProcessor();
-            int displayProcessor = processorForTask + 1;
+            int p = taskScheduled.getProcessor();
 
-            XYChart.Data newTaskData = new XYChart.Data(taskScheduled.getStartingTime(),
-                    "Processor " + displayProcessor,
-                    new GanttChart.ExtraData(taskScheduled, "task-styles"));
+            XYChart.Data<Number, String> newTaskData =
+                    new XYChart.Data<>(
+                            taskScheduled.getStartingTime(),
+                            "Processor " + (p + 1), // First processor is processor 1
+                             new GanttChart.ExtraData(taskScheduled, "task-styles")
+                    );
+
             // Add this task to its respective processor
-            seriesArray[processorForTask].getData().add(newTaskData);
-
+            seriesList.get(p).getData().add(newTaskData);
         }
 
-        // clear out the old data and add new schedule
+        // Clear old values and replace with new ones
         chart.getData().clear();
-        chart.getData().addAll(seriesArray);
+        chart.getData().addAll(seriesList);
     }
 
     public Tile getTile() {
