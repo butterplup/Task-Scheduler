@@ -59,7 +59,7 @@
                             <children>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="threads-title" text="Total Threads Created" />
                                 <HBox fx:id="totalThreadBox" prefHeight="214.0" prefWidth="387.0" VBox.vgrow="ALWAYS" />
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="threads-title" text="Current Threads Active" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="threads-title" text="Total Threads Active" />
                                 <HBox fx:id="activeThreadsBox" prefHeight="205.0" prefWidth="387.0" VBox.vgrow="ALWAYS" />
                             </children>
                         </VBox>
