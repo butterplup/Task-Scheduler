@@ -2,6 +2,8 @@ package project1.visualisation.tiles;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
+import eu.hansolo.tilesfx.tools.FlowGridPane;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Stop;
@@ -26,7 +28,6 @@ public class SystemTile extends VTile {
      * Set up a tile to display a system stat
      * @param title The title of the tile.
      * @param maxValue The maximum value of the tile (-1 if no specified max)
-     * @return The built Tile, to be displayed.
      */
     public SystemTile(Pane parent, String title, String unit, int maxValue, DoubleSupplier update) {
         percentage = unit.equals("%");
@@ -67,5 +68,9 @@ public class SystemTile extends VTile {
         getTile().setValue(
                 data.getAsDouble() * (percentage ? 100 : 1)
         );
+    }
+
+    public Node getNode() {
+        return new FlowGridPane(1, 1, tile);
     }
 }

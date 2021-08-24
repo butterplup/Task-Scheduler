@@ -3,6 +3,8 @@ package project1.visualisation.tiles;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.chart.ChartData;
+import eu.hansolo.tilesfx.tools.FlowGridPane;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import lombok.Getter;
@@ -51,5 +53,9 @@ public class ThreadTile extends VTile {
         }
 
         getTile().addChartData(new ChartData(data.getAsInt()));
+    }
+
+    public Node getNode() {
+        return new FlowGridPane(1, 1, tile);
     }
 }

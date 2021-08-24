@@ -2,9 +2,11 @@ package project1.visualisation.tiles.gantt;
 
 import eu.hansolo.tilesfx.Tile;
 import javafx.collections.FXCollections;
+import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Control;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import project1.algorithm.PartialSchedule;
@@ -68,7 +70,7 @@ public class ScheduleGantt extends VTile {
         chart.getStylesheets().add(getClass().getResource("/GanttChart.css").toExternalForm());
         chart.setMaxHeight(height);
 
-        parent.getChildren().add(chart);
+        addTo(parent);
     }
 
     /**
@@ -107,7 +109,7 @@ public class ScheduleGantt extends VTile {
         chart.getData().addAll(seriesList);
     }
 
-    public Tile getTile() {
-        return null;
+    public Node getNode() {
+        return chart;
     }
 }
