@@ -26,8 +26,11 @@ public class SystemTile extends VTile {
 
     /**
      * Set up a tile to display a system stat
+     * @param parent Parent pane to append tile to.
      * @param title The title of the tile.
-     * @param maxValue The maximum value of the tile (-1 if no specified max)
+     * @param unit Unit of the data values.
+     * @param maxValue The maximum value of the tile.
+     * @param update Value to update tile with.
      */
     public SystemTile(Pane parent, String title, String unit, double maxValue, DoubleSupplier update) {
         percentage = unit.equals("%");

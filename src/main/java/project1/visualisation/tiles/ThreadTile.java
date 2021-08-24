@@ -23,16 +23,13 @@ public class ThreadTile extends VTile {
     private final IntSupplier data;
 
     /**
-     * Set up a tile to display a Smooth Area Chart.
-     * @param title The title of the tile.
+     * Create a ThreadTile
+     * @param parent Parent pane to append tile to
+     * @param update Value of data
      */
-    public ThreadTile(Pane parent, String title, IntSupplier update) {
+    public ThreadTile(Pane parent, IntSupplier update) {
         tile = TileBuilder.create().skinType(Tile.SkinType.SMOOTH_AREA_CHART)
                 .chartData(new ChartData(0), new ChartData(0))
-                .title(title)
-                .textSize(Tile.TextSize.BIGGER)
-                .titleColor(Color.WHITE)
-                .textSize(Tile.TextSize.BIGGER)
                 .animated(false)
                 .smoothing(true)
                 .decimals(0)

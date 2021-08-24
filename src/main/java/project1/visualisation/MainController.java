@@ -70,12 +70,10 @@ public class MainController {
 
         tiles.add(
                 new ThreadTile(totalThreadBox,
-                        "Total Threads Created",
                         threadData::numThreadsSpawned));
 
         tiles.add(
                 new ThreadTile(activeThreadsBox,
-                        "Active Threads",
                         threadData::numThreadsAlive));
 
         // Set up best schedule gantt graph
