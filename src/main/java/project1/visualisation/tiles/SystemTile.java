@@ -29,7 +29,7 @@ public class SystemTile extends VTile {
      * @param title The title of the tile.
      * @param maxValue The maximum value of the tile (-1 if no specified max)
      */
-    public SystemTile(Pane parent, String title, String unit, int maxValue, DoubleSupplier update) {
+    public SystemTile(Pane parent, String title, String unit, double maxValue, DoubleSupplier update) {
         percentage = unit.equals("%");
 
         TileBuilder tileBuilder = TileBuilder.create().skinType(Tile.SkinType.BAR_GAUGE)

@@ -55,7 +55,7 @@ public class MainController {
                 new SystemTile(memBox,
                         "Current Memory Usage",
                         "MB",
-                        (int) (Runtime.getRuntime().maxMemory() / (1024.0 * 1024.0)),
+                        Runtime.getRuntime().maxMemory() / (1024.0 * 1024.0),
                         () -> ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/(1000000d)))
         );
 
@@ -64,7 +64,7 @@ public class MainController {
                 new SystemTile(cpuBox,
                         "Current CPU Usage",
                         "%",
-                        100,
+                        100.0,
                         osBean::getProcessCpuLoad)
         );
 
