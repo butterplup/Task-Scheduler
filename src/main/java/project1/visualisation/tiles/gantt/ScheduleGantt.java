@@ -1,12 +1,10 @@
 package project1.visualisation.tiles.gantt;
 
-import eu.hansolo.tilesfx.Tile;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Control;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import project1.algorithm.PartialSchedule;

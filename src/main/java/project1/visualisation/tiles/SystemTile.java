@@ -22,6 +22,7 @@ import static javafx.scene.paint.Color.rgb;
 public class SystemTile extends VTile {
     @Getter private final Tile tile;
     private final DoubleSupplier data;
+    // true if the unit is "%"
     private final boolean percentage;
 
     /**
@@ -66,6 +67,9 @@ public class SystemTile extends VTile {
         addTo(parent);
     }
 
+    /**
+     * Get data from the DoubleSupplier and add it to the chart
+     */
     @Override
     public void update() {
         getTile().setValue(
@@ -73,6 +77,10 @@ public class SystemTile extends VTile {
         );
     }
 
+    /**
+     * House this node in a 1x1 FlowGridPane before parenting
+     * @return The FlowGridPane
+     */
     public Node getNode() {
         return new FlowGridPane(1, 1, tile);
     }

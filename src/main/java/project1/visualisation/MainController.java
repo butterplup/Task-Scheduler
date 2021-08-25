@@ -85,7 +85,6 @@ public class MainController {
 
         ganttBox.setStyle("-fx-background-color: transparent");
 
-        // start polling
         startPolling();
     }
 
@@ -101,6 +100,9 @@ public class MainController {
         autoUpdater.play();
     }
 
+    /**
+     * Update all visualisation tiles
+     */
     private void update() {
         // Update timer
         long currentTime = System.currentTimeMillis();

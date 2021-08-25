@@ -41,6 +41,9 @@ public class ThreadTile extends VTile {
         addTo(parent);
     }
 
+    /**
+     * Get data from the IntSupplier and add it to the chart
+     */
     @Override
     public void update() {
         int MAX_ELEMENTS = 500;
@@ -52,6 +55,10 @@ public class ThreadTile extends VTile {
         getTile().addChartData(new ChartData(data.getAsInt()));
     }
 
+    /**
+     * House this node in a 1x1 FlowGridPane before parenting
+     * @return The FlowGridPane
+     */
     public Node getNode() {
         return new FlowGridPane(1, 1, tile);
     }
