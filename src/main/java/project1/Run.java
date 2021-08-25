@@ -29,7 +29,10 @@ public class Run implements Runnable {
         ThreadAnalytics.getInstance(argsParser.getParallelCoreCount());
 
         if (argsParser.isVisualise()) {
-            // Hand off to visualisation to create a new thread
+            // Start a new thread to run the algorithm on
+            new Thread(new Run()).start();
+
+            // Use main thread to spin up the visualisation
             Visualiser.Main(args);
         } else {
             // Run in main thread

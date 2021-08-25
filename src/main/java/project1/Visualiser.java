@@ -24,9 +24,6 @@ public class Visualiser extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.setTitle("Team 2: Electric Boogaloo");
-
-        // Start a new thread to run the algorithm on
-        new Thread(new Run()).start();
         primaryStage.show();
     }
 
