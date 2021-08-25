@@ -92,6 +92,15 @@ public class PartialSchedule {
 
             boolean foundEmpty = false;
             for (int p = 0; p < processors; p++) {
+
+                //Duplicate removal!
+                if (this.ts!=null&&!n.getPredecessors().contains(ts.getTaskNode().getId())&&p<ts.getProcessor()) {
+                    //If the last node scheduled for this partial schedule is not the parent of this node,
+                    //then this node must have appeared as one of the branching options for a previous
+                    //partialschedule and would have already been scheduled on a processor<ts'processor  -> remove
+                    continue;
+                }
+
                 int start = this.processorInfo[p];
                 int startTime;
                 // Get processor start time
@@ -117,8 +126,16 @@ public class PartialSchedule {
                 }
 
                 startTime = Math.max(start, communicationCost);
+
+                if (startTime==0 && p!=0 && ts!=null){
+                    if (n.getOrder()<ts.getTaskNode().getOrder()){ //if startTime=0 -> independent node
+                        continue;   //prune duplicate
+                    }
+                }
+
                 TaskScheduled scheduled = new TaskScheduled(n, startTime, p);
                 PartialSchedule possibility = new PartialSchedule(this, scheduled);
+                //System.out.println(possibility.printSchedule());
 
                 //Only add to Schedule to stack if its finish time<current best "complete" schedule
                 if (possibility.getFinishTime() + scheduled.getTaskNode().getCriticalPath() < best) {

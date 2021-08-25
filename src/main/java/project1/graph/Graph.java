@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.HashMap;
 
@@ -49,6 +50,7 @@ public class Graph {
         e.getStart().getOutgoingEdges().add(e);
         // End from start
         e.getEnd().getIncomingEdges().add(e);
+        e.getEnd().getPredecessors().add(e.getStart().getId());
     }
 
     /**
@@ -73,4 +75,37 @@ public class Graph {
      * @return The number of tasks as an int
      */
     public int getTotalTasksCount(){return this.nodeMap.size();}
+
+    /**
+     * Assign nodes an order as they become ready
+     */
+    public void markNodeOrder(){
+        //List of Schedulable nodes
+        LinkedList<Node> readyNodes=new LinkedList<>();
+        int[] in=new int[nodes.size()];
+        for (Node n:nodes){
+            in[n.getId()]=n.getIncomingEdges().size();
+            if (n.getIncomingEdges().size()==0){
+                readyNodes.add(n);
+            }
+        }
+
+        //Create a topological order
+        LinkedList<Node> nodesDone = new LinkedList<>();
+        int order=0;
+        while (!readyNodes.isEmpty()){
+            Node ready= readyNodes.removeFirst();
+            ready.setOrder(order++);
+            System.out.println(ready.getName()+ "'s order is "+order);
+            for (Edge e:ready.getOutgoingEdges()){
+                Node child=e.getEnd();
+                in[child.getId()]=in[child.getId()]-1;
+                if (in[child.getId()]==0){
+                    //ready
+                    readyNodes.add(child);
+                }
+            }
+        }
+
+    }
 }
