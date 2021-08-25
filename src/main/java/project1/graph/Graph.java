@@ -96,7 +96,7 @@ public class Graph {
         while (!readyNodes.isEmpty()){
             Node ready= readyNodes.removeFirst();
             ready.setOrder(order++);
-            System.out.println(ready.getName()+ "'s order is "+order);
+            //System.out.println(ready.getName()+ "'s order is "+order);
             for (Edge e:ready.getOutgoingEdges()){
                 Node child=e.getEnd();
                 in[child.getId()]=in[child.getId()]-1;

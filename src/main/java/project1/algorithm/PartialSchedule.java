@@ -136,10 +136,12 @@ public class PartialSchedule {
                 TaskScheduled scheduled = new TaskScheduled(n, startTime, p);
                 PartialSchedule possibility = new PartialSchedule(this, scheduled);
                 //System.out.println(possibility.printSchedule());
+                int estimatedFinish=0;
 
                 //Only add to Schedule to stack if its finish time<current best "complete" schedule
                 if (possibility.getFinishTime() + scheduled.getTaskNode().getCriticalPath() < best) {
                     expanded.add(possibility);
+                    //System.out.println("added"+possibility.printSchedule());
                 }
             }
         }

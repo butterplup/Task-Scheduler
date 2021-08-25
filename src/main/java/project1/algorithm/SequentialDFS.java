@@ -29,15 +29,17 @@ public class SequentialDFS {
         System.out.println("Start");
         ThreadAnalytics ta = ThreadAnalytics.getInstance();
 
+        taskGraph.markNodeOrder();
         PartialSchedule ubound= TopologicalSort.getSchedule(taskGraph,processorCount);
         ta.newSchedule(ubound.getFinishTime(),ubound);
         System.out.println(ubound.getFinishTime());
 
-        if (new PartialSchedule(taskGraph,processorCount).expandSchedule(ubound.getFinishTime())==null){
+        List<PartialSchedule> initBranches=new PartialSchedule(taskGraph,processorCount).expandSchedule(ubound.getFinishTime());
+        if (initBranches==null){
             System.out.println("is null");
         }
 
-        Stream<PartialSchedule> initSchedules = new PartialSchedule(taskGraph,processorCount).expandSchedule(ubound.getFinishTime()).stream();
+        Stream<PartialSchedule> initSchedules = initBranches.stream();
 
         DFSThread[] threadPool = new DFSThread[threads];
         for (int i = 0; i < threads; i++) {
