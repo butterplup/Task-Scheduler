@@ -5,12 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import project1.algorithm.PartialSchedule;
-import project1.algorithm.SequentialDFS;
-import project1.graph.Graph;
-import project1.graph.dotparser.Parser;
-
-import java.io.IOException;
 
 /**
  * This class extends the JavaFX application class to create and run the GUI
