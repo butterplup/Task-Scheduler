@@ -5,75 +5,83 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" styleClass="main-container" stylesheets="@Main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project1.visualisation.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1236.0" styleClass="main-container" stylesheets="@Main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project1.visualisation.MainController">
     <children>
-          <HBox layoutY="29.0" prefHeight="95.0" prefWidth="1200.0">
+      <StackPane prefHeight="700.0" prefWidth="1200.0">
+          
+      </StackPane>
+          <HBox layoutX="18.0" layoutY="20.0" prefHeight="95.0" prefWidth="1200.0">
               <children>
-                  <VBox alignment="CENTER" prefHeight="71.0" prefWidth="400.0">
-                      <children>
-                  <Pane maxHeight="63.0" maxWidth="375.0" minHeight="0.0" minWidth="0.0" prefHeight="65.0" prefWidth="375.0">
-                     <children>
-                                <Text layoutX="135.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Status" textAlignment="CENTER" wrappingWidth="105.662109375">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Text>
-                                <Text fx:id="statusText" layoutX="143.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="89.00732421875">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                           <styleClass>
-                              <String fx:value="running-status" />
-                              <String fx:value="stats-text" />
-                           </styleClass>
-                        </Text>
-                     </children>
-                  </Pane>
-                      </children>
-                  </VBox>
-                  <VBox alignment="CENTER" prefHeight="71.0" prefWidth="400.0">
-                      <children>
-                  <Pane maxHeight="63.0" maxWidth="375.0" minHeight="0.0" minWidth="0.0" prefHeight="65.0" prefWidth="375.0">
-                     <children>
-                                <Text layoutX="94.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Time Elapsed (s)" textAlignment="CENTER" wrappingWidth="187.662109375">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Text>
-                                <Text fx:id="timeText" layoutX="147.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="stats-text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </Pane>
-                      </children>
-                  </VBox>
-            <VBox alignment="CENTER" prefHeight="71.0" prefWidth="400.0">
+            <Pane prefHeight="95.0" prefWidth="1200.0" styleClass="graph-pane">
                <children>
-                  <Pane maxHeight="63.0" maxWidth="375.0" minHeight="0.0" minWidth="0.0" prefHeight="65.0" prefWidth="375.0">
+                        <VBox alignment="CENTER" layoutY="12.0" prefHeight="71.0" prefWidth="400.0">
+                            <children>
+                        <Pane maxHeight="63.0" maxWidth="375.0" minHeight="0.0" minWidth="0.0" prefHeight="65.0" prefWidth="375.0">
+                           <children>
+                                      <Text layoutX="135.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Status" textAlignment="CENTER" wrappingWidth="105.662109375">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                                      <Text fx:id="statusText" layoutX="143.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="89.00732421875">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                                 <styleClass>
+                                    <String fx:value="running-status" />
+                                    <String fx:value="stats-text" />
+                                 </styleClass>
+                              </Text>
+                           </children>
+                        </Pane>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" layoutX="400.0" layoutY="12.0" prefHeight="71.0" prefWidth="400.0">
+                            <children>
+                        <Pane maxHeight="63.0" maxWidth="375.0" minHeight="0.0" minWidth="0.0" prefHeight="65.0" prefWidth="375.0">
+                           <children>
+                                      <Text layoutX="94.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Time Elapsed (s)" textAlignment="CENTER" wrappingWidth="187.662109375">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                                      <Text fx:id="timeText" layoutX="147.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="stats-text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                            </children>
+                        </VBox>
+                  <VBox alignment="CENTER" layoutX="800.0" layoutY="12.0" prefHeight="71.0" prefWidth="400.0">
                      <children>
-                        <Text layoutX="44.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Number of Tasks" textAlignment="CENTER" wrappingWidth="287.662109375">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="nodeField" layoutX="146.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="stats-text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Text>
+                        <Pane maxHeight="63.0" maxWidth="375.0" minHeight="0.0" minWidth="0.0" prefHeight="65.0" prefWidth="375.0">
+                           <children>
+                              <Text layoutX="44.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Number of Tasks" textAlignment="CENTER" wrappingWidth="287.662109375">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="nodeField" layoutX="146.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="stats-text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
                      </children>
-                  </Pane>
+                  </VBox>
                </children>
-            </VBox>
+            </Pane>
               </children>
           </HBox>
-      <Pane layoutY="105.0" prefHeight="457.0" prefWidth="1200.0">
+      <Pane layoutX="18.0" layoutY="105.0" prefHeight="457.0" prefWidth="1200.0">
          <children>
             <Pane layoutX="348.0" layoutY="28.0" prefHeight="392.0" prefWidth="602.0" styleClass="graph-pane">
                <children>
@@ -111,7 +119,7 @@
             </Pane>
          </children>
       </Pane>
-      <Pane layoutX="661.0" layoutY="542.0" prefHeight="48.0" prefWidth="289.0" styleClass="graph-pane">
+      <Pane layoutX="679.0" layoutY="542.0" prefHeight="48.0" prefWidth="289.0" styleClass="graph-pane">
          <children>
                     <Text id="best-time" layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="graph-title" text="Best Time: " wrappingWidth="150.0">
                <font>
@@ -129,7 +137,7 @@
             </Text>
          </children>
       </Pane>
-      <HBox layoutY="605.0" prefHeight="95.0" prefWidth="1200.0">
+      <HBox layoutX="18.0" layoutY="605.0" prefHeight="95.0" prefWidth="1200.0">
          <children>
             <Pane prefHeight="60.0" prefWidth="1200.0">
                <children>

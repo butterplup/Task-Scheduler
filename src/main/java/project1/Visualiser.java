@@ -4,14 +4,24 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
 
 /**
  * This class extends the JavaFX application class to create and run the GUI
  * which displays the state of the search algorithm
  */
 public class Visualiser extends Application {
-
+    // Stop garbage collector from erasing within method
+    MediaPlayer soundPlayer;
     /**
      * The start method loads in the fxml file, sets up basic attributes of the stage
      * and then runs the algorithm on a new thread
@@ -20,11 +30,26 @@ public class Visualiser extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
+        StackPane background = new StackPane();
         Parent root = FXMLLoader.load(getClass().getResource("/Main.fxml"));
-        primaryStage.setScene(new Scene(root));
+
+        MediaPlayer player = new MediaPlayer( new Media(getClass().getResource("/bgAut.mp4").toExternalForm()));
+        MediaView mediaView = new MediaView(player);
+        // Music by Karl Casey @ White Bat Audio
+        soundPlayer = new MediaPlayer(new Media(getClass().getResource("/Karl Casey - The New Order.mp3").toURI().toString()));
+
+        background.getChildren().add(mediaView);
+        background.getChildren().add(root);
+
+        primaryStage.setScene(new Scene(background));
         primaryStage.setResizable(false);
         primaryStage.setTitle("Team 2: Electric Boogaloo");
         primaryStage.show();
+
+        player.setCycleCount(MediaPlayer.INDEFINITE);
+        player.play();
+        soundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        soundPlayer.play();
     }
 
     /**

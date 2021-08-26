@@ -39,20 +39,20 @@ public class SystemTile extends VTile {
                 .titleColor(rgb(255,255,255))
                 .titleAlignment(TextAlignment.CENTER)
                 .unit(unit)
-                .gradientStops(new Stop(0, rgb(0,255,249)),
-                        new Stop(0.2, rgb(0,184,255)),
-                        new Stop(0.4, rgb(73,0,255)),
-                        new Stop(0.6, rgb(150,0,255)),
-                        new Stop(0.8, rgb(255,0,193)),
-                        new Stop (1, rgb(255,165,0)))
+                .gradientStops(new Stop(0, rgb(251,237,66)),
+                        new Stop(0.2, rgb(255,165,0)),
+                        new Stop(0.4, rgb(255,80,0)),
+                        new Stop(0.6, rgb(255,0,153)),
+                        new Stop(0.8, rgb(255,0,255)),
+                        new Stop (1, rgb(145,0,255)))
                 .animated(true)
                 .decimals(0)
                 .barBackgroundColor(Color.color(0.8,0.8,0.8, 0.9))
                 .strokeWithGradient(true)
                 .backgroundColor(Color.TRANSPARENT)
-                .valueColor(rgb(0,216,244))
-                .unitColor(rgb(0,216,250))
-                .needleColor(rgb(0,216,244))
+                .valueColor(rgb(255,0,193))
+                .unitColor(rgb(255,0,193))
+                .needleColor(rgb(255,0,193))
                 ;
 
         if (maxValue != -1) {

@@ -1,10 +1,3 @@
-.main-container {
-    -fx-background-image: url("future-background.png");
-    -fx-background-size: 1250px 750px;
-    -fx-background-position: center center;
-}
-
-
 .title, .text {
     -fx-fill: white;
     -fx-font-size: 20px;
@@ -19,7 +12,7 @@
 }
 
 .title, .graph-title, .field-label, #best-time{
-    -fx-effect: dropshadow(gaussian, rgb(0,216,244), 5, 0, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgb(255,0,193), 5, 0, 0, 0);
 }
 
 .larger, .stats-text {
@@ -54,7 +47,7 @@
 }
 
 .graph-pane {
-    -fx-background-color: rgba(20,20,20, .2);
+    -fx-background-color: rgba(20,20,20, .5);
 }
 
 .text-field:focused {

@@ -6,7 +6,11 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import project1.ArgsParser;
@@ -32,6 +36,9 @@ public class MainController {
     // Boxes for charts
     @FXML private VBox ganttBox, cpuBox, memBox;
     @FXML private HBox totalThreadBox, activeThreadsBox;
+
+    // Background
+    @FXML private StackPane background;
 
     private List<VTile> tiles;
     private long startTime;
@@ -110,7 +117,7 @@ public class MainController {
         // checks if the algo is done, then runs the update one more time after its finished
         if (threadData.numThreadsAlive() == 0) {
             //if the threadData is finished set the running text to be done
-            statusText.setStyle("-fx-fill: rgb(15, 150, 100);-fx-effect: dropshadow(gaussian, rgb(15, 150, 100), 5, 0, 0, 0)");
+            statusText.setStyle("-fx-fill: #39FF14;-fx-effect: dropshadow(gaussian, #39FF14, 5, 0, 0, 0)");
             statusText.setText("Done");
 
             // Run once more, then stop updating
