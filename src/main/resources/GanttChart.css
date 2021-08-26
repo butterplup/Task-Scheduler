@@ -1,4 +1,4 @@
 .task-styles {
-    -fx-background-color: linear-gradient(#cf095e 0%, #e80a69 25%, #f51676 75%, #f85fa1 100%);
-    -fx-border-color: white;
+    -fx-background-color: linear-gradient(to left, rgb(73,0,255) 0%, rgb(150,0,255) 25%, rgb(255,0,193) 75%, rgb(255,165,0) 100%);
+    -fx-border-color: transparent;
 }

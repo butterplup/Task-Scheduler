@@ -1,22 +1,12 @@
-/* font importing */
-@font-face {
-    src: url("/SourceCodePro-Bold.ttf");
-}
-@font-face {
-    src: url("/SourceCodePro-Regular.ttf");
-}
-@font-face {
-    src: url("/SourceCodePro-Light.ttf");
-}
-
 .main-container {
     -fx-background-image: url("future-background.png");
-    -fx-background-size: 830 550;
+    -fx-background-size: 1250px 750px;
     -fx-background-position: center center;
 }
 
 .title, .text {
     -fx-fill: white;
+    -fx-font-size: 20px;
 }
 
 .title {
@@ -24,7 +14,6 @@
 }
 
 .source-text, .title {
-    -fx-font-family: 'Source Code Pro';
 }
 
 .text {
@@ -32,12 +21,21 @@
 }
 
 .running-status {
-    -fx-fill: crimson;
+    -fx-fill: rgb(255,0,193);
 }
 
-.threads-title {
-    -fx-font-size: 15px;
+.graph-title, .stats-text {
+    -fx-font-size: 20px;
     -fx-fill: white;
+}
+
+.larger {
+    -fx-font-size: 25px;
+}
+
+.stats-text {
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
 }
 
 .text-field {
@@ -45,6 +43,11 @@
     -fx-background-insets: 0, 0 0 1 0;
     -fx-background-radius: 2;
     -fx-fill: white;
+    -fx-font-size: 15px;
+}
+
+.graph-pane {
+    -fx-background-color: rgba(20,20,20, .2);
 }
 
 .text-field:focused {

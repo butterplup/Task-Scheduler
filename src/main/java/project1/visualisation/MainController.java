@@ -26,8 +26,8 @@ import java.util.List;
  * It updates the visualised elements of the algorithm as it is calculated
  */
 public class MainController {
-    @FXML private Text bestScheduleTime, timeText, statusText;
-    @FXML private TextField inputField, nodeField, outputField;
+    @FXML private Text bestScheduleTime, timeText, statusText, nodeField;
+    @FXML private TextField inputField, outputField;
 
     // Boxes for charts
     @FXML private VBox ganttBox, cpuBox, memBox;
@@ -53,7 +53,6 @@ public class MainController {
         tiles = new ArrayList<>();
         tiles.add(
                 new SystemTile(memBox,
-                        "Current Memory Usage",
                         "MB",
                         Runtime.getRuntime().maxMemory() / (1024.0 * 1024.0),
                         () -> ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/(1000000d)))
@@ -62,7 +61,6 @@ public class MainController {
         OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
         tiles.add(
                 new SystemTile(cpuBox,
-                        "Current CPU Usage",
                         "%",
                         100.0,
                         osBean::getProcessCpuLoad)

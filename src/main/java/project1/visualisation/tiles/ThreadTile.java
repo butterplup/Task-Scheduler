@@ -36,6 +36,7 @@ public class ThreadTile extends VTile {
                 .chartData(new ChartData(0), new ChartData(0))
                 .animated(false)
                 .smoothing(true)
+                .prefSize(300, 140)
                 .decimals(0)
                 .backgroundColor(Color.TRANSPARENT)
                 .valueColor(rgb(0,216,244))

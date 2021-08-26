@@ -61,7 +61,6 @@ public class ScheduleGantt extends VTile {
         // Setting up chart
         chart = new GanttChart<>(timeAxis,processorAxis);
         chart.setLegendVisible(false);
-        chart.setTitle("Current Best Schedule");
         // Make sure height per task is smaller when scheduled on more processors
         chart.setBlockHeight(100.0/processorCount);
         // Styles the appearance of tasks on the chart
