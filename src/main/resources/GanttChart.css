@@ -3,6 +3,6 @@
 }
 
 .task-styles {
-    -fx-background-color: linear-gradient(to right, rgb(251,237,66) 0%, rgb(255,165,0) 33%, rgb(245,22,118) 66%, rgb(255,0,193) 100%) !important;
+    -fx-background-color: linear-gradient(to right, rgba(251,237,66,0.8) 0%, rgba(255,165,0,0.8) 33%, rgba(245,22,118,0.8) 66%, rgba(255,0,193,0.8) 100%) !important;
     -fx-border-color: transparent;
 }
