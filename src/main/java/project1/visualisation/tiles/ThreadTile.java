@@ -22,6 +22,10 @@ public class ThreadTile extends VTile {
     @Getter private final Tile tile;
     private final IntSupplier data;
 
+    // The maximum data points we can have in the graph and how many to remove when that's exceeded
+    private static final int MAX_ELEMENTS = 500;
+    private static final int REMOVAL_VALUE = 50;
+
     /**
      * Create a ThreadTile
      * @param parent Parent pane to append tile to
@@ -46,9 +50,7 @@ public class ThreadTile extends VTile {
      */
     @Override
     public void update() {
-        int MAX_ELEMENTS = 500;
         if (getTile().getChartData().size() > MAX_ELEMENTS){
-            int REMOVAL_VALUE = 50;
             getTile().getChartData().remove(0, REMOVAL_VALUE);
         }
 
