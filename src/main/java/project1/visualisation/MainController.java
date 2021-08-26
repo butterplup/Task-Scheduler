@@ -110,7 +110,7 @@ public class MainController {
         // checks if the algo is done, then runs the update one more time after its finished
         if (threadData.numThreadsAlive() == 0) {
             //if the threadData is finished set the running text to be done
-            statusText.setStyle("-fx-fill: rgb(15,150,100)");
+            statusText.setStyle("-fx-fill: rgb(15, 150, 100);-fx-effect: dropshadow(gaussian, rgb(15, 150, 100), 5, 0, 0, 0)");
             statusText.setText("Done");
 
             // Run once more, then stop updating

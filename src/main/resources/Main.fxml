@@ -78,7 +78,11 @@
             <Pane layoutX="348.0" layoutY="28.0" prefHeight="392.0" prefWidth="602.0" styleClass="graph-pane">
                <children>
                   <Text layoutX="27.0" layoutY="46.0" lineSpacing="0.1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="graph-title" text="Current Best Schedule" textAlignment="CENTER" wrappingWidth="549.0" />
-                        <VBox fx:id="ganttBox" layoutY="60.0" prefHeight="304.0" prefWidth="602.0" />
+                  <Pane layoutY="60.0" prefHeight="304.0" prefWidth="602.0" styleClass="gantt-bg">
+                     <children>
+                              <VBox fx:id="ganttBox" prefHeight="304.0" prefWidth="602.0" />
+                     </children>
+                  </Pane>
                </children>
             </Pane>
             <Pane layoutY="28.0" prefHeight="186.0" prefWidth="330.0" styleClass="graph-pane">
@@ -109,14 +113,10 @@
       </Pane>
       <Pane layoutX="661.0" layoutY="542.0" prefHeight="48.0" prefWidth="289.0" styleClass="graph-pane">
          <children>
-                    <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best Time: " wrappingWidth="150.0">
+                    <Text id="best-time" layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="graph-title" text="Best Time: " wrappingWidth="150.0">
                <font>
                   <Font size="13.0" />
                </font>
-               <styleClass>
-                  <String fx:value="graph-title" />
-                  <String fx:value="larger" />
-               </styleClass>
             </Text>
                     <Text fx:id="bestScheduleTime" layoutX="144.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="97.662109375">
                <font>
@@ -133,9 +133,19 @@
          <children>
             <Pane prefHeight="60.0" prefWidth="1200.0">
                <children>
-                          <Text layoutX="657.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Output Graph:" textAlignment="RIGHT" wrappingWidth="150.0" />
+                          <Text layoutX="657.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output Graph:" textAlignment="RIGHT" wrappingWidth="150.0">
+                     <styleClass>
+                        <String fx:value="text" />
+                        <String fx:value="field-label" />
+                     </styleClass>
+                  </Text>
                           <TextField fx:id="outputField" editable="false" layoutX="850.0" layoutY="35.0" prefHeight="25.0" prefWidth="300.0" styleClass="source-text" />
-                          <Text layoutX="48.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Input Graph:" textAlignment="RIGHT" wrappingWidth="150.0" />
+                          <Text layoutX="48.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input Graph:" textAlignment="RIGHT" wrappingWidth="150.0">
+                     <styleClass>
+                        <String fx:value="text" />
+                        <String fx:value="field-label" />
+                     </styleClass>
+                  </Text>
                   <TextField fx:id="inputField" editable="false" layoutX="250.0" layoutY="35.0" prefHeight="25.0" prefWidth="300.0" styleClass="source-text" />
                </children>
             </Pane>

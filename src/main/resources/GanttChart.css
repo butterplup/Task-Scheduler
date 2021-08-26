@@ -1,4 +1,8 @@
+* {
+    -fx-background-color: transparent;
+}
+
 .task-styles {
-    -fx-background-color: linear-gradient(to left, rgb(73,0,255) 0%, rgb(150,0,255) 25%, rgb(255,0,193) 75%, rgb(255,165,0) 100%);
+    -fx-background-color: linear-gradient(to right, rgb(251,237,66) 0%, rgb(255,165,0) 33%, rgb(245,22,118) 66%, rgb(255,0,193) 100%) !important;
     -fx-border-color: transparent;
 }

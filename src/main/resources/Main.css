@@ -4,6 +4,7 @@
     -fx-background-position: center center;
 }
 
+
 .title, .text {
     -fx-fill: white;
     -fx-font-size: 20px;
@@ -13,15 +14,21 @@
     -fx-font-weight: bold;
 }
 
-.source-text, .title {
-}
-
 .text {
     -fx-font-weight: 300;
 }
 
+.title, .graph-title, .field-label, #best-time{
+    -fx-effect: dropshadow(gaussian, rgb(0,216,244), 5, 0, 0, 0);
+}
+
+.larger, .stats-text {
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
 .running-status {
     -fx-fill: rgb(255,0,193);
+    -fx-effect: dropshadow(gaussian, rgb(255,0,193), 5, 0, 0, 0);
 }
 
 .graph-title, .stats-text {
