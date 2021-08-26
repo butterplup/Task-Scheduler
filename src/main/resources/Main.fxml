@@ -32,7 +32,7 @@
                            <font>
                               <Font size="14.0" />
                            </font></Text>
-                                <Text fx:id="StatusText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="running-status" text="Running">
+                                <Text fx:id="statusText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="running-status" text="Running">
                            <font>
                               <Font size="13.0" />
                            </font></Text>
@@ -44,7 +44,7 @@
                            <font>
                               <Font size="14.0" />
                            </font></Text>
-                                <Text fx:id="TimeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
+                                <Text fx:id="timeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
                            <font>
                               <Font size="13.0" />
                            </font></Text>
@@ -57,7 +57,9 @@
                         <VBox fx:id="ganttBox" prefHeight="379.0" prefWidth="640.0" HBox.hgrow="ALWAYS" />
                         <VBox prefHeight="384.0" prefWidth="389.0">
                             <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="threads-title" text="Total Threads Created" />
                                 <HBox fx:id="totalThreadBox" prefHeight="214.0" prefWidth="387.0" VBox.vgrow="ALWAYS" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="threads-title" text="Total Threads Active" />
                                 <HBox fx:id="activeThreadsBox" prefHeight="205.0" prefWidth="387.0" VBox.vgrow="ALWAYS" />
                             </children>
                         </VBox>
@@ -94,7 +96,7 @@
                     </children>
                 </VBox>
             <Region prefHeight="168.0" prefWidth="10.0" />
-                <VBox fx:id="CpuBox" prefHeight="168.0" prefWidth="185.0" HBox.hgrow="ALWAYS" />
+                <VBox fx:id="cpuBox" prefHeight="168.0" prefWidth="185.0" HBox.hgrow="ALWAYS" />
                 <VBox fx:id="memBox" prefHeight="105.0" prefWidth="170.0" HBox.hgrow="ALWAYS" />
             </children>
         </HBox>

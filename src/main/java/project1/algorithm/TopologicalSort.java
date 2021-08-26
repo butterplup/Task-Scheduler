@@ -39,7 +39,7 @@ public class TopologicalSort {
 
             // Go through all processors,Use earliestStartTime as selection rule
             for (int free : topoSchedule.getProcessorInfo()) {
-                index++; //processor number
+                index++; // Processor number
                 int startTime;
                 int communicationCost = 0;
 
@@ -59,7 +59,7 @@ public class TopologicalSort {
                 }
 
                 if (currentEarliest == 0) {
-                    //can not have better EST time
+                    // Cannot have better EST time
                     break;
                 }
             }
