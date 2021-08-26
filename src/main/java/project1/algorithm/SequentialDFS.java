@@ -37,6 +37,7 @@ public class SequentialDFS {
         List<PartialSchedule> initBranches=new PartialSchedule(taskGraph,processorCount).expandSchedule(ubound.getFinishTime());
         if (initBranches==null){
             System.out.println("is null");
+            throw new RuntimeException("No schedules can be generates");
         }
 
         Stream<PartialSchedule> initSchedules = initBranches.stream();
