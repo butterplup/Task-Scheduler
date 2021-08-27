@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -15,6 +14,8 @@ public class Node {
     @Getter @Setter private int processor;
     @Getter @Setter private int start;
     @Getter @Setter private int id = 0;
+    @Getter @Setter private int order=0;
+    @Getter @Setter private boolean[] predecessors;
 
     // Incoming and outgoing edges, set when an edge is added to the graph
     @Getter private final List<Edge> incomingEdges = new ArrayList<>();
@@ -37,5 +38,9 @@ public class Node {
         }
 
         return criticalPath;
+    }
+
+    public boolean isPrecededBy(int nodeId){
+        return predecessors[nodeId];
     }
 }

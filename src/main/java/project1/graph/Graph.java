@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.HashMap;
 
@@ -49,6 +50,7 @@ public class Graph {
         e.getStart().getOutgoingEdges().add(e);
         // End from start
         e.getEnd().getIncomingEdges().add(e);
+        e.getEnd().getPredecessors()[e.getStart().getId()]=true;
     }
 
     /**
@@ -73,4 +75,44 @@ public class Graph {
      * @return The number of tasks as an int
      */
     public int getTotalTasksCount(){return this.nodeMap.size();}
+
+    /**
+     * Assign nodes an order as they become ready
+     */
+    public void markNodeOrder(){
+        LinkedList<Node> readyNodes = new LinkedList<>();
+        int[] in = new int[nodes.size()]; // # of unscheduled dependent nodes for each node
+
+        // Add all nodes with no ingoing edges to readyNodes
+        for (Node n : nodes){
+            int incoming = n.getIncomingEdges().size();
+            in[n.getId()] = incoming;
+            if (incoming == 0){
+                readyNodes.add(n);
+            }
+        }
+
+        // While there are nodes to assign an order
+        int order = 0;
+        while (!readyNodes.isEmpty()){
+            // Pop the first item
+            Node ready = readyNodes.removeFirst();
+
+            // Assign it an order number
+            ready.setOrder(order++);
+
+            for (Edge e : ready.getOutgoingEdges()){
+                Node child = e.getEnd();
+
+                // Decrement # of unscheduled dependencies
+                in[child.getId()]--;
+
+                // If there are none left, mark as ready
+                if (in[child.getId()] == 0) {
+                    readyNodes.add(child);
+                }
+            }
+        }
+
+    }
 }

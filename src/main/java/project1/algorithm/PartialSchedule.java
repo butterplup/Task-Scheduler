@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Getter
 public class PartialSchedule {
+    // Global vars
     @Getter private static int processors;
     @Getter private static Graph schedulingGraph;
     private final int nodesVisited;
@@ -39,7 +40,7 @@ public class PartialSchedule {
         this.nodesVisited = 0;
         this.finishTime = 0;
 
-        // Fields that we can persist across schedules (improves performance)
+        // Fields that we can persist across schedules (improves perf.)
         processors = p;
         schedulingGraph = g;
     }
@@ -71,7 +72,7 @@ public class PartialSchedule {
 
         // Node hasn't been Scheduled
         for (Node n : schedulingGraph.getNodes()) {
-            // Cannot be scheduled if it has been scheduled already
+            //cannot be scheduled if it has been scheduled already
             if (alreadyScheduled[n.getId()] != null) {
                 continue;
             }
@@ -91,6 +92,15 @@ public class PartialSchedule {
 
             boolean foundEmpty = false;
             for (int p = 0; p < processors; p++) {
+                if (this.ts != null && !n.isPrecededBy(ts.getTaskNode().getId()) && p < ts.getProcessor()) {
+                    /* If the node we're about to schedule isn't a child of ts' node AND the processor # we're
+                        about to schedule on is less than that of ts' node, then this node must have appeared as
+                        one of the branching options for a previous PartialSchedule and would have already been
+                        scheduled on a processor with an id less than ts.getProcessor().
+                        */
+                    continue;   // Prune
+                }
+
                 int start = this.processorInfo[p];
                 int startTime;
                 // Get processor start time
@@ -116,10 +126,20 @@ public class PartialSchedule {
                 }
 
                 startTime = Math.max(start, communicationCost);
+
+                if (startTime == 0 && p != 0 && ts != null){
+                    if (n.getOrder() < ts.getTaskNode().getOrder()){
+                        /* If the node we're about to schedule on an empty processor,
+                        could have been scheduled before the current head 'ts',
+                        this is an 'independent' node as outlined in the wiki. */
+                        continue;   // Prune
+                    }
+                }
+
                 TaskScheduled scheduled = new TaskScheduled(n, startTime, p);
                 PartialSchedule possibility = new PartialSchedule(this, scheduled);
 
-                // Only add to Schedule to stack if its finish time<current best "complete" schedule
+                //Only add to Schedule to stack if its finish time<current best "complete" schedule
                 if (possibility.getFinishTime() + scheduled.getTaskNode().getCriticalPath() < best) {
                     expanded.add(possibility);
                 }
@@ -131,6 +151,7 @@ public class PartialSchedule {
 
     /**
      * Get all scheduled tasks
+     *
      * @return Array of TaskScheduled, indexed by Node ID
      */
     public TaskScheduled[] getScheduledTasks() {
@@ -181,18 +202,18 @@ public class PartialSchedule {
     }
 
     /**
-     * Prints the current schedule and returns a String containing the formatted schedule
-     * @return The formatted schedule
+     * Prints out the current schedule
      */
     public String printSchedule() {
         TaskScheduled[] tasks = this.getScheduledTasks();
-        StringBuilder s = new StringBuilder();
+        StringBuilder s=new StringBuilder();
         for (TaskScheduled t : tasks) {
             if (t != null) {
                 s.append(t.getTaskNode().getName() + " is scheduled to Processor " + t.getProcessor() +
                         " Starting at time " + t.getStartingTime()+"\n");
             }
         }
+
         return s.toString();
     }
 }

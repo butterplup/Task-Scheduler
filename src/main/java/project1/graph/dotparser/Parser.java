@@ -29,11 +29,15 @@ public class Parser {
             graph.setName(name);
         }
 
+
+
         // Add all graph nodes
         for (GraphNode n : parser.getNodes().values()) {
             int weight = Integer.parseInt((String) n.getAttribute("Weight"));
             Node newNode = new Node(weight, n.getId());
             graph.addNode(newNode);
+            boolean[] predecessors=new boolean[parser.getNodes().values().size()];
+            newNode.setPredecessors(predecessors);
         }
 
         // Add all graph edges
