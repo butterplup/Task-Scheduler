@@ -92,13 +92,13 @@ public class PartialSchedule {
 
             boolean foundEmpty = false;
             for (int p = 0; p < processors; p++) {
-
-                //Duplicate removal!
-                if (this.ts!=null&&!n.isPrecededBy(ts.getTaskNode().getId())&&p<ts.getProcessor()) {
-                    //If the last node scheduled for this partial schedule is not the parent of this node,
-                    //then this node must have appeared as one of the branching options for a previous
-                    //partialschedule and would have already been scheduled on a processor<ts'processor  -> remove
-                    continue;
+                if (this.ts != null && !n.isPrecededBy(ts.getTaskNode().getId()) && p < ts.getProcessor()) {
+                    /* If the node we're about to schedule isn't a child of ts' node AND the processor # we're
+                        about to schedule on is less than that of ts' node, then this node must have appeared as
+                        one of the branching options for a previous PartialSchedule and would have already been
+                        scheduled on a processor with an id less than ts.getProcessor().
+                        */
+                    continue;   // Prune
                 }
 
                 int start = this.processorInfo[p];
@@ -127,11 +127,11 @@ public class PartialSchedule {
 
                 startTime = Math.max(start, communicationCost);
 
-                if (startTime==0 && p!=0 && ts!=null){
-                    // If the node we're about to schedule on an empty processor,
-                    // could have been scheduled before the current head 'ts',
-                    // this is an 'independent' node as outlined in the wiki.
+                if (startTime == 0 && p != 0 && ts != null){
                     if (n.getOrder() < ts.getTaskNode().getOrder()){
+                        /* If the node we're about to schedule on an empty processor,
+                        could have been scheduled before the current head 'ts',
+                        this is an 'independent' node as outlined in the wiki. */
                         continue;   // Prune
                     }
                 }
@@ -213,7 +213,7 @@ public class PartialSchedule {
                         " Starting at time " + t.getStartingTime()+"\n");
             }
         }
-        //System.out.println(s.toString());
+
         return s.toString();
     }
 }
