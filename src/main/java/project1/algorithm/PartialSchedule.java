@@ -128,19 +128,20 @@ public class PartialSchedule {
                 startTime = Math.max(start, communicationCost);
 
                 if (startTime==0 && p!=0 && ts!=null){
-                    if (n.getOrder()<ts.getTaskNode().getOrder()){ //if startTime=0 -> independent node
-                        continue;   //prune duplicate
+                    // If the node we're about to schedule on an empty processor,
+                    // could have been scheduled before the current head 'ts',
+                    // this is an 'independent' node as outlined in the wiki.
+                    if (n.getOrder() < ts.getTaskNode().getOrder()){
+                        continue;   // Prune
                     }
                 }
 
                 TaskScheduled scheduled = new TaskScheduled(n, startTime, p);
                 PartialSchedule possibility = new PartialSchedule(this, scheduled);
-                int estimatedFinish=0;
 
                 //Only add to Schedule to stack if its finish time<current best "complete" schedule
                 if (possibility.getFinishTime() + scheduled.getTaskNode().getCriticalPath() < best) {
                     expanded.add(possibility);
-                    //System.out.println(possibility.printSchedule());
                 }
             }
         }
