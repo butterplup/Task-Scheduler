@@ -114,9 +114,9 @@ public class MainController {
         int roundedTime = (int) ((currentTime-startTime)/1000);
         timeText.setText(String.valueOf(roundedTime));
 
-        // checks if the algo is done, then runs the update one more time after its finished
+        // Checks if the algorithm is done, then runs the update one more time after its finished
         if (threadData.numThreadsAlive() == 0) {
-            //if the threadData is finished set the running text to be done
+            // If the threadData is finished set the running text to be done
             statusText.setStyle("-fx-fill: #39FF14;-fx-effect: dropshadow(gaussian, #39FF14, 5, 0, 0, 0)");
             statusText.setText("Done");
 

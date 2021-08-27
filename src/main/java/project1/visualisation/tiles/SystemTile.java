@@ -22,7 +22,7 @@ import static javafx.scene.paint.Color.rgb;
 public class SystemTile extends VTile {
     @Getter private final Tile tile;
     private final DoubleSupplier data;
-    // true if the unit is "%"
+    // Set to true if the unit is "%"
     private final boolean percentage;
 
     /**

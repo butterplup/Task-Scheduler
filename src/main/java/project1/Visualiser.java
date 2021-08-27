@@ -20,7 +20,7 @@ import java.io.File;
  * which displays the state of the search algorithm
  */
 public class Visualiser extends Application {
-    // Stop garbage collector from erasing within method
+    // Keep a reference to our MediaPlayer for the sound
     MediaPlayer soundPlayer;
     /**
      * The start method loads in the fxml file, sets up basic attributes of the stage
@@ -33,10 +33,12 @@ public class Visualiser extends Application {
         StackPane background = new StackPane();
         Parent root = FXMLLoader.load(getClass().getResource("/Main.fxml"));
 
-        MediaPlayer player = new MediaPlayer( new Media(getClass().getResource("/bgAut.mp4").toExternalForm()));
+        MediaPlayer player = new MediaPlayer( new Media(getClass().getResource("/media/bgAut.mp4").toExternalForm()));
+        // MediaView to play the visual file
         MediaView mediaView = new MediaView(player);
+
         // Music by Karl Casey @ White Bat Audio
-        soundPlayer = new MediaPlayer(new Media(getClass().getResource("/Karl Casey - The New Order.mp3").toURI().toString()));
+        soundPlayer = new MediaPlayer(new Media(getClass().getResource("/media/Karl Casey - The New Order.mp3").toURI().toString()));
 
         background.getChildren().add(mediaView);
         background.getChildren().add(root);
@@ -46,6 +48,7 @@ public class Visualiser extends Application {
         primaryStage.setTitle("Team 2: Electric Boogaloo");
         primaryStage.show();
 
+        // Loop background and sound media
         player.setCycleCount(MediaPlayer.INDEFINITE);
         player.play();
         soundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
