@@ -50,7 +50,7 @@ public class Graph {
         e.getStart().getOutgoingEdges().add(e);
         // End from start
         e.getEnd().getIncomingEdges().add(e);
-        e.getEnd().getPredecessors().add(e.getStart().getId());
+        e.getEnd().getPredecessors()[e.getStart().getId()]=true;
     }
 
     /**
