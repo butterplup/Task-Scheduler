@@ -80,27 +80,35 @@ public class Graph {
      * Assign nodes an order as they become ready
      */
     public void markNodeOrder(){
-        //List of Schedulable nodes
-        LinkedList<Node> readyNodes=new LinkedList<>();
-        int[] in=new int[nodes.size()];
-        for (Node n:nodes){
-            in[n.getId()]=n.getIncomingEdges().size();
-            if (n.getIncomingEdges().size()==0){
+        LinkedList<Node> readyNodes = new LinkedList<>();
+        int[] in = new int[nodes.size()]; // # of unscheduled dependent nodes for each node
+
+        // Add all nodes with no ingoing edges to readyNodes
+        for (Node n : nodes){
+            int incoming = n.getIncomingEdges().size();
+            in[n.getId()] = incoming;
+            if (incoming == 0){
                 readyNodes.add(n);
             }
         }
 
-        //Create a topological order
-        LinkedList<Node> nodesDone = new LinkedList<>();
-        int order=0;
+        // While there are nodes to assign an order
+        int order = 0;
         while (!readyNodes.isEmpty()){
-            Node ready= readyNodes.removeFirst();
+            // Pop the first item
+            Node ready = readyNodes.removeFirst();
+
+            // Assign it an order number
             ready.setOrder(order++);
-            for (Edge e:ready.getOutgoingEdges()){
-                Node child=e.getEnd();
-                in[child.getId()]=in[child.getId()]-1;
-                if (in[child.getId()]==0){
-                    //ready
+
+            for (Edge e : ready.getOutgoingEdges()){
+                Node child = e.getEnd();
+
+                // Decrement # of unscheduled dependencies
+                in[child.getId()]--;
+
+                // If there are none left, mark as ready
+                if (in[child.getId()] == 0) {
                     readyNodes.add(child);
                 }
             }
