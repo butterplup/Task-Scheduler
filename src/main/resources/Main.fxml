@@ -23,12 +23,12 @@
                             <children>
                         <Pane maxHeight="63.0" maxWidth="375.0" minHeight="0.0" minWidth="0.0" prefHeight="65.0" prefWidth="375.0">
                            <children>
-                                      <Text layoutX="135.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Status" textAlignment="CENTER" wrappingWidth="105.662109375">
+                                      <Text layoutX="135.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Status" textAlignment="CENTER" wrappingWidth="105.662109375">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                                      <Text fx:id="statusText" layoutX="143.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="89.00732421875">
+                                      <Text fx:id="statusText" layoutX="143.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="89.00732421875">
                                  <font>
                                     <Font size="13.0" />
                                  </font>
@@ -45,12 +45,12 @@
                             <children>
                         <Pane maxHeight="63.0" maxWidth="375.0" minHeight="0.0" minWidth="0.0" prefHeight="65.0" prefWidth="375.0">
                            <children>
-                                      <Text layoutX="94.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Time Elapsed (s)" textAlignment="CENTER" wrappingWidth="187.662109375">
+                                      <Text layoutX="93.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Time Elapsed (s)" textAlignment="CENTER" wrappingWidth="187.662109375">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                                      <Text fx:id="timeText" layoutX="147.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="stats-text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
+                                      <Text fx:id="timeText" layoutX="146.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="stats-text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
                                  <font>
                                     <Font size="13.0" />
                                  </font>
@@ -63,12 +63,12 @@
                      <children>
                         <Pane maxHeight="63.0" maxWidth="375.0" minHeight="0.0" minWidth="0.0" prefHeight="65.0" prefWidth="375.0">
                            <children>
-                              <Text layoutX="44.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Number of Tasks" textAlignment="CENTER" wrappingWidth="287.662109375">
+                              <Text layoutX="44.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Number of Tasks" textAlignment="CENTER" wrappingWidth="287.662109375">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="nodeField" layoutX="146.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="stats-text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
+                              <Text fx:id="nodeField" layoutX="146.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="stats-text" text="0" textAlignment="CENTER" wrappingWidth="82.13671875">
                                  <font>
                                     <Font size="13.0" />
                                  </font>
@@ -95,25 +95,25 @@
             </Pane>
             <Pane layoutY="28.0" prefHeight="186.0" prefWidth="330.0" styleClass="graph-pane">
                <children>
-                          <Text layoutX="22.0" layoutY="27.0" lineSpacing="0.1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="graph-title" text="Total Threads Active" wrappingWidth="378.0390625" />
+                          <Text layoutX="22.0" layoutY="35.0" lineSpacing="0.1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="graph-title" text="Total Threads Active" wrappingWidth="378.0390625" />
                           <HBox fx:id="activeThreadsBox" layoutX="22.0" layoutY="31.0" prefHeight="140.0" prefWidth="300.0" />
                </children>
             </Pane>
             <Pane layoutY="234.0" prefHeight="186.0" prefWidth="330.0" styleClass="graph-pane">
                <children>
-                          <Text layoutX="25.0" layoutY="27.0" lineSpacing="0.1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="graph-title" text="Total Threads Created" wrappingWidth="280.662109375" />
+                          <Text layoutX="22.0" layoutY="35.0" lineSpacing="0.1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="graph-title" text="Total Threads Created" wrappingWidth="280.662109375" />
                           <HBox fx:id="totalThreadBox" layoutX="15.0" layoutY="32.0" prefHeight="140.0" prefWidth="300.0" />
                </children>
             </Pane>
             <Pane layoutX="968.0" layoutY="28.0" prefHeight="186.0" prefWidth="232.0" styleClass="graph-pane">
                <children>
-                  <Text layoutX="11.0" layoutY="175.0" lineSpacing="0.1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="graph-title" text="Current CPU Usage" textAlignment="CENTER" wrappingWidth="211.0" />
+                  <Text layoutX="11.0" layoutY="170.0" lineSpacing="0.1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="graph-title" text="CPU Usage" textAlignment="CENTER" wrappingWidth="211.0" />
                       <VBox fx:id="cpuBox" layoutX="6.0" prefHeight="170.0" prefWidth="220.0" />
                </children>
             </Pane>
             <Pane layoutX="968.0" layoutY="234.0" prefHeight="186.0" prefWidth="232.0" styleClass="graph-pane">
                <children>
-                  <Text layoutX="11.0" layoutY="178.0" lineSpacing="0.1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="graph-title" text="Current Memory Usage" textAlignment="CENTER" wrappingWidth="211.0" />
+                  <Text layoutX="11.0" layoutY="170.0" lineSpacing="0.1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="graph-title" text="Memory Usage" textAlignment="CENTER" wrappingWidth="211.0" />
                       <VBox fx:id="memBox" layoutX="6.0" prefHeight="170.0" prefWidth="220.0" />
                </children>
             </Pane>
