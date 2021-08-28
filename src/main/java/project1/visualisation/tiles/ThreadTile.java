@@ -36,9 +36,11 @@ public class ThreadTile extends VTile {
                 .chartData(new ChartData(0), new ChartData(0))
                 .animated(false)
                 .smoothing(true)
+                .prefSize(300, 140)
                 .decimals(0)
                 .backgroundColor(Color.TRANSPARENT)
-                .valueColor(rgb(0,216,244))
+                .valueColor(rgb(255,0,193))
+                .barColor(rgb(255,0,193))
                 .build();
 
         this.data = update;

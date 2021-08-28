@@ -1,43 +1,41 @@
-/* font importing */
-@font-face {
-    src: url("/SourceCodePro-Bold.ttf");
-}
-@font-face {
-    src: url("/SourceCodePro-Regular.ttf");
-}
-@font-face {
-    src: url("/SourceCodePro-Light.ttf");
-}
-
-.main-container {
-    -fx-background-image: url("future-background.png");
-    -fx-background-size: 830 550;
-    -fx-background-position: center center;
-}
-
 .title, .text {
     -fx-fill: white;
+    -fx-font-size: 20px;
 }
 
 .title {
     -fx-font-weight: bold;
 }
 
-.source-text, .title {
-    -fx-font-family: 'Source Code Pro';
-}
-
 .text {
     -fx-font-weight: 300;
 }
 
-.running-status {
-    -fx-fill: crimson;
+.title, .graph-title, .field-label, #best-time{
+    -fx-effect: dropshadow(gaussian, rgb(255,0,193), 5, 0, 0, 0);
 }
 
-.threads-title {
-    -fx-font-size: 15px;
+.larger, .stats-text {
+    -fx-effect: dropshadow(gaussian, white, 5, 0, 0, 0);
+}
+
+.running-status {
+    -fx-fill: rgb(255,0,193);
+    -fx-effect: dropshadow(gaussian, rgb(255,0,193), 5, 0, 0, 0);
+}
+
+.graph-title, .stats-text {
+    -fx-font-size: 20px;
     -fx-fill: white;
+}
+
+.larger {
+    -fx-font-size: 25px;
+}
+
+.stats-text {
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
 }
 
 .text-field {
@@ -45,6 +43,11 @@
     -fx-background-insets: 0, 0 0 1 0;
     -fx-background-radius: 2;
     -fx-fill: white;
+    -fx-font-size: 15px;
+}
+
+.graph-pane {
+    -fx-background-color: rgba(20,20,20, .5);
 }
 
 .text-field:focused {
