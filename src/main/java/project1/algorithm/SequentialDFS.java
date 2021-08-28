@@ -26,44 +26,46 @@ public class SequentialDFS {
      */
     public static PartialSchedule generateOptimalSchedule(Graph taskGraph, int processorCount, int threads) {
         // Stack of schedules to be evaluated
-        System.out.println("Start");
+        System.out.println("Setting up threads...");
+
         ThreadAnalytics ta = ThreadAnalytics.getInstance();
 
-        taskGraph.markNodeOrder();
-        PartialSchedule ubound= TopologicalSort.getSchedule(taskGraph,processorCount);
-        ta.newSchedule(ubound.getFinishTime(),ubound);
-        System.out.println(ubound.getFinishTime());
+        // Get solution upper bound given a simple list scheduler
+        PartialSchedule ubound = TopologicalSort.getSchedule(taskGraph,processorCount);
 
-        List<PartialSchedule> initBranches=new PartialSchedule(taskGraph,processorCount).expandSchedule(ubound.getFinishTime());
-        if (initBranches==null){
-            System.out.println("is null");
-            throw new RuntimeException("No schedules can be generates");
+        // Hand it to ThreadAnalytics
+        ta.newSchedule(ubound.getFinishTime(), ubound);
+        System.out.printf("Solution Upper Bound: %d%n", ubound.getFinishTime());
+
+        // Get initial PartialSchedules, initialising static vars in the PartialSchedule class
+        List<PartialSchedule> initBranches = new PartialSchedule(taskGraph, processorCount).expandSchedule(ubound.getFinishTime());
+        if (initBranches == null){
+            throw new RuntimeException("Can't find any initial schedules for the task graph!");
         }
 
-        Stream<PartialSchedule> initSchedules = initBranches.stream();
-
+        // Create the number of DFSThreads specified by the user
         DFSThread[] threadPool = new DFSThread[threads];
         for (int i = 0; i < threads; i++) {
             threadPool[i] = new DFSThread(taskGraph);
         }
 
-        // Circle the thread pool until we're out of schedules
+        // Circle the thread pool, pushing schedules until we run out
         int i = 0;
-        for (PartialSchedule s : initSchedules.collect(Collectors.toCollection(LinkedList::new))) {
+        for (PartialSchedule s : initBranches) {
             threadPool[i].scheduleStack.push(s);
             i += 1;
             i %= threads;
         }
 
+        // Spawn threads with non-empty stacks
         for (DFSThread d : threadPool) {
-            // Only spawn threads with a non-empty stack
             if (d.scheduleStack.size() > 0) {
                 ta.addThread(d);
             }
         }
 
         try {
-            System.out.println("Waiting...");
+            System.out.println("Processing...");
             ta.waitTillDone();
             System.out.println("Done!");
         } catch (InterruptedException e) {
@@ -72,13 +74,13 @@ public class SequentialDFS {
 
         PartialSchedule best = ta.getBestSchedule();
 
-        if (best == null||best.getFinishTime()==0) {
+        if (best == null || best.getFinishTime() == 0) {
             throw new RuntimeException("No schedules generated!");
         }
 
         System.out.printf("Thread starts: %d%n", ta.numThreadsSpawned());
 
-        // Annotate nodes in the task graph with the processor its scheduled on
+        // Annotate nodes in the task graph with the processor it's scheduled on
         for (TaskScheduled t : best.getScheduledTasks()) {
             String taskName = t.getTaskNode().getName();
             int processor = t.getProcessor();

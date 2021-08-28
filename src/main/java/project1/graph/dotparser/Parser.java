@@ -50,6 +50,8 @@ public class Parser {
             graph.addEdge(newEdge);
         }
 
+        graph.markNodeOrder();
+
         return graph;
     }
 
