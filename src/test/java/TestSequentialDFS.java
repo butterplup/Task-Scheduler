@@ -21,6 +21,8 @@ public class TestSequentialDFS {
     private static final Graph graph9 = load("exampleTaskGraphs/Nodes_9_SeriesParallel.dot");
     private static final Graph graph10 = load("exampleTaskGraphs/Nodes_10_Random.dot");
     private static final Graph graph11 = load("exampleTaskGraphs/Nodes_11_OutTree.dot");
+    private static final Graph graph12 = load("exampleTaskGraphs/16Nodes4Processors.dot");
+    private static final Graph graph13 = load("exampleTaskGraphs/16nodes2.dot");
     private static final Graph graphEmpty = load("graph_empty.dot");
 
     /**
@@ -147,6 +149,28 @@ public class TestSequentialDFS {
         PartialSchedule s = run(graph11, 4);
         Assert.assertEquals(227, s.getFinishTime());
     }
+
+    /**
+     * Tests if an optimal schedule is found for a graph
+     * with 16 nodes and 4 processors.
+     */
+    @Test
+    public synchronized void test16Node4Processors() {
+        PartialSchedule s = run(graph12, 4);
+        Assert.assertEquals(520, s.getFinishTime());
+    }
+
+    /**
+     * Tests if an optimal schedule is found for a graph
+     * with 16 nodes and 2 processors.
+     */
+    @Test
+    public synchronized void test16Node2Processors() {
+        PartialSchedule s = run(graph13, 2);
+        Assert.assertEquals(582, s.getFinishTime());
+    }
+
+
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 

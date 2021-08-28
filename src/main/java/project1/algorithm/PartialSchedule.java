@@ -15,8 +15,10 @@ import java.util.List;
 @Getter
 public class PartialSchedule {
     // Global vars
-    @Getter private static int processors;
-    @Getter private static Graph schedulingGraph;
+    @Getter
+    private static int processors;
+    @Getter
+    private static Graph schedulingGraph;
     private final int nodesVisited;
     int finishTime;
     private PartialSchedule prev;
@@ -101,6 +103,18 @@ public class PartialSchedule {
                     continue;   // Prune
                 }
 
+                //Duplicate removal!
+                if (this.ts != null && !n.isPrecededBy(ts.getTaskNode().getId()) && p == ts.getProcessor() &&
+                        n.getOrder() < this.ts.getTaskNode().getOrder()) {
+                    /* Removes equivalent schedules created by nodes scheduled to the same processor but in different
+                       orders. If the current node to be scheduled is scheduled to the same processor as ts and the
+                       current task is not a child of ts, also confirmed that the order of the current task is before
+                       ts. This schedule will be identified as a duplicate as the current node would have been appeared
+                       in a partial schedule where the current task is scheduled before ts and on the same processor.
+                       */
+                    continue;
+                }
+
                 int start = this.processorInfo[p];
                 int startTime;
                 // Get processor start time
@@ -127,8 +141,8 @@ public class PartialSchedule {
 
                 startTime = Math.max(start, communicationCost);
 
-                if (startTime == 0 && p != 0 && ts != null){
-                    if (n.getOrder() < ts.getTaskNode().getOrder()){
+                if (startTime == 0 && p != 0 && ts != null) {
+                    if (n.getOrder() < ts.getTaskNode().getOrder()) {
                         /* If the node we're about to schedule on an empty processor,
                         could have been scheduled before the current head 'ts',
                         this is an 'independent' node as outlined in the wiki. */
@@ -206,11 +220,11 @@ public class PartialSchedule {
      */
     public String printSchedule() {
         TaskScheduled[] tasks = this.getScheduledTasks();
-        StringBuilder s=new StringBuilder();
+        StringBuilder s = new StringBuilder();
         for (TaskScheduled t : tasks) {
             if (t != null) {
                 s.append(t.getTaskNode().getName() + " is scheduled to Processor " + t.getProcessor() +
-                        " Starting at time " + t.getStartingTime()+"\n");
+                        " Starting at time " + t.getStartingTime() + "\n");
             }
         }
 
