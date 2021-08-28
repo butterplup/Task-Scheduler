@@ -5,7 +5,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * A ThreadAnalytics singleton is used to manage a thread pool
@@ -19,7 +18,7 @@ public class ThreadAnalytics {
     // Track the number of thread starts over the lifetime of this object
     private final AtomicInteger threadsSpawned = new AtomicInteger();
     @Getter private final int threadsNeeded;
-    @Getter private final Queue<DFSThread> threadPool = new ConcurrentLinkedQueue<>();
+    private final Queue<DFSThread> threadQueue = new ConcurrentLinkedQueue<>();
     // The best complete schedule length thus far
     private int bestFinishTime = Integer.MAX_VALUE;
     @Getter private PartialSchedule bestSchedule;
@@ -76,7 +75,7 @@ public class ThreadAnalytics {
      * @param t The Scheduler thread to be run.
      */
     public void addThread(DFSThread t) {
-        this.threadPool.add(t);
+        this.threadQueue.add(t);
         if (this.threadsAlive.incrementAndGet() > threadsNeeded) {
             System.out.println("WARNING: Processor overprovision!");
         }
@@ -122,8 +121,8 @@ public class ThreadAnalytics {
      * @throws InterruptedException When interrupted
      */
     public void waitTillDone() throws InterruptedException {
-        while (!threadPool.isEmpty()) {
-            threadPool.remove().join();
+        while (!threadQueue.isEmpty()) {
+            threadQueue.remove().join();
         }
     }
 }
