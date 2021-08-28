@@ -119,14 +119,11 @@ public class ThreadAnalytics {
 
     /**
      * Wait for all threads to die.
-     * @throws InterruptedException
+     * @throws InterruptedException When interrupted
      */
     public void waitTillDone() throws InterruptedException {
-        while (threadsAlive.get() > 0) {
-            for (Thread t : threadPool) {
-                t.join();
-            }
+        while (!threadPool.isEmpty()) {
+            threadPool.remove().join();
         }
     }
-
 }
