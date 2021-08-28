@@ -38,7 +38,7 @@ public class DFSThread extends Thread {
 
             synchronized (ta) {
                 if (ta.threadNeeded() && scheduleStack.size() > 1) {
-                    // Make a new thread from that schedule
+                    // Make a new thread
                     DFSThread newThread = new DFSThread(taskGraph);
 
                     // Give an element from the back of the stack to the new thread

@@ -29,8 +29,7 @@ public class SequentialDFS {
         System.out.println("Start");
         ThreadAnalytics ta = ThreadAnalytics.getInstance();
 
-        taskGraph.markNodeOrder();
-        PartialSchedule ubound= TopologicalSort.getSchedule(taskGraph,processorCount);
+        PartialSchedule ubound = TopologicalSort.getSchedule(taskGraph,processorCount);
         ta.newSchedule(ubound.getFinishTime(),ubound);
         System.out.println(ubound.getFinishTime());
 
