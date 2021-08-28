@@ -33,7 +33,7 @@ public class Visualiser extends Application {
         StackPane background = new StackPane();
         Parent root = FXMLLoader.load(getClass().getResource("/Main.fxml"));
 
-        MediaPlayer player = new MediaPlayer( new Media(getClass().getResource("/media/bg720.mp4").toExternalForm()));
+        MediaPlayer player = new MediaPlayer( new Media(getClass().getResource("/media/bg720slow.mp4").toExternalForm()));
         // MediaView to play the visual file
         MediaView mediaView = new MediaView(player);
 
