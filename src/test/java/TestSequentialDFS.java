@@ -27,6 +27,7 @@ public class TestSequentialDFS {
     private static final Graph graph15 = load("exampleTaskGraphs/Nodes_16_Pipeline.dot");
     private static final Graph graph16 = load("exampleTaskGraphs/Nodes_16_InTree.dot");
     private static final Graph graph17 = load("exampleTaskGraphs/Nodes_16_SeriesParallel.dot");
+    private static final Graph graph18 = load("exampleTaskGraphs/Nodes_16_Random.dot");
     private static final Graph graphEmpty = load("graph_empty.dot");
 
     /**
@@ -173,24 +174,34 @@ public class TestSequentialDFS {
         PartialSchedule s = run(graph13, 2);
         Assert.assertEquals(582, s.getFinishTime());
     }
+    /**
+     * Tests if an optimal schedule is found for a Fork Join graph
+     * with 21 nodes and 2 processors.
+     */
     @Test
     public synchronized void test21Node2ProcessorsForkJoin() {
         PartialSchedule s = run(graph14, 2);
         System.out.println(s.getFinishTime());
         Assert.assertEquals(148, s.getFinishTime());
     }
+    /**
+     * Tests if an optimal schedule is found for a Pipeline graph
+     * with 16 nodes and 2 processors.
+     */
     @Test
     public synchronized void test16Node4ProcessorsPipeLine() {
         PartialSchedule s = run(graph15, 4);
         System.out.println(s.getFinishTime());
         Assert.assertEquals(985, s.getFinishTime());
     }
+
     @Test
     public synchronized void test16Node6ProcessorsInTree() {
         PartialSchedule s = run(graph16, 6);
         System.out.println(s.getFinishTime());
         Assert.assertEquals(30, s.getFinishTime());
     }
+
     @Test
     public synchronized void test16Node4ProcessorsSeriesParallel() {
         PartialSchedule s = run(graph17, 2);
@@ -198,8 +209,12 @@ public class TestSequentialDFS {
         Assert.assertEquals(725, s.getFinishTime());
     }
 
-
-
+    @Test
+    public synchronized void test16Node4ProcessorsRandom() {
+        PartialSchedule s = run(graph18, 2);
+        System.out.println(s.getFinishTime());
+        Assert.assertEquals(90, s.getFinishTime());
+    }
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
