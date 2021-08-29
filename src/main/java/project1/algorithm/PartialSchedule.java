@@ -216,7 +216,8 @@ public class PartialSchedule {
     }
 
     /**
-     * Prints out the current schedule
+     * Return a string representation of the current schedule
+     * @return The String
      */
     public String printSchedule() {
         TaskScheduled[] tasks = this.getScheduledTasks();

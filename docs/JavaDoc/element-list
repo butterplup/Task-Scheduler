@@ -4,3 +4,5 @@ project1.algorithm
 project1.graph
 project1.graph.dotparser
 project1.visualisation
+project1.visualisation.tiles
+project1.visualisation.tiles.gantt

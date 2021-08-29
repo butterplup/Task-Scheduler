@@ -178,7 +178,7 @@ public class TestSequentialDFS {
      * Tests if no schedule found for an empty graph
      */
     @Test
-    public synchronized void testNoSchedules() throws IOException {
+    public synchronized void testNoSchedules() {
         exceptionRule.expect(RuntimeException.class);
         exceptionRule.expectMessage("No schedules generated!");
         PartialSchedule s = run(graphEmpty, 4);

@@ -48,6 +48,7 @@ public class MainController {
     /**
      * Called following object construction to set up FXML fields and their initial state
      * Also begins the event polling loop and the algorithm timer
+     * @throws IOException if invalid arguments are passed
      */
     @FXML
     public void initialize() throws IOException {

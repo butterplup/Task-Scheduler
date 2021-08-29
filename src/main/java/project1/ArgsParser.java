@@ -80,6 +80,7 @@ public class ArgsParser {
      * Instantiate an instance of ArgsParser, and return it.
      * @param args User inputted arguments.
      * @return The single ArgsParser instance.
+     * @throws IOException If arguments are invalid
      */
     public static ArgsParser getInstance(String[] args) throws IOException {
         instance = new ArgsParser(args);
