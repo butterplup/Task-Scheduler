@@ -28,6 +28,8 @@ public class TestSequentialDFS {
     private static final Graph graph16 = load("exampleTaskGraphs/Nodes_16_InTree.dot");
     private static final Graph graph17 = load("exampleTaskGraphs/Nodes_16_SeriesParallel.dot");
     private static final Graph graph18 = load("exampleTaskGraphs/Nodes_16_Random.dot");
+    private static final Graph graph19 = load("exampleTaskGraphs/Nodes_16_Stencil_Nodes.dot");
+    private static final Graph graph20 = load("exampleTaskGraphs/Nodes_16_Independant.dot");
     private static final Graph graphEmpty = load("graph_empty.dot");
 
     /**
@@ -209,7 +211,7 @@ public class TestSequentialDFS {
      * with 16 nodes and 2 processors.
      */
     @Test
-    public synchronized void test16Node4ProcessorsSeriesParallel() {
+    public synchronized void test16Node2ProcessorsSeriesParallel() {
         PartialSchedule s = run(graph17, 2);
         System.out.println(s.getFinishTime());
         Assert.assertEquals(725, s.getFinishTime());
@@ -219,10 +221,30 @@ public class TestSequentialDFS {
      * with 16 nodes and 2 processors.
      */
     @Test
-    public synchronized void test16Node4ProcessorsRandom() {
+    public synchronized void test16Node2ProcessorsRandom() {
         PartialSchedule s = run(graph18, 2);
         System.out.println(s.getFinishTime());
         Assert.assertEquals(90, s.getFinishTime());
+    }
+    /**
+     * Tests if an optimal schedule is found for a Stencil graph
+     * with 16 nodes and 4 processors.
+     */
+    @Test
+    public synchronized void test16Node4ProcessorsStencil() {
+        PartialSchedule s = run(graph19, 4);
+        System.out.println(s.getFinishTime());
+        Assert.assertEquals(52, s.getFinishTime());
+    }
+    /**
+     * Tests if an optimal schedule is found for a Independant graph
+     * with 16 nodes and 4 processors.
+     */
+    @Test
+    public synchronized void test16Node4ProcessorsIndependant() {
+        PartialSchedule s = run(graph20, 4);
+        System.out.println(s.getFinishTime());
+        Assert.assertEquals(23, s.getFinishTime());
     }
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
