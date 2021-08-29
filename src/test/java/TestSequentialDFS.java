@@ -23,6 +23,10 @@ public class TestSequentialDFS {
     private static final Graph graph11 = load("exampleTaskGraphs/Nodes_11_OutTree.dot");
     private static final Graph graph12 = load("exampleTaskGraphs/16Nodes4Processors.dot");
     private static final Graph graph13 = load("exampleTaskGraphs/16nodes2.dot");
+    private static final Graph graph14 = load("exampleTaskGraphs/Nodes_21_Fork_Join.dot");
+    private static final Graph graph15 = load("exampleTaskGraphs/Nodes_16_Pipeline.dot");
+    private static final Graph graph16 = load("exampleTaskGraphs/Nodes_16_InTree.dot");
+    private static final Graph graph17 = load("exampleTaskGraphs/Nodes_16_SeriesParallel.dot");
     private static final Graph graphEmpty = load("graph_empty.dot");
 
     /**
@@ -169,6 +173,31 @@ public class TestSequentialDFS {
         PartialSchedule s = run(graph13, 2);
         Assert.assertEquals(582, s.getFinishTime());
     }
+    @Test
+    public synchronized void test21Node2ProcessorsForkJoin() {
+        PartialSchedule s = run(graph14, 2);
+        System.out.println(s.getFinishTime());
+        Assert.assertEquals(148, s.getFinishTime());
+    }
+    @Test
+    public synchronized void test16Node4ProcessorsPipeLine() {
+        PartialSchedule s = run(graph15, 4);
+        System.out.println(s.getFinishTime());
+        Assert.assertEquals(985, s.getFinishTime());
+    }
+    @Test
+    public synchronized void test16Node6ProcessorsInTree() {
+        PartialSchedule s = run(graph16, 6);
+        System.out.println(s.getFinishTime());
+        Assert.assertEquals(30, s.getFinishTime());
+    }
+    @Test
+    public synchronized void test16Node4ProcessorsSeriesParallel() {
+        PartialSchedule s = run(graph17, 2);
+        System.out.println(s.getFinishTime());
+        Assert.assertEquals(725, s.getFinishTime());
+    }
+
 
 
     @Rule
