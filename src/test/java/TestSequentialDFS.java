@@ -186,7 +186,7 @@ public class TestSequentialDFS {
     }
     /**
      * Tests if an optimal schedule is found for a Pipeline graph
-     * with 16 nodes and 2 processors.
+     * with 16 nodes and 4 processors.
      */
     @Test
     public synchronized void test16Node4ProcessorsPipeLine() {
@@ -194,21 +194,30 @@ public class TestSequentialDFS {
         System.out.println(s.getFinishTime());
         Assert.assertEquals(985, s.getFinishTime());
     }
-
+    /**
+     * Tests if an optimal schedule is found for an In Tree graph
+     * with 16 nodes and 6 processors.
+     */
     @Test
     public synchronized void test16Node6ProcessorsInTree() {
         PartialSchedule s = run(graph16, 6);
         System.out.println(s.getFinishTime());
         Assert.assertEquals(30, s.getFinishTime());
     }
-
+    /**
+     * Tests if an optimal schedule is found for a Series Parallel graph
+     * with 16 nodes and 2 processors.
+     */
     @Test
     public synchronized void test16Node4ProcessorsSeriesParallel() {
         PartialSchedule s = run(graph17, 2);
         System.out.println(s.getFinishTime());
         Assert.assertEquals(725, s.getFinishTime());
     }
-
+    /**
+     * Tests if an optimal schedule is found for a Random graph
+     * with 16 nodes and 2 processors.
+     */
     @Test
     public synchronized void test16Node4ProcessorsRandom() {
         PartialSchedule s = run(graph18, 2);
