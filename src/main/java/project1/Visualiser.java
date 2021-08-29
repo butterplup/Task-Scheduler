@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -33,14 +35,16 @@ public class Visualiser extends Application {
         StackPane background = new StackPane();
         Parent root = FXMLLoader.load(getClass().getResource("/Main.fxml"));
 
-        MediaPlayer player = new MediaPlayer( new Media(getClass().getResource("/media/bg720slow.mp4").toURI().toString()));
-        // MediaView to play the visual file
-        MediaView mediaView = new MediaView(player);
-
         // Music by Karl Casey @ White Bat Audio
         soundPlayer = new MediaPlayer(new Media(getClass().getResource("/media/Karl Casey - The New Order.mp3").toURI().toString()));
 
-        background.getChildren().add(mediaView);
+        // Load in fallback image
+        ImageView fallback = new ImageView();
+        Image fallbackImg = new Image(getClass().getResource("/media/bg720Fallback.png").openStream());
+        fallback.setImage(fallbackImg);
+
+        background.getChildren().add(fallback);
+        background.getChildren().add(new MediaView());
         background.getChildren().add(root);
 
         primaryStage.setScene(new Scene(background));
@@ -48,9 +52,6 @@ public class Visualiser extends Application {
         primaryStage.setTitle("Team 2: Electric Boogaloo");
         primaryStage.show();
 
-        // Loop background and sound media
-        player.setCycleCount(MediaPlayer.INDEFINITE);
-        player.play();
         soundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         soundPlayer.play();
     }

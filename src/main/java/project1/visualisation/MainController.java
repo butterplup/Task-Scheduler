@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import com.sun.management.OperatingSystemMXBean;
+
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +38,6 @@ public class MainController {
     // Boxes for charts
     @FXML private VBox ganttBox, cpuBox, memBox;
     @FXML private HBox totalThreadBox, activeThreadsBox;
-
-    // Background
-    @FXML private StackPane background;
 
     private List<VTile> tiles;
     private long startTime;
@@ -106,6 +105,24 @@ public class MainController {
         autoUpdater.play();
     }
 
+    private void startVideo() {
+        MediaPlayer player;
+        try {
+            player = new MediaPlayer( new Media(getClass().getResource("/media/bg720slow.mp4").toURI().toString()));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        // Loop background and sound media
+        player.setCycleCount(MediaPlayer.INDEFINITE);
+        player.play();
+
+        // Add to MediaView (Second child of root)
+        MediaView mV = (MediaView) cpuBox.getScene().getRoot().getChildrenUnmodifiable().get(1);
+        mV.setMediaPlayer(player);
+    }
+
     /**
      * Update all visualisation tiles
      */
@@ -123,6 +140,8 @@ public class MainController {
 
             // Run once more, then stop updating
             autoUpdater.stop();
+
+            startVideo();
         }
 
         // Update tiles
