@@ -2,6 +2,8 @@
 ![SE306 Team 2 Logo](docs/logo.png)
 This project aims to solve an NP-hard scheduling problem, assigning tasks from a Directed Acyclic Graph (DAG) to a given number of processors. The algorithm is computed on a given number of threads running in parallel. The current release uses a sequential Depth-First Branch and Bound Search to generate an optimal schedule; a schedule that uses a minimal amount of time to complete all tasks. This project also has a visualisation component, live updating with the search and provides meaningful information about the progress of the algorithm as it is running. 
 
+### ![Read The Wiki!](https://github.com/SoftEng306-2021/project-1-project-1-team-2/wiki)
+
 ## Screenshots
 ![Visualisation Example](https://github.com/SoftEng306-2021/project-1-project-1-team-2/blob/main/docs/Wiki/Visualisation/visualisation.PNG)
 
