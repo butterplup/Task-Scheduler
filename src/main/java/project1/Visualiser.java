@@ -16,6 +16,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+import java.net.URL;
 
 /**
  * This class extends the JavaFX application class to create and run the GUI
@@ -36,15 +37,26 @@ public class Visualiser extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/Main.fxml"));
 
         // Music by Karl Casey @ White Bat Audio
-        soundPlayer = new MediaPlayer(new Media(getClass().getResource("/media/Karl Casey - The New Order.mp3").toURI().toString()));
+        URL soundURL = getClass().getResource("/media/Karl Casey - The New Order.mp3");
+        if (soundURL != null) {
+            soundPlayer = new MediaPlayer(new Media(soundURL.toURI().toString()));
+        } else {
+            System.out.println("Couldn't load video!");
+        }
+
+        ImageView fallback = new ImageView();
 
         // Load in fallback image
-        ImageView fallback = new ImageView();
-        Image fallbackImg = new Image(getClass().getResource("/media/bg720Fallback.png").openStream());
-        fallback.setImage(fallbackImg);
+        URL fallbackURL = getClass().getResource("/media/bg720Fallback.png");
+        if (fallbackURL != null) {
+            Image fallbackImg = new Image(fallbackURL.openStream());
+            fallback.setImage(fallbackImg);
+        } else {
+            System.out.println("Couldn't load background image!");
+        }
 
         background.getChildren().add(fallback);
-        background.getChildren().add(new MediaView());
+        background.getChildren().add(new MediaView()); // MediaView to hold a video
         background.getChildren().add(root);
 
         primaryStage.setScene(new Scene(background));

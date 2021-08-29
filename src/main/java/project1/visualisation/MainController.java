@@ -109,7 +109,7 @@ public class MainController {
         MediaPlayer player;
         try {
             player = new MediaPlayer( new Media(getClass().getResource("/media/bg720slow.mp4").toURI().toString()));
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException | NullPointerException e) {
             e.printStackTrace();
             return;
         }
