@@ -40,6 +40,69 @@ public class Node {
         return criticalPath;
     }
 
+    //Calculates if this node and another node are on the same 'level' with the same parents and children
+    public boolean sameLevel(Node other){
+        if(other.outgoingEdges.size() != this.outgoingEdges.size() && other.incomingEdges.size() != this.incomingEdges.size()){
+            return false;
+        }
+        for(Edge te : this.incomingEdges){
+            for (Edge oe : other.incomingEdges){
+                if(te.getStart()!= oe.getStart()){
+                    return false;
+                }
+            }
+        }
+        for(Edge te : this.outgoingEdges){
+            for (Edge oe : other.outgoingEdges){
+                if(te.getEnd()!= oe.getEnd()){
+                    return false;
+                }
+            }
+        }
+//        System.out.println("true " + this.name + " " + other.getName());
+        return true;
+    }
+    public int getMinIncoming(){
+        int min = Integer.MAX_VALUE;
+        for(Edge e : incomingEdges){
+            min = Math.min(min, e.getWeight());
+        }
+        return min;
+    }
+    public int getMaxIncoming(){
+        int max = Integer.MIN_VALUE;
+        for(Edge e : incomingEdges){
+            max = Math.max(max, e.getWeight());
+        }
+        return max;
+    }
+    public int getMinOutgoing(){
+        int min = Integer.MAX_VALUE;
+        for(Edge e : outgoingEdges){
+            min = Math.min(min, e.getWeight());
+        }
+        return min;
+    }
+    public int getMaxOutgoing(){
+        int max = Integer.MIN_VALUE;
+        for(Edge e : outgoingEdges){
+            max = Math.max(max, e.getWeight());
+        }
+        return max;
+    }
+
+    public boolean strictLater(Node other){
+        if(this.getMaxIncoming() <= other.getMinIncoming()){
+            if(this.weight >= other.getWeight()){
+                if(this.getMinOutgoing() >= other.getMaxOutgoing()){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public boolean isPrecededBy(int nodeId){
         return predecessors[nodeId];
     }
