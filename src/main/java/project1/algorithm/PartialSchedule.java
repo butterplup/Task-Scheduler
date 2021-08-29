@@ -152,8 +152,8 @@ public class PartialSchedule {
                     }
                 }
                 if(ts != null && ts.getTaskNode().strictLater(n)){
-                    if(p == ts.getProcessor() && ts.getStartingTime() < startTime) {
-                        System.out.println(n.getName());
+                    if(p == ts.getProcessor() && ts.getStartingTime() <= startTime) {
+                    //    System.out.println(n.getName());
                         continue;
                     }
                 }
