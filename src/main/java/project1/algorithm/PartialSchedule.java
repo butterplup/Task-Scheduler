@@ -92,6 +92,7 @@ public class PartialSchedule {
                 continue;
             }
 
+
             boolean foundEmpty = false;
             for (int p = 0; p < processors; p++) {
                 if (this.ts != null && !n.isPrecededBy(ts.getTaskNode().getId()) && p < ts.getProcessor()) {
@@ -114,6 +115,7 @@ public class PartialSchedule {
                        */
                     continue;
                 }
+
 
                 int start = this.processorInfo[p];
                 int startTime;
@@ -147,6 +149,12 @@ public class PartialSchedule {
                         could have been scheduled before the current head 'ts',
                         this is an 'independent' node as outlined in the wiki. */
                         continue;   // Prune
+                    }
+                }
+                if(ts != null && ts.getTaskNode().strictLater(n)){
+                    if(p == ts.getProcessor() && ts.getStartingTime() < startTime) {
+                        System.out.println(n.getName());
+                        continue;
                     }
                 }
 

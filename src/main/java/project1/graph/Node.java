@@ -92,14 +92,15 @@ public class Node {
     }
 
     public boolean strictLater(Node other){
-        if(this.getMaxIncoming() <= other.getMinIncoming()){
-            if(this.weight >= other.getWeight()){
-                if(this.getMinOutgoing() >= other.getMaxOutgoing()){
-                    return true;
+        if (this.sameLevel(other) && this.name != other.getName()) {
+            if (this.getMinIncoming() > other.getMaxIncoming()) {
+                if (this.weight < other.getWeight()) {
+                    if (this.getMaxOutgoing()  < other.getMinOutgoing()) {
+                        return true;
+                    }
                 }
             }
         }
-
         return false;
     }
 
