@@ -105,6 +105,9 @@ public class MainController {
         autoUpdater.play();
     }
 
+    /**
+     * Start the video background in the second child of the root StackPane
+     */
     private void startVideo() {
         MediaPlayer player;
         try {
