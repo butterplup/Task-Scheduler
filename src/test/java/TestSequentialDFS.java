@@ -30,6 +30,7 @@ public class TestSequentialDFS {
     private static final Graph graph18 = load("exampleTaskGraphs/Nodes_16_Random.dot");
     private static final Graph graph19 = load("exampleTaskGraphs/Nodes_16_Stencil_Nodes.dot");
     private static final Graph graph20 = load("exampleTaskGraphs/Nodes_16_Independant.dot");
+    private static final Graph graph21 = load("exampleTaskGraphs/graph21.dot");
     private static final Graph graphEmpty = load("graph_empty.dot");
 
     /**
@@ -174,6 +175,7 @@ public class TestSequentialDFS {
     @Test
     public synchronized void test16Node2Processors() {
         PartialSchedule s = run(graph13, 2);
+        System.out.println(s.getScheduledTasks());
         Assert.assertEquals(582, s.getFinishTime());
     }
     /**
@@ -245,6 +247,12 @@ public class TestSequentialDFS {
         PartialSchedule s = run(graph20, 4);
         System.out.println(s.getFinishTime());
         Assert.assertEquals(23, s.getFinishTime());
+    }
+    @Test
+    public synchronized void test10Node6ProcessorsFork() {
+        PartialSchedule s = run(graph21, 6);
+        System.out.println(s.getFinishTime());
+        Assert.assertEquals(22, s.getFinishTime());
     }
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();

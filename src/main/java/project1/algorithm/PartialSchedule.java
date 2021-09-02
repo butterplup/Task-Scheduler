@@ -106,7 +106,7 @@ public class PartialSchedule {
 
                 //Duplicate removal!
                 if (this.ts != null && !n.isPrecededBy(ts.getTaskNode().getId()) && p == ts.getProcessor() &&
-                        n.getOrder() < this.ts.getTaskNode().getOrder()) {
+                        n.getOrder() < this.ts.getTaskNode().getOrder() && n.sameLevel(this.ts.getTaskNode())) {
                     /* Removes equivalent schedules created by nodes scheduled to the same processor but in different
                        orders. If the current node to be scheduled is scheduled to the same processor as ts and the
                        current task is not a child of ts, also confirmed that the order of the current task is before
@@ -152,7 +152,7 @@ public class PartialSchedule {
                     }
                 }
                 if(ts != null && ts.getTaskNode().strictLater(n)){
-                    if(p == ts.getProcessor() && ts.getStartingTime() <= startTime) {
+                    if(p == ts.getProcessor() && ts.getFinishTime() == startTime) {
                     //    System.out.println(n.getName());
                         continue;
                     }

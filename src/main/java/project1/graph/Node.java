@@ -92,7 +92,8 @@ public class Node {
     }
 
     public boolean strictLater(Node other){
-        if (this.sameLevel(other) && this.name != other.getName()) {
+
+        if (this.sameLevel(other) && this.id != other.getId()) {
             if (this.getMinIncoming() > other.getMaxIncoming()) {
                 if (this.weight < other.getWeight()) {
                     if (this.getMaxOutgoing()  < other.getMinOutgoing()) {
